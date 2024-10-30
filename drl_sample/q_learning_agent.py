@@ -32,7 +32,7 @@ class q_learning_agent:
       list_possible_next_state = self.env.get_possible_action()
       max_q_next = -float("inf")
       for action_n in list_possible_next_state:
-        if self.q_matrix[next_state][action_n] >= max_q:
+        if np.all(self.q_matrix[next_state][action_n] >= max_q):
           max_q = self.q_matrix[next_state][action_n]
 
       data = (1 - learning_rate_Q) * self.q_matrix[current_state][action] + learning_rate_Q * (reward + gamma_Q * max_q)

@@ -4,6 +4,7 @@ from keras.layers import Dense, Input, Lambda, Add
 from keras.models import Model
 from keras import backend as K
 from enviroment import Environment
+from parameters import *
 
 class deep_q_learning_agent:
   def __init__(self, dueling):
