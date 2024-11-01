@@ -21,7 +21,7 @@ class deep_q_learning_agent:
     self.epsilon_min = 0.01
     self.epsilon_decay = 0.9999
     self.loss_function = tf.keras.losses.Huber()
-    self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate_deepQ)
+    self.optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=learning_rate_deepQ)
 
 
   def create_model(self, dueling):

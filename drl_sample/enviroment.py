@@ -2,11 +2,16 @@ import numpy as np
 import random
 from scipy.stats import poisson
 from parameters import *
+# from action import Action
+from enum import Enum
+
+class JammerState(Enum):
+  IDLE = 0
+  ATTACK = 1
 
 class Environment:
   def __init__(self):
-    # state = 0: jammer is idle, state = 1: jammer attacks the system
-    self.jammer_state = 0
+    self.jammer_state = JammerState.IDLE
     self.data_state = 0
     self.energy_state = 0
 
@@ -22,31 +27,40 @@ class Environment:
     return state
 
   def get_possible_action(self):
-    list_actions = [0] # stay ilde
-    if self.jammer_state == 0 and self.data_state > 0 and self.energy_state >= e_t:
-      list_actions.append(1) # active transmit
-    if self.jammer_state == 1:
-      list_actions.append(2) # harvest energy
+    # list_actions = [Action.STAY_IDLE.value]
+    list_actions = [0]
+    if self.jammer_state == JammerState.IDLE and self.data_state > 0 and self.energy_state >= e_t:
+      # list_actions.append(Action.ACTIVE_TRANSMIT.value)
+      list_actions = [1]
+
+    if self.jammer_state == JammerState.ATTACK:
+      # list_actions.append(Action.HARVEST_ENERGY.value)
+      list_actions = [2]
       if self.data_state > 0:
-        list_actions.append(3) # backscattered
+        # list_actions.append(Action.BACKSCATTERED.value)
+        list_actions = [3]
         if self.energy_state > e_t:
-          list_actions.append(4) # RA1
-          list_actions.append(5) # RA2
-          list_actions.append(6) # RA3
+          # list_actions.append(Action.RA_1.value)
+          # list_actions.append(Action.RA_2.value)
+          # list_actions.append(Action.RA_3.value)
+          list_actions.append(4)
+          list_actions.append(5)
+          list_actions.append(6)
     return list_actions
 
   def calculate_reward(self, action):
     reward = 0
     loss = 0
-    if action == 0: # stay idle
+    if action == 0:
       reward = 0
-    elif action == 1: # active transmit
+    elif action == 1:
       reward = self.active_transmit(d_t)
-    elif action == 2: # harvest energy
-      reward = random.choices(e_hj_arr, weights=nu_p, k=1)[0]
-    elif action == 3: # backscattered
-      d_bj = random.choices(d_bj_arr, weights=nu_p, k=1)[0]
 
+    elif action == 2:
+      reward = random.choices(e_hj_arr, weights=nu_p, k=1)[0]
+
+    elif action == 3:
+      d_bj = random.choices(d_bj_arr, weights=nu_p, k=1)[0]
       if self.data_state >= b_dagger:
         max_rate = b_dagger
       else:
@@ -60,7 +74,7 @@ class Environment:
       if max_rate > reward:
         loss = max_rate - reward
 
-    elif action == 4: # RA1
+    elif action == 4:
       max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[0])
 
@@ -68,7 +82,7 @@ class Environment:
         loss = reward
         reward = 0
 
-    elif action == 5: # RA2
+    elif action == 5:
       max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[1])
 
@@ -76,7 +90,7 @@ class Environment:
         loss = reward
         reward = 0
 
-    elif action == 6: #RA3
+    elif action == 6:
       reward = 0
 
     return reward, loss
@@ -98,10 +112,10 @@ class Environment:
 
   def perform_action(self, action):
     reward, loss = self.calculate_reward(action)
-    if action == 1: # active transmit
+    if action == 1:
       self.data_state -= reward
       self.energy_state -= reward * e_t
-    elif action == 2: # harvest energy
+    elif action == 2:
       if self.energy_state < e_queue_size:
         self.energy_state += reward
       if self.energy_state > e_queue_size:
@@ -130,14 +144,14 @@ class Environment:
       self.data_state = d_queue_size
 
     # jammer state
-    if self.jammer_state == 0:
+    if self.jammer_state == JammerState.IDLE:
       if np.random.random() <= 1 - nu:
-        self.jammer_state = 1
+        self.jammer_state = JammerState.ATTACK
     else:
       if np.random.random() <= nu:
-        self.jammer_state = 0
+        self.jammer_state = JammerState.IDLE
 
-    next_state = self.get_state_deep()
+    next_state = self.get_state()
     return reward, next_state
 
   def get_state_deep(self):
