@@ -2,7 +2,7 @@ import numpy as np
 import random
 from scipy.stats import poisson
 from parameters import *
-# from action import Action
+from action import Action
 from enum import Enum
 
 class JammerState(Enum):
@@ -11,7 +11,7 @@ class JammerState(Enum):
 
 class Environment:
   def __init__(self):
-    self.jammer_state = JammerState.IDLE
+    self.jammer_state = JammerState.IDLE.value
     self.data_state = 0
     self.energy_state = 0
 
@@ -27,40 +27,34 @@ class Environment:
     return state
 
   def get_possible_action(self):
-    # list_actions = [Action.STAY_IDLE.value]
-    list_actions = [0]
-    if self.jammer_state == JammerState.IDLE and self.data_state > 0 and self.energy_state >= e_t:
-      # list_actions.append(Action.ACTIVE_TRANSMIT.value)
-      list_actions = [1]
+    list_actions = [Action.STAY_IDLE.value]
+    if self.jammer_state == JammerState.IDLE.value and self.data_state > 0 and self.energy_state >= e_t:
+      list_actions.append(Action.ACTIVE_TRANSMIT.value)
 
-    if self.jammer_state == JammerState.ATTACK:
-      # list_actions.append(Action.HARVEST_ENERGY.value)
-      list_actions = [2]
+    if self.jammer_state == JammerState.ATTACK.value:
+      list_actions.append(Action.HARVEST_ENERGY.value)
       if self.data_state > 0:
-        # list_actions.append(Action.BACKSCATTERED.value)
-        list_actions = [3]
+        list_actions.append(Action.BACKSCATTERED.value)
         if self.energy_state > e_t:
-          # list_actions.append(Action.RA_1.value)
-          # list_actions.append(Action.RA_2.value)
-          # list_actions.append(Action.RA_3.value)
-          list_actions.append(4)
-          list_actions.append(5)
-          list_actions.append(6)
+          list_actions.append(Action.RA_1.value)
+          list_actions.append(Action.RA_2.value)
+          list_actions.append(Action.RA_3.value)
     return list_actions
 
   def calculate_reward(self, action):
     reward = 0
     loss = 0
-    if action == 0:
+    if action == Action.STAY_IDLE.value:
       reward = 0
-    elif action == 1:
+    elif action == Action.ACTIVE_TRANSMIT.value:
       reward = self.active_transmit(d_t)
 
-    elif action == 2:
+    elif action == Action.HARVEST_ENERGY.value:
       reward = random.choices(e_hj_arr, weights=nu_p, k=1)[0]
 
-    elif action == 3:
+    elif action == Action.BACKSCATTERED.value:
       d_bj = random.choices(d_bj_arr, weights=nu_p, k=1)[0]
+
       if self.data_state >= b_dagger:
         max_rate = b_dagger
       else:
@@ -74,7 +68,7 @@ class Environment:
       if max_rate > reward:
         loss = max_rate - reward
 
-    elif action == 4:
+    elif action == Action.RA_1.value:
       max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[0])
 
@@ -82,7 +76,7 @@ class Environment:
         loss = reward
         reward = 0
 
-    elif action == 5:
+    elif action == Action.RA_2.value:
       max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[1])
 
@@ -90,7 +84,7 @@ class Environment:
         loss = reward
         reward = 0
 
-    elif action == 6:
+    elif action == Action.RA_3.value:
       reward = 0
 
     return reward, loss
@@ -112,23 +106,23 @@ class Environment:
 
   def perform_action(self, action):
     reward, loss = self.calculate_reward(action)
-    if action == 1:
+    if action == Action.ACTIVE_TRANSMIT.value:
       self.data_state -= reward
       self.energy_state -= reward * e_t
-    elif action == 2:
+    elif action == Action.HARVEST_ENERGY.value:
       if self.energy_state < e_queue_size:
         self.energy_state += reward
       if self.energy_state > e_queue_size:
         self.energy_state = e_queue_size
       reward = 0
-    elif action == 3:  # when perform backscatter, always backscatter 3 packages
+    elif action == Action.BACKSCATTERED.value:  # when perform backscatter, always backscatter 3 packages
       if self.data_state >= b_dagger:
         max_rate = b_dagger
       else:
         max_rate = self.data_state
 
       self.data_state -= max_rate
-    elif action == 4 or action == 5:
+    elif action == Action.RA_1.value or action == Action.RA_2.value:
       if reward > 0:
         self.data_state -= reward
         self.energy_state -= reward * e_t
@@ -144,15 +138,62 @@ class Environment:
       self.data_state = d_queue_size
 
     # jammer state
-    if self.jammer_state == JammerState.IDLE:
+    if self.jammer_state == JammerState.IDLE.value:
       if np.random.random() <= 1 - nu:
-        self.jammer_state = JammerState.ATTACK
+        self.jammer_state = JammerState.ATTACK.value
     else:
       if np.random.random() <= nu:
-        self.jammer_state = JammerState.IDLE
+        self.jammer_state = JammerState.IDLE.value
 
     next_state = self.get_state()
     return reward, next_state
+  
 
+  # Deep_Q_Learning
   def get_state_deep(self):
     return np.array([self.jammer_state, self.data_state, self.energy_state])
+  
+  def perform_action_deep(self, action):
+    reward, loss = self.calculate_reward(action)
+    if action == Action.ACTIVE_TRANSMIT.value:
+      self.data_state -= reward
+      self.energy_state -= reward * e_t
+    elif action == Action.HARVEST_ENERGY.value:
+      if self.energy_state < e_queue_size:
+        self.energy_state += reward
+      if self.energy_state > e_queue_size:
+        self.energy_state = e_queue_size
+      reward = 0
+    elif action == Action.BACKSCATTERED.value:  # when perform backscatter, always backscatter 3 packages
+      if self.data_state >= b_dagger:
+        max_rate = b_dagger
+      else:
+        max_rate = self.data_state
+
+      self.data_state -= max_rate
+    elif action == Action.RA_1.value or action == Action.RA_2.value:
+      if reward > 0:
+        self.data_state -= reward
+        self.energy_state -= reward * e_t
+      else:
+        self.data_state -= loss
+        self.energy_state -= loss * e_t
+
+    # data arrival
+    data_arrive_l = poisson.rvs(mu=arrival_rate, size=1)
+    data_arrive = data_arrive_l[0]
+    self.data_state += data_arrive
+    if self.data_state > d_queue_size:
+      self.data_state = d_queue_size
+
+    # jammer state
+    if self.jammer_state == JammerState.IDLE.value:
+      if np.random.random() <= 1 - nu:
+        self.jammer_state = JammerState.ATTACK.value
+    else:
+      if np.random.random() <= nu:
+        self.jammer_state = JammerState.IDLE.value
+
+    next_state = self.get_state_deep()
+    return reward, next_state
+

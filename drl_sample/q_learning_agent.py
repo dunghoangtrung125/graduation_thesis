@@ -29,20 +29,18 @@ class QLearningAgent:
 
       reward, next_state = self.env.perform_action(action)
       total_reward += reward
-      list_possible_next_actions = self.env.get_possible_action()
+      list_possible_next_action = self.env.get_possible_action()
       max_q = -float("inf")
-      for action_n in list_possible_next_actions:
-        # print("dunghoang " + str(next_state) + ", action_n " + str(action_n))
+      for action_n in list_possible_next_action:
         if self.q_matrix[next_state][action_n] >= max_q:
           max_q = self.q_matrix[next_state][action_n]
-          # action = action_n
 
       data = (1 - learning_rate_Q) * self.q_matrix[current_state][action] + learning_rate_Q * (reward + gamma_Q * max_q)
       self.q_matrix[current_state][action] = data
       temp = epsilon * decay
       epsilon = max(min_epsilon, temp)
+      self.rewards.append(total_reward / (i + 1))
       if (i + 1) % step == 0:
-        self.rewards.append(total_reward / (i + 1))
         print("Iteration " + str(i + 1) + " reward: " + str(total_reward / (i + 1)))
     
     self.save_model('model/q_matrix.npy')

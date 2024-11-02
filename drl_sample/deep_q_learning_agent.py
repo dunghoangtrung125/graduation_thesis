@@ -6,7 +6,7 @@ from keras import backend as K
 from enviroment import Environment
 from parameters import *
 
-class deep_q_learning_agent:
+class DeepQLearningAgent:
   def __init__(self, dueling):
     self.env = Environment()
     self.action_history = []
@@ -21,7 +21,9 @@ class deep_q_learning_agent:
     self.epsilon_min = 0.01
     self.epsilon_decay = 0.9999
     self.loss_function = tf.keras.losses.Huber()
-    self.optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=learning_rate_deepQ)
+    self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate_deepQ)
+
+    self.rewards = []
 
 
   def create_model(self, dueling):
@@ -89,7 +91,7 @@ class deep_q_learning_agent:
       max_q = -float("inf")
       action = 0
       for action_t in list_actions:
-        if list_value[action_t] > max_q:
+        if list_value[action_t] >= max_q:
           max_q = list_value[action_t]
           action = action_t
     return action
@@ -102,14 +104,21 @@ class deep_q_learning_agent:
       current_state = np.reshape(current_state, (1, num_features))
       action = self.get_action(current_state)
 
-      reward, next_state = self.env.perform_action(action)
+      reward, next_state = self.env.perform_action_deep(action)
       next_state = np.reshape(next_state, (1, num_features))
       total_reward += reward
       self.remember(current_state, action, reward, next_state)
 
       self.replay()
 
+      # append rewards for plot graph
+      self.rewards.append(total_reward / (i + 1))
+
       if (i + 1) % update_target_network == 0:
         self.target_update()
       if (i + 1) % step == 0:
         print("Iteration " + str(i + 1) + " reward: " + str(total_reward / (i + 1)))
+
+    # save model
+    self.model.save('model/dqn.keras')
+    np.save('model/deep_q_matrix.npy', self.rewards)
