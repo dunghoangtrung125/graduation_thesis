@@ -2,11 +2,12 @@ from enviroment import Environment
 import numpy as np
 import tensorflow as tf
 from parameters import *
+from keras import backend as K
 
 class DDQNSimulate:
     def __init__(self):
         self.env = Environment()
-        self.model = tf.keras.models.load_model('model/ddqn.keras')
+        self.model = tf.keras.models.load_model('model/ddqn.keras', custom_objects={'K': K})
 
     def get_action(self):
         return np.random.choice(self.env.get_possible_action())

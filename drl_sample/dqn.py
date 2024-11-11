@@ -9,6 +9,8 @@ from parameters import *
 class DQN:
   def __init__(self, dueling=False):
     self.env = Environment()
+    self.dueling = dueling
+
     self.action_history = []
     self.state_history = []
     self.reward_history = []
@@ -134,5 +136,9 @@ class DQN:
         print("Iteration " + str(i + 1) + " reward: " + str(total_reward / (i + 1)))
 
     # save model
-    self.model.save('model/ddqn.keras')
-    np.save('model/ddqn.npy', self.rewards)
+    if self.dueling:
+      self.model.save('model/ddqn.keras')
+      np.save('model/ddqn.npy', self.rewards)
+    else:
+      self.model.save('model/dqn.keras')
+      np.save('model/dqn.npy', self.rewards)
