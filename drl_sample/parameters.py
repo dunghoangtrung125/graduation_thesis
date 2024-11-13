@@ -19,7 +19,7 @@ gamma_deepQ = 0.99 # discount factor
 
 num_features = 3 # number of features in state space
 memory_size = 10000
-batch_size = 32
+batch_size = 16
 update_target_network = 5000
 step = 1000 # print reward after every step
-T = 1_000_000 # number of training iterations
+T = 10_000 # number of training iterations

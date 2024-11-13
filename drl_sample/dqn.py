@@ -5,6 +5,7 @@ from keras.models import Model
 from keras import backend as K
 from enviroment import Environment
 from parameters import *
+from util.csv_util import *
 
 class DQN:
   def __init__(self, dueling=False):
@@ -26,6 +27,7 @@ class DQN:
     self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate_deepQ)
 
     self.rewards = []
+    self.file_name = 'ddqn.csv' if dueling else 'dqn.csv'
 
 
   def create_model(self, dueling):
@@ -43,11 +45,11 @@ class DQN:
     if dueling:
         # Dueling DQN architecture
         # Value Stream
-        V = Dense(32, activation="tanh")(X)
+        V = Dense(16, activation="tanh")(X)
         V = Dense(1, activation="linear")(V)
 
         # Advantage Stream
-        A = Dense(32, activation="tanh")(X)
+        A = Dense(16, activation="tanh")(X)
         A = Dense(num_actions, activation="linear")(A)
 
         # Combine Value and Advantage streams
@@ -114,6 +116,8 @@ class DQN:
 
 
   def learning(self):
+    create_csv(self.file_name, 'Iteration', 'Avg Throughput')
+
     total_reward = 0
     for i in range(T):
       current_state = self.env.get_state_deep()
@@ -134,11 +138,13 @@ class DQN:
         self.target_update()
       if (i + 1) % step == 0:
         print("Iteration " + str(i + 1) + " reward: " + str(total_reward / (i + 1)))
+        insert_row(self.file_name, i + 1, total_reward / (i + 1))
+
 
     # save model
-    if self.dueling:
-      self.model.save('model/ddqn.keras')
-      np.save('model/ddqn.npy', self.rewards)
-    else:
-      self.model.save('model/dqn.keras')
-      np.save('model/dqn.npy', self.rewards)
+    # if self.dueling:
+    #   self.model.save('model/ddqn.keras')
+    #   np.save('model/ddqn.npy', self.rewards)
+    # else:
+    #   self.model.save('model/dqn.keras')
+    #   np.save('model/dqn.npy', self.rewards)
