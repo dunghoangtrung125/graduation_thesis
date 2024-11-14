@@ -142,9 +142,9 @@ class DQN:
 
 
     # save model
-    # if self.dueling:
-    #   self.model.save('model/ddqn.keras')
-    #   np.save('model/ddqn.npy', self.rewards)
-    # else:
-    #   self.model.save('model/dqn.keras')
-    #   np.save('model/dqn.npy', self.rewards)
+    if self.dueling:
+      self.model.save('model/ddqn.keras')
+      np.save('model/ddqn.npy', self.rewards)
+    else:
+      self.model.save('model/dqn.keras')
+      np.save('model/dqn.npy', self.rewards)

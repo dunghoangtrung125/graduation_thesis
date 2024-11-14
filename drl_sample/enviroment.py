@@ -14,6 +14,8 @@ class Environment:
     self.jammer_state = JammerState.IDLE.value
     self.data_state = 0
     self.energy_state = 0
+    self.total_packages_arrival = 0
+    self.loss_packages = 0
 
   def get_state(self):
     count = 0
@@ -35,7 +37,7 @@ class Environment:
       list_actions.append(Action.HARVEST_ENERGY.value)
       if self.data_state > 0:
         list_actions.append(Action.BACKSCATTERED.value)
-        if self.energy_state > e_t:
+        if self.energy_state >= e_t:
           list_actions.append(Action.RA_1.value)
           list_actions.append(Action.RA_2.value)
           list_actions.append(Action.RA_3.value)
@@ -72,6 +74,7 @@ class Environment:
       max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[0])
 
+      # Selected rate higher than success rate, so all packages will lost
       if dt_ra_arr[0] > max_ra:
         loss = reward
         reward = 0
@@ -80,6 +83,7 @@ class Environment:
       max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[1])
 
+      # Selected rate higher than success rate, so all packages will lost
       if dt_ra_arr[1] > max_ra:
         loss = reward
         reward = 0
@@ -106,6 +110,8 @@ class Environment:
 
   def perform_action(self, action):
     reward, loss = self.calculate_reward(action)
+    self.loss_packages += loss
+
     if action == Action.ACTIVE_TRANSMIT.value:
       self.data_state -= reward
       self.energy_state -= reward * e_t
@@ -134,7 +140,10 @@ class Environment:
     data_arrive_l = poisson.rvs(mu=arrival_rate, size=1)
     data_arrive = data_arrive_l[0]
     self.data_state += data_arrive
+    self.total_packages_arrival += data_arrive
     if self.data_state > d_queue_size:
+      # loss package discard when data queue full
+      self.loss_packages += (self.data_state - d_queue_size)
       self.data_state = d_queue_size
 
     # jammer state
@@ -155,6 +164,8 @@ class Environment:
   
   def perform_action_deep(self, action):
     reward, loss = self.calculate_reward(action)
+    self.loss_packages += loss
+
     if action == Action.ACTIVE_TRANSMIT.value:
       self.data_state -= reward
       self.energy_state -= reward * e_t
@@ -183,7 +194,10 @@ class Environment:
     data_arrive_l = poisson.rvs(mu=arrival_rate, size=1)
     data_arrive = data_arrive_l[0]
     self.data_state += data_arrive
+    self.total_packages_arrival += data_arrive
     if self.data_state > d_queue_size:
+      # loss package discard when data queue full
+      self.loss_packages += (self.data_state - d_queue_size)
       self.data_state = d_queue_size
 
     # jammer state

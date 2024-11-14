@@ -15,7 +15,7 @@ class QLearningAgent:
     action = 0
     total_reward = 0
 
-    for i in range(T):
+    for i in range(1_000_000):
       current_state = self.env.get_state()
       list_possible_action = self.env.get_possible_action()
       max_q = -float("inf")

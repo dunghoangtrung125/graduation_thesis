@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from enviroment import Environment
 from parameters import *
 import random
@@ -10,8 +14,8 @@ class HarvestThenTransmitt:
     def __init__(self):
         self.env = Environment()
         self.success_package_num = 0
-        self.time = 1_000_000
         self.package_lost = 0
+        self.total_packages_sent = 0
 
     def can_transmit(self):
         return self.env.energy_state >= e_t
@@ -23,42 +27,50 @@ class HarvestThenTransmitt:
         if self.env.energy_state > e_queue_size:
             self.env.energy_state = e_queue_size
 
-    def transmit_data(self):
-        max_ra = d_t # when jammer idle
-        if self.env.jammer_state == JammerState.ATTACK:
-            max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
-        
-        package_transmit_success = self.env.active_transmit(max_ra)
+    def active_transmit(self):
+        package_transmit_success = self.env.active_transmit(d_t)
         self.env.data_state -= package_transmit_success
         self.env.energy_state -= package_transmit_success * e_t
         self.success_package_num += package_transmit_success
 
+    def run(self):
+        T = 40_000
+        for i in range(T):
+            if self.env.jammer_state == JammerState.IDLE.value:
+                # Active transmit
+                self.active_transmit()
+            else:
+                # Jammer is attacking, HTT
+                self.harvest_energy()
 
-    def simulate(self):
-        for i in range(1, self.time):
-            self.perform_action(i)
+            # data arrival
+            data_arrive_l = poisson.rvs(mu=arrival_rate, size=1)
+            data_arrive = data_arrive_l[0]
+            self.env.data_state += data_arrive
+            self.total_packages_sent += data_arrive
+            if self.env.data_state > d_queue_size:
+                self.package_lost += self.env.data_state - d_queue_size
+                self.env.data_state = d_queue_size
 
-    def perform_action(self, time):
-        if self.can_transmit():
-            self.transmit_data()
-        else:
-            self.harvest_energy()
-
-        if time % 1000 == 0:
-            print("Average throughput at " + str(time) + " is " + str(self.success_package_num / time) + ", package lost = " + str(self.package_lost))
-
-        # data arrival
-        data_arrive_l = poisson.rvs(mu=arrival_rate, size=1)
-        data_arrive = data_arrive_l[0]
-        self.env.data_state += data_arrive
-        if self.env.data_state > d_queue_size:
-            self.package_lost += self.env.data_state - d_queue_size
-            self.env.data_state = d_queue_size
-
-        # jammer state
-        if self.env.jammer_state == JammerState.IDLE.value:
-            if np.random.random() <= 1 - nu:
-                self.env.jammer_state = JammerState.ATTACK.value
-        else:
-            if np.random.random() <= nu:
-                self.env.jammer_state = JammerState.IDLE.value
+            # jammer state
+            if self.env.jammer_state == JammerState.IDLE.value:
+                if np.random.random() <= 1 - nu:
+                    self.env.jammer_state = JammerState.ATTACK.value
+            else:
+                if np.random.random() <= nu:
+                    self.env.jammer_state = JammerState.IDLE.value
+        
+        # Print result
+        print('---------------------------------------------------')
+        print('Result after running simulation in ' + str(T) + ' time units')
+        # print('Total rewards = ' + str(total_reward))
+        print('Number packages sent successfully = ' + str(self.success_package_num))
+        print('Avg throughput (packages/time unit) = ' + str(self.success_package_num / T))
+        print('Avg loss (packages/time unit) = ' + str(self.package_lost / T))
+        print('PDR = ' + str(self.success_package_num / self.total_packages_sent * 100) + '%') 
+        print('---------------------------------------------------')
+        print('---------------------------------------------------')
+        print('Total packages send = ' + str(self.total_packages_sent))
+        print('Loss packages = ' + str(self.package_lost))
+        print('Success packages = ' + str(self.success_package_num))
+        print('Package still in queue = ' + str(self.env.data_state))
