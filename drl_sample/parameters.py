@@ -1,4 +1,4 @@
-nu = 0.5 # probability that the jammer is idle
+nu = 0.1 # probability that the jammer is idle
 arrival_rate = 3 # mean rate of the data arrival process
 nu_p = [0.6, 0.2, 0.2] # Probability that the jammer attacks at power levels 1, 2, 3
 d_t = 4 # number of packages per active transmission
@@ -22,4 +22,4 @@ memory_size = 10000
 batch_size = 32
 update_target_network = 5000
 step = 1000 # print reward after every step
-T = 50_000 # number of training iterations
+T = 1_000_000 # number of training iterations

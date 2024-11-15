@@ -39,7 +39,7 @@ class BackScatterStrategy:
                 # Do nothing
                 pass
             else:
-                # Jammer is attacking, HTT
+                # Jammer is attacking, use backscatter technique
                 self.backscatter()
 
             # data arrival
@@ -72,3 +72,4 @@ class BackScatterStrategy:
         print('Loss packages = ' + str(self.package_lost))
         print('Success packages = ' + str(self.success_package_num))
         print('Package still in queue = ' + str(self.env.data_state))
+        print(d_t)

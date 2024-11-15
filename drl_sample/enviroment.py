@@ -17,6 +17,8 @@ class Environment:
     self.total_packages_arrival = 0
     self.loss_packages = 0
 
+    self.d_t = d_t
+
   def get_state(self):
     count = 0
     state = 0
@@ -210,4 +212,9 @@ class Environment:
 
     next_state = self.get_state_deep()
     return reward, next_state
+  
+
+  ##############################################################
+  def set_active_transmission_package_num(self, d_t):
+    self.d_t = d_t
 

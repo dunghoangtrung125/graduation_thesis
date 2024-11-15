@@ -8,14 +8,16 @@ import random
 import numpy as np
 from scipy.stats import poisson
 from enviroment import JammerState
+from util.csv_util import *
 
 class HarvestThenTransmitt:
 
-    def __init__(self):
+    def __init__(self, d_t=d_t):
         self.env = Environment()
         self.success_package_num = 0
         self.package_lost = 0
         self.total_packages_sent = 0
+        self.d_t = d_t
 
     def can_transmit(self):
         return self.env.energy_state >= e_t
@@ -28,13 +30,13 @@ class HarvestThenTransmitt:
             self.env.energy_state = e_queue_size
 
     def active_transmit(self):
-        package_transmit_success = self.env.active_transmit(d_t)
+        package_transmit_success = self.env.active_transmit(self.d_t)
         self.env.data_state -= package_transmit_success
         self.env.energy_state -= package_transmit_success * e_t
         self.success_package_num += package_transmit_success
 
     def run(self):
-        T = 40_000
+        T = 5000
         for i in range(T):
             if self.env.jammer_state == JammerState.IDLE.value:
                 # Active transmit
@@ -69,8 +71,19 @@ class HarvestThenTransmitt:
         print('Avg loss (packages/time unit) = ' + str(self.package_lost / T))
         print('PDR = ' + str(self.success_package_num / self.total_packages_sent * 100) + '%') 
         print('---------------------------------------------------')
-        print('---------------------------------------------------')
-        print('Total packages send = ' + str(self.total_packages_sent))
-        print('Loss packages = ' + str(self.package_lost))
-        print('Success packages = ' + str(self.success_package_num))
-        print('Package still in queue = ' + str(self.env.data_state))
+        # print('---------------------------------------------------')
+        # print('Total packages send = ' + str(self.total_packages_sent))
+        # print('Loss packages = ' + str(self.package_lost))
+        # print('Success packages = ' + str(self.success_package_num))
+        # print('Package still in queue = ' + str(self.env.data_state))
+
+        self.print_result(self.success_package_num / T, self.package_lost / T, self.success_package_num / self.total_packages_sent * 100)
+
+    def print_result(self, through_put, package_loss, pdr):
+        create_csv('htt_throughput.csv', 'd_t', 'throughput')
+        create_csv('htt_loss.csv', 'd_t', 'package_loss')
+        create_csv('htt_pdr.csv', 'd_t', 'pdr')
+        insert_row('htt_throughput.csv', self.d_t, through_put)
+        insert_row('htt_loss.csv', self.d_t, package_loss)
+        insert_row('htt_pdr.csv', self.d_t, pdr)
+
