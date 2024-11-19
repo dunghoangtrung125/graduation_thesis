@@ -8,7 +8,7 @@ from parameters import *
 from util.csv_util import *
 
 class DQN:
-  def __init__(self, dueling=False):
+  def __init__(self, dueling=False, power=0):
     self.env = Environment()
     self.dueling = dueling
 
@@ -27,7 +27,8 @@ class DQN:
     self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate_deepQ)
 
     self.rewards = []
-    self.file_name = 'ddqn.csv' if dueling else 'dqn.csv'
+    self.power = power
+    self.file_name = 'ddqn' + str(self.power) + 'W.csv' if dueling else 'dqn' + str(self.power) + 'W.csv'
 
 
   def create_model(self, dueling):
@@ -142,9 +143,21 @@ class DQN:
 
 
     # save model
+    # if self.dueling:
+    #   self.model.save('model/ddqn.keras')
+    #   np.save('model/ddqn.npy', self.rewards)
+    # else:
+    #   self.model.save('model/dqn.keras')
+    #   np.save('model/dqn.npy', self.rewards)
+
+  def save_model(self, power):
+    # save model
     if self.dueling:
-      self.model.save('model/ddqn.keras')
-      np.save('model/ddqn.npy', self.rewards)
+      name = 'model/ddqn_' + str(power) + 'W.keras'
+      self.model.save(name)
+      # np.save('model/ddqn.npy', self.rewards)
     else:
-      self.model.save('model/dqn.keras')
-      np.save('model/dqn.npy', self.rewards)
+      name = 'model/dqn_' + str(power) + 'W.keras'
+      self.model.save(name)
+      # np.save('model/dqn.npy', self.rewards)
+    

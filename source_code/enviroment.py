@@ -18,6 +18,8 @@ class Environment:
     self.loss_packages = 0
 
     self.d_t = d_t
+    self.nu = nu
+    self.nu_p = nu_p
 
   def get_state(self):
     count = 0
@@ -54,10 +56,10 @@ class Environment:
       reward = self.active_transmit(d_t)
 
     elif action == Action.HARVEST_ENERGY.value:
-      reward = random.choices(e_hj_arr, weights=nu_p, k=1)[0]
+      reward = random.choices(e_hj_arr, weights=self.nu_p, k=1)[0]
 
     elif action == Action.BACKSCATTERED.value:
-      d_bj = random.choices(d_bj_arr, weights=nu_p, k=1)[0]
+      d_bj = random.choices(d_bj_arr, weights=self.nu_p, k=1)[0]
 
       if self.data_state >= b_dagger:
         max_rate = b_dagger
@@ -73,7 +75,7 @@ class Environment:
         loss = max_rate - reward
 
     elif action == Action.RA_1.value:
-      max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
+      max_ra = random.choices(dt_ra_arr, self.nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[0])
 
       # Selected rate higher than success rate, so all packages will lost
@@ -82,7 +84,7 @@ class Environment:
         reward = 0
 
     elif action == Action.RA_2.value:
-      max_ra = random.choices(dt_ra_arr, nu_p, k=1)[0]
+      max_ra = random.choices(dt_ra_arr, self.nu_p, k=1)[0]
       reward = self.active_transmit(dt_ra_arr[1])
 
       # Selected rate higher than success rate, so all packages will lost
@@ -204,10 +206,10 @@ class Environment:
 
     # jammer state
     if self.jammer_state == JammerState.IDLE.value:
-      if np.random.random() <= 1 - nu:
+      if np.random.random() <= 1 - self.nu:
         self.jammer_state = JammerState.ATTACK.value
     else:
-      if np.random.random() <= nu:
+      if np.random.random() <= self.nu:
         self.jammer_state = JammerState.IDLE.value
 
     next_state = self.get_state_deep()
@@ -217,4 +219,10 @@ class Environment:
   ##############################################################
   def set_active_transmission_package_num(self, d_t):
     self.d_t = d_t
+
+
+  def set_jammer_power(self, nu=nu, nu_p=nu_p):
+    self.nu = nu
+    self.nu_p = nu_p
+
 
