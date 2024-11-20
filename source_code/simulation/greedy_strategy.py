@@ -11,7 +11,8 @@ from enviroment import JammerState
 from util.csv_util import *
 
 class GreedyStrategy:
-    def __init__(self, d_t=d_t):
+    def __init__(self, time_units=5000):
+        self.time_units = time_units
         self.env = Environment()
         self.success_package_num = 0
         self.package_lost = 0
@@ -27,6 +28,12 @@ class GreedyStrategy:
         self.nu = nu
         self.nu_p = nu_p
         # self.env.set_jammer_power(nu=nu, nu_p=nu_p)
+
+    def set_active_transmit_packages(self, d_t=d_t):
+        self.d_t = d_t
+
+    def set_harvest_frequency(self, harvest_frequency):
+        self.harvest_frequency = harvest_frequency
 
     def can_transmit(self):
         return self.env.energy_state >= e_t
@@ -60,9 +67,7 @@ class GreedyStrategy:
         self.env.data_state -= max_rate
 
     def run(self):
-        T = 5000
-
-        for i in range(T):
+        for i in range(self.time_units):
             if self.env.jammer_state == JammerState.IDLE.value:
                 self.env.active_transmit(self.d_t)
             else:
@@ -92,11 +97,11 @@ class GreedyStrategy:
 
         # Print result
         print('---------------------------------------------------')
-        print('Result after running simulation in ' + str(T) + ' time units')
+        print('Result after running simulation in ' + str(self.time_units) + ' time units')
         # print('Total rewards = ' + str(total_reward))
         print('Number packages sent successfully = ' + str(self.success_package_num))
-        print('Avg throughput (packages/time unit) = ' + str(self.success_package_num / T))
-        print('Avg loss (packages/time unit) = ' + str(self.package_lost / T))
+        print('Avg throughput (packages/time unit) = ' + str(self.success_package_num / self.time_units))
+        print('Avg loss (packages/time unit) = ' + str(self.package_lost / self.time_units))
         print('PDR = ' + str(self.success_package_num / self.total_packages_sent * 100) + '%') 
         # print('---------------------------------------------------')
         # print('Total packages send = ' + str(self.total_packages_sent))
@@ -106,20 +111,4 @@ class GreedyStrategy:
 
         # Print result to csv
         # self.print_result_power(self.success_package_num / T, self.package_lost / T, self.success_package_num / self.total_packages_sent * 100)
-        return self.success_package_num / T, self.package_lost / T, self.success_package_num / self.total_packages_sent * 100
-
-    def print_result(self, through_put, package_loss, pdr):
-        create_csv('greedy_throughput.csv', 'd_t', 'throughput')
-        create_csv('greedy_loss.csv', 'd_t', 'package_loss')
-        create_csv('greedy_pdr.csv', 'd_t', 'pdr')
-        insert_row('greedy_throughput.csv', self.d_t, through_put)
-        insert_row('greedy_loss.csv', self.d_t, package_loss)
-        insert_row('greedy_pdr.csv', self.d_t, pdr)
-
-    def print_result_power(self, through_put, package_loss, pdr):
-        create_csv('greedy_power_throughput.csv', 'P_avg', 'throughput')
-        create_csv('greedy_power_loss.csv', 'P_avg', 'package_loss')
-        create_csv('greedy_power_pdr.csv', 'P_avg', 'pdr')
-        insert_row('greedy_power_throughput.csv', self.power, through_put)
-        insert_row('greedy_power_loss.csv', self.power, package_loss)
-        insert_row('greedy_power_pdr.csv', self.power, pdr)
+        return self.success_package_num / self.time_units, self.package_lost / self.time_units, self.success_package_num / self.total_packages_sent * 100

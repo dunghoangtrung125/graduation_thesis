@@ -23,4 +23,4 @@ memory_size = 10000
 batch_size = 32
 update_target_network = 5000
 step = 1000 # print reward after every step
-T = 40_000 # number of training iterations
+T = 1_000_000 # number of training iterations

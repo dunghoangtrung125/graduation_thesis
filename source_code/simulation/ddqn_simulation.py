@@ -10,21 +10,23 @@ from keras import backend as K
 from util.csv_util import *
 
 class DDQNSimulate:
-    def __init__(self, d_t=d_t, model='model/ddqn.keras'):
+    def __init__(self, model='model/ddqn.keras', time_units=5000):
         self.env = Environment()
-        self.env.set_active_transmission_package_num(d_t)
+        self.time_units = time_units
         self.model = tf.keras.models.load_model(model, custom_objects={'K': K})
 
     def set_jammer_power(self, nu=nu, nu_p=nu_p):
         self.env.set_jammer_power(nu=nu, nu_p=nu_p)
+    
+    def set_active_transmit_packages(self, d_t=d_t):
+        self.env.set_active_transmission_package_num(d_t)
 
     def get_action(self):
         return np.random.choice(self.env.get_possible_action())
     
     def run(self):
-        T = 5000
         total_reward = 0
-        for i in range(T):
+        for i in range(self.time_units):
             state = self.env.get_state_deep()
             state = np.reshape(state, (1, num_features))
             list_value = self.model.predict(state, verbose=0)[0]
@@ -42,11 +44,11 @@ class DDQNSimulate:
 
 
         print('---------------------------------------------------')
-        print('Result after running simulation in ' + str(T) + ' time units')
+        print('Result after running simulation in ' + str(self.time_units) + ' time units')
         print('Total rewards = ' + str(total_reward))
         print('Number packages sent successfully = ' + str(self.env.total_packages_arrival - self.env.loss_packages))
-        print('Avg throughput (packages/time unit) = ' + str(total_reward / T))
-        print('Avg loss (packages/time unit) = ' + str(self.env.loss_packages / T))
+        print('Avg throughput (packages/time unit) = ' + str(total_reward / self.time_units))
+        print('Avg loss (packages/time unit) = ' + str(self.env.loss_packages / self.time_units))
         print('PDR = ' + str((self.env.total_packages_arrival - self.env.loss_packages) / self.env.total_packages_arrival * 100) + '%') 
         print('---------------------------------------------------')
         # print('---------------------------------------------------')
@@ -55,12 +57,5 @@ class DDQNSimulate:
         # print('Loss packages = ' + str(self.env.loss_packages))
         # print('Total packages arrival = ' + str(self.env.total_packages_arrival))
         # self.print_result(total_reward / T, self.env.loss_packages / T, (self.env.total_packages_arrival - self.env.loss_packages) / self.env.total_packages_arrival * 100)
-        return total_reward / T, self.env.loss_packages / T, (self.env.total_packages_arrival - self.env.loss_packages) / self.env.total_packages_arrival * 100
+        return total_reward / self.time_units, self.env.loss_packages / self.time_units, (self.env.total_packages_arrival - self.env.loss_packages) / self.env.total_packages_arrival * 100
 
-    def print_result(self, through_put, package_loss, pdr):
-        create_csv('ddqn_throughput.csv', 'd_t', 'throughput')
-        create_csv('ddqn_loss.csv', 'd_t', 'package_loss')
-        create_csv('ddqn_pdr.csv', 'd_t', 'pdr')
-        insert_row('ddqn_throughput.csv', self.env.d_t, through_put)
-        insert_row('ddqn_loss.csv', self.env.d_t, package_loss)
-        insert_row('ddqn_pdr.csv', self.env.d_t, pdr)

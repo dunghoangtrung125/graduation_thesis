@@ -8,9 +8,10 @@ from parameters import *
 from util.csv_util import *
 
 class DQN:
-  def __init__(self, dueling=False, power=0):
+  def __init__(self, dueling=False, T=T):
     self.env = Environment()
     self.dueling = dueling
+    self.T = T
 
     self.action_history = []
     self.state_history = []
@@ -26,11 +27,23 @@ class DQN:
     self.loss_function = tf.keras.losses.Huber()
     self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate_deepQ)
 
-    self.rewards = []
+    # self.rewards = []
 
-    # Custom params
+  def set_custom_mode(self, mode=0):
+    '''mode = 0 => Default parameter in parameters.py \n
+    mode = 1 => Custom active transmission packages d_t \n
+    mode = 2 => Custom jammer average power P_avg'''
+    self.custom_mode = mode
+
+  def set_jammer_power(self, nu=nu, nu_p=nu_p, power=0):
+    '''Custom jammer power'''
+    self.env.set_jammer_power(nu=nu, nu_p=nu_p)
     self.power = power
-    self.file_name = 'ddqn_' + str(self.power) + 'W.csv' if dueling else 'dqn_' + str(self.power) + 'W.csv'
+
+  def set_active_transmission_packages(self, d_t=d_t):
+    '''Custom active transmission packages'''
+    self.env.set_active_transmission_package_num(d_t=d_t)
+    self.active_package = d_t
 
 
   def create_model(self, dueling):
@@ -119,10 +132,19 @@ class DQN:
 
 
   def learning(self):
+    if self.custom_mode == 0:
+      # default params
+      self.file_name = 'ddqn_default.csv' if self.dueling else 'dqn_default.csv'
+    elif self.custom_mode == 1:
+      # Custom active transmission packages
+      self.file_name = 'ddqn_dt_' + str(self.active_package) + '.csv' if self.dueling else 'dqn_dt_' + str(self.active_package) + '.csv'
+    elif self.custom_mode == 2:
+      # Custom average jammer power
+      self.file_name = 'ddqn_' + str(self.power) + 'W.csv' if self.dueling else 'dqn_' + str(self.power) + 'W.csv'
     create_csv(self.file_name, 'Iteration', 'Avg Throughput')
 
     total_reward = 0
-    for i in range(T):
+    for i in range(self.T):
       current_state = self.env.get_state_deep()
       current_state = np.reshape(current_state, (1, num_features))
       action = self.get_action(current_state)
@@ -135,7 +157,8 @@ class DQN:
       self.replay()
 
       # append rewards for plot graph
-      self.rewards.append(total_reward / (i + 1))
+      # self.rewards.append(total_reward / (i + 1))
+      # insert_row(self.file_name, i + 1, total_reward / (i + 1))
 
       if (i + 1) % update_target_network == 0:
         self.target_update()
@@ -144,22 +167,16 @@ class DQN:
         insert_row(self.file_name, i + 1, total_reward / (i + 1))
 
 
-    # save model
-    # if self.dueling:
-    #   self.model.save('model/ddqn.keras')
-    #   np.save('model/ddqn.npy', self.rewards)
-    # else:
-    #   self.model.save('model/dqn.keras')
-    #   np.save('model/dqn.npy', self.rewards)
-
   def save_model(self):
-    # save model
-    if self.dueling:
-      name = 'model/ddqn_' + str(self.power) + 'W.keras'
-      self.model.save(name)
-      # np.save('model/ddqn.npy', self.rewards)
-    else:
-      name = 'model/dqn_' + str(self.power) + 'W.keras'
-      self.model.save(name)
-      # np.save('model/dqn.npy', self.rewards)
+    if self.custom_mode == 0:
+      # default params
+      model_name = 'model/ddqn_default.keras' if self.dueling else 'model/dqn_default.keras'
+    elif self.custom_mode == 1:
+      # Custom active transmission packages
+      model_name = 'model/ddqn_dt_' + str(self.active_package) + '.keras' if self.dueling else 'model/dqn_dt_' + str(self.active_package) + '.keras'
+    elif self.custom_mode == 2:
+      # Custom average jammer power
+      model_name = 'ddqn_' + str(self.power) + 'W.keras' if self.dueling else 'dqn_' + str(self.power) + 'W.keras'
+
+    self.model.save(model_name)
     
