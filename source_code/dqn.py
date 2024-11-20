@@ -27,8 +27,10 @@ class DQN:
     self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate_deepQ)
 
     self.rewards = []
+
+    # Custom params
     self.power = power
-    self.file_name = 'ddqn' + str(self.power) + 'W.csv' if dueling else 'dqn' + str(self.power) + 'W.csv'
+    self.file_name = 'ddqn_' + str(self.power) + 'W.csv' if dueling else 'dqn_' + str(self.power) + 'W.csv'
 
 
   def create_model(self, dueling):
@@ -150,14 +152,14 @@ class DQN:
     #   self.model.save('model/dqn.keras')
     #   np.save('model/dqn.npy', self.rewards)
 
-  def save_model(self, power):
+  def save_model(self):
     # save model
     if self.dueling:
-      name = 'model/ddqn_' + str(power) + 'W.keras'
+      name = 'model/ddqn_' + str(self.power) + 'W.keras'
       self.model.save(name)
       # np.save('model/ddqn.npy', self.rewards)
     else:
-      name = 'model/dqn_' + str(power) + 'W.keras'
+      name = 'model/dqn_' + str(self.power) + 'W.keras'
       self.model.save(name)
       # np.save('model/dqn.npy', self.rewards)
     

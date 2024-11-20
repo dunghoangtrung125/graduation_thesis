@@ -16,15 +16,23 @@ class GreedyStrategy:
         self.success_package_num = 0
         self.package_lost = 0
         self.total_packages_sent = 0
+
+        # Custom params
         self.d_t = d_t
+        self.nu = nu
+        self.nu_p = nu_p
         self.harvest_frequency = 5
-        self.power = 0
+
+    def set_jammer_power(self, nu, nu_p):
+        self.nu = nu
+        self.nu_p = nu_p
+        # self.env.set_jammer_power(nu=nu, nu_p=nu_p)
 
     def can_transmit(self):
         return self.env.energy_state >= e_t
     
     def harvest_energy(self):
-        harvest_energy = random.choices(e_hj_arr, weights=nu_p, k=1)[0]
+        harvest_energy = random.choices(e_hj_arr, weights=self.nu_p, k=1)[0]
         self.env.energy_state += harvest_energy
 
         if self.env.energy_state > e_queue_size:
@@ -37,7 +45,7 @@ class GreedyStrategy:
         self.success_package_num += package_transmit_success
 
     def backscatter(self):
-        d_bj = random.choices(d_bj_arr, weights=nu_p, k=1)[0]
+        d_bj = random.choices(d_bj_arr, weights=self.nu_p, k=1)[0]
         
         max_rate = min(self.env.data_state, b_dagger)
         reward = min(d_bj, self.env.data_state)
@@ -50,10 +58,6 @@ class GreedyStrategy:
             self.success_package_num += max_rate
 
         self.env.data_state -= max_rate
-
-    def set_jammer_power(self, power, nu, nu_p):
-        self.env.set_jammer_power(nu=nu, nu_p=nu_p)
-        self.power = power
 
     def run(self):
         T = 5000
@@ -80,10 +84,10 @@ class GreedyStrategy:
 
             # jammer state
             if self.env.jammer_state == JammerState.IDLE.value:
-                if np.random.random() <= 1 - nu:
+                if np.random.random() <= 1 - self.nu:
                     self.env.jammer_state = JammerState.ATTACK.value
             else:
-                if np.random.random() <= nu:
+                if np.random.random() <= self.nu:
                     self.env.jammer_state = JammerState.IDLE.value
 
         # Print result
@@ -94,14 +98,15 @@ class GreedyStrategy:
         print('Avg throughput (packages/time unit) = ' + str(self.success_package_num / T))
         print('Avg loss (packages/time unit) = ' + str(self.package_lost / T))
         print('PDR = ' + str(self.success_package_num / self.total_packages_sent * 100) + '%') 
-        print('---------------------------------------------------')
-        print('Total packages send = ' + str(self.total_packages_sent))
-        print('Loss packages = ' + str(self.package_lost))
-        print('Success packages = ' + str(self.success_package_num))
-        print('Package still in queue = ' + str(self.env.data_state))
+        # print('---------------------------------------------------')
+        # print('Total packages send = ' + str(self.total_packages_sent))
+        # print('Loss packages = ' + str(self.package_lost))
+        # print('Success packages = ' + str(self.success_package_num))
+        # print('Package still in queue = ' + str(self.env.data_state))
 
         # Print result to csv
-        self.print_result_power(self.success_package_num / T, self.package_lost / T, self.success_package_num / self.total_packages_sent * 100)
+        # self.print_result_power(self.success_package_num / T, self.package_lost / T, self.success_package_num / self.total_packages_sent * 100)
+        return self.success_package_num / T, self.package_lost / T, self.success_package_num / self.total_packages_sent * 100
 
     def print_result(self, through_put, package_loss, pdr):
         create_csv('greedy_throughput.csv', 'd_t', 'throughput')

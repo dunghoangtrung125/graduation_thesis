@@ -16,7 +16,7 @@ class Environment:
     self.energy_state = 0
     self.total_packages_arrival = 0
     self.loss_packages = 0
-
+    # Custom environment params (for draw graph)
     self.d_t = d_t
     self.nu = nu
     self.nu_p = nu_p
@@ -53,7 +53,7 @@ class Environment:
     if action == Action.STAY_IDLE.value:
       reward = 0
     elif action == Action.ACTIVE_TRANSMIT.value:
-      reward = self.active_transmit(d_t)
+      reward = self.active_transmit(self.d_t)
 
     elif action == Action.HARVEST_ENERGY.value:
       reward = random.choices(e_hj_arr, weights=self.nu_p, k=1)[0]
@@ -152,10 +152,10 @@ class Environment:
 
     # jammer state
     if self.jammer_state == JammerState.IDLE.value:
-      if np.random.random() <= 1 - nu:
+      if np.random.random() <= 1 - self.nu:
         self.jammer_state = JammerState.ATTACK.value
     else:
-      if np.random.random() <= nu:
+      if np.random.random() <= self.nu:
         self.jammer_state = JammerState.IDLE.value
 
     next_state = self.get_state()
