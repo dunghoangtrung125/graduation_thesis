@@ -1,30 +1,110 @@
 \documentclass{uetgraduation}
+\usepackage{graphicx}
+\graphicspath{{graph/}}
 \begin{document}
 \studentname{Hoàng Trung Dũng}
 \title{Nghiên cứu phương pháp chống nhiễu cho mạng truyền thông tán xạ ngược sử dụng phương pháp học sâu tăng cường}
-\documenttype{Khóa luận tốt nghiệp đại học hệ chính quy}
+\documenttype{Đồ án tốt nghiệp đại học hệ chính quy}
 \major{Công nghệ thông tin}
 \year{2024}
 \supervisor{TS. Nguyễn Ngọc Tân}
 \makecovers
+% Tóm tắt
 \begin{preamble}{Tóm tắt}
-\textbf{Tóm tắt:} Trong bối cảnh UAVs được sử dụng như các thiết bị gây nhiễu trong mạng truyền thông không dây, 
-việc duy trì hiệu quả truyền thông và tối ưu hóa mức tiêu thụ năng lượng của transmitter trở nên cần thiết hơn 
-bao giờ hết. Khoá luận này tập trung vào việc phát triển một mô hình học sâu tăng cường để điều khiển động thái 
-hoạt động của transmitter, giúp cải thiện khả năng thích ứng với các điều kiện nhiễu biến đổi và tối ưu hóa việc 
-sử dụng năng lượng.
+\textbf{Tóm tắt:} Truyền thông không dây đã và đang đóng vai trò vô cùng quan trọng trong cuộc sống con người. Tuy
+nhiên phương pháp truyền thông này lại rất dễ bị tấn công gây nhiễu do tín hiệu vô tuyến phát sóng trong không gian mở.
+Thêm vào đó, với sự phát triển của UAV (thiết bị bay không người lái) với khả năng cung cấp đường truyền tầm nhìn thẳng
+(LoS) và hệ số suy giảm đường truyền thấp đã hỗ trợ cho việc tấn công đối với kết nối không dây. Trong khoá luận tốt nghiệp
+này, em muốn trình bày một phương án chống nhiễu cho mạng truyền thông không dây, sử dụng học tăng cường sâu, kết hợp với
+kỹ thuật tán xạ ngược và thu hoạch năng lượng để không những chống lại mà còn tận dụng được tín hiệu gây nhiễu từ UAV 
+để nâng cao hiệu suất của hệ thống truyền thông không dây.
 
-Phương pháp được đề xuất sử dụng thuật toán học tăng cường để tự động hóa việc ra quyết định trong việc chọn lựa 
-giữa ba hoạt động chính: thu hoạch năng lượng từ tín hiệu gây nhiễu, truyền tin trong trạng thái hoạt động và điều 
-chỉnh tốc độ truyền (rate adaptation). Mô hình DRL được huấn luyện để tối đa hóa một hàm lợi ích, tính toán dựa trên 
-hiệu quả truyền thông và hiệu quả năng lượng, qua đó giúp transmitter phản ứng linh hoạt và hiệu quả hơn với môi trường 
-nhiễu do UAV tạo ra.
-
-Kết quả thử nghiệm cho thấy mô hình DRL có khả năng đáng kể trong việc cải thiện hiệu suất truyền thông trong điều kiện 
-bị gây nhiễu bởi UAV, đồng thời nâng cao hiệu quả sử dụng năng lượng so với các phương pháp điều khiển truyền thống. Các 
-kết quả này không những chỉ ra tiềm năng của học sâu tăng cường trong việc quản lý hoạt động của transmitter mà còn mở 
-rộng khả năng ứng dụng của nó trong các mạng không dây chịu nhiều nhiễu và yêu cầu cao về bảo mật và độ tin cậy.
-
-\textit{\textbf{Từ khóa:} UAV, Nhiễu, Học sâu tăng cường, Tán xạ ngược, Thu hoạch năng lượng.}
+\textit{\textbf{Từ khóa:} Truyền thông không dây, Nhiễu, UAV, Học tăng cường sâu, Tán xạ ngược, Thu năng lượng.}
 \end{preamble}
+% Lời cảm ơn
+\begin{preamble}{Lời cảm ơn}
+    Đầu tiên, cho phép em gửi lời cảm ơn đến các thầy, cô giáo trường Đại học Công nghệ - Đại học
+    Quốc Gia Hà Nội đã luôn tận tình chỉ bảo và tạo điều kiện trong suốt quá trình em học
+    tập tại trường.
+    
+    Em xin gửi lời cảm ơn sâu sắc đến thầy giáo TS. Nguyễn Ngọc Tân đã tận tình
+    hướng dẫn và đóng góp ý kiến quý báu trong suốt quá trình thực hiện khóa luận tốt
+    nghiệp của em.
+    
+    Cuối cùng em xin gửi lời cảm ơn đến gia đình của mình, nơi đã luôn là nguồn động lực cho em
+    trong suốt thời gian vừa qua.
+    
+    Em xin chân thành cảm ơn.
+\end{preamble}
+% Lời cam đoan
+\begin{preamble}{Lời cam đoan}
+Tôi xin cam đoan rằng mọi kết quả trình bày trong khóa luận đều do tôi thực hiện
+dưới sự hướng dẫn của TS. Nguyễn Ngọc Tân.
+
+Tất cả các tham khảo nghiên cứu liên quan đều nêu rõ nguồn gốc một cách rõ ràng từ 
+danh mục tài liệu tham khảo trong khóa luận. Khóa luận không sao chép tài liệu, 
+công trình nghiên cứu từ người khác mà không có rõ về mặt tài liệu tham khảo.
+
+Các thông kê, các kết quả trình bày khóa luận đều là tự thực nghiệm khi chạy chương trình. Nếu tôi sai 
+tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại học Công Nghệ - Đại học Quốc Gia Hà Nội.
+
+\begin{flushright}
+    Hà Nội, tháng 12 năm 2024
+
+    \vspace{45pt}
+    Hoàng Trung Dũng
+\end{flushright}
+\end{preamble}
+
+% Muc luc
+\begin{contentlisting}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\begin{contentlistingsection}{Các từ viết tắt}
+    UAV: unmanned aerial vehicle -- Thiết bị bay không người lái
+
+    MDP: Markov decision process
+
+    DRL: deep reinforcement learning -- Học tăng cường sâu.
+    
+    DQN: deep q network -- Mạng sâu Q.
+
+    HTT: harvest then transmit -- Chiến lược thu năng lượng để truyền tin
+\end{contentlistingsection}
+
+\end{contentlisting}
+
+% Chapter 1
+\chapter{Đặt vấn đề}
+Phần còn lại của khoá luận tốt nghiệp được trình bày theo thứ tự như sau
+
+% Chapter 2
+\chapter{Cơ sở lý thuyết}
+
+\section{Ambient backscatter}
+
+\section{Bài toán gây nhiễu}
+\section{Bài toán gây nhiễu bằng UAV}
+\section{Kĩ thuật giải quyết bài toán gây nhiễu}
+
+% Chapter 3
+\chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV}
+
+% Chapter 4
+\chapter{Thiết lập mô phỏng}
+
+% Tài liệu tham khảo
+\begin{thebibliography}{9}
+\begin{bibsection}{Tiếng Anh}
+\bibitem{drlbook}
+    Dinh Thai Hoang, Nguyen Van Huynh, Diep N. Nguyen, Ekram Hossain, Dusit Niyato,
+    \textit{Deep Reinforcement Learning for Wireless Communications and Networking: Theory, 
+    Applications and Implementation},
+    \textit{Wiley-IEEE Press},
+    2023, pp. 37-163.
+\end{bibsection}
+\end{thebibliography}
 \end{document}

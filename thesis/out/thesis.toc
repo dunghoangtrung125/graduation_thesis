@@ -1,4 +1,8 @@
-\contentsline {chapter}{\numberline {Chương 1.}{Mở đầu}}{1}{}%
-\contentsline {section}{\numberline {1.1.}{Sự cần thiết}}{1}{}%
-\contentsline {subsection}{\numberline {1.1.1.}{Lịch sử}}{1}{}%
-\contentsline {subsection}{\numberline {1.1.2.}{Những cơ hội và hạn chế}}{1}{}%
+\contentsline {chapter}{\numberline {Chương 1.}{Đặt vấn đề}}{1}{}%
+\contentsline {chapter}{\numberline {Chương 2.}{Cơ sở lý thuyết}}{3}{}%
+\contentsline {section}{\numberline {2.1.}{Ambient backscatter}}{3}{}%
+\contentsline {section}{\numberline {2.2.}{Bài toán gây nhiễu}}{3}{}%
+\contentsline {section}{\numberline {2.3.}{Bài toán gây nhiễu bằng UAV}}{3}{}%
+\contentsline {section}{\numberline {2.4.}{Kĩ thuật giải quyết bài toán gây nhiễu}}{3}{}%
+\contentsline {chapter}{\numberline {Chương 3.}{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV}}{5}{}%
+\contentsline {chapter}{\numberline {Chương 4.}{Thiết lập mô phỏng}}{7}{}%
