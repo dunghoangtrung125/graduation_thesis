@@ -1,5 +1,6 @@
 \documentclass{uetgraduation}
 \usepackage{graphicx}
+\usepackage{showframe}
 \graphicspath{{graph/}}
 \begin{document}
 \studentname{Hoàng Trung Dũng}
@@ -66,45 +67,146 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
 \begin{contentlistingsection}{Các từ viết tắt}
     UAV: unmanned aerial vehicle -- Thiết bị bay không người lái
 
+    LoS: line-of-sight -- Đường truyền tầm nhìn thẳng
+
     MDP: Markov decision process
+
+    RL: reinforcement learning -- Học tăng cường
 
     DRL: deep reinforcement learning -- Học tăng cường sâu.
     
     DQN: deep q network -- Mạng sâu Q.
 
     HTT: harvest then transmit -- Chiến lược thu năng lượng để truyền tin
+
+    RA: rate adaption -- Kĩ thuật điều chỉnh tốc độ phát gói tin
 \end{contentlistingsection}
 
 \end{contentlisting}
 
 % Chapter 1
 \chapter{Đặt vấn đề}
-Phần còn lại của khoá luận tốt nghiệp được trình bày theo thứ tự như sau
+Truyền thông không dây là thành phần không thể thiếu trong cơ sở hạ tầng viễn thông của xã hội ngày nay, có các ứng dụng và
+tác động sâu rộng đến mọi mặt của đời sống con người. Mặc dù công nghệ truyền thông không dây đã có rất nhiều bước phát triển
+qua nhiều thập kỉ, hầu hết các mạng truyền thông không dây vẫn dễ bị tấn công gây nhiễu bởi tính mở của nó. Bằng cách đưa tín
+hiệu nhiễu vào kênh không dây đích, thiết bị gây nhiễu có thể làm giảm tỉ lệ tín hiệu trên nhiễu cộng nhiễu (SINR) của máy thu,
+qua đó làm gián đoạn hoặc ngăn chặn kênh truyền không dây hợp lệ. Không giống như những tác động không có chủ đích, tín hiệu gây
+nhiễu thường mạnh và qua đó có thể liên tục làm gián đoạn kênh truyền.
+
+Gần đây, thiết bị bay không người lái (UAV) đang ngày càng được sử dụng nhiều hơn để nâng cao năng lực của hạ tầng mạng. Khả năng
+triển khai nhanh cùng với tính cơ động cao của UAV khiến nó phù hợp với rất nhiều nhiệm vụ, ví dụ như việc triển khai hệ thống
+mạng tạm thời ở những nơi khó tiếp cận như những vùng xảy ra thiên tai, bão lũ... UAV có thể cung cấp đường truyền LoS và hệ số suy
+giảm kênh truyền thấp đến người dùng trên mặt đất khi nó được sử dụng như một trạm phát sóng. Do đó UAV có thể được sử dụng để
+tăng cường năng lực của hệ thống mạng. Tuy nhiên chính những lợi thế của UAV như ở trên khiến cho nó có thể bị đối tượng xấu 
+khai thác như là một thiết bị gây nhiễu di động, ngăn chặn đáng kể việc truyền dữ liệu và làm giảm chất lượng dịch vụ (QoS) của mạng
+không dây, nghiêm trọng hơn so với gây nhiễu từ trên mặt đất. Vì thế giải quyết vấn đề gây nhiễu từ UAV là một bài toán đáng quan tâm.
+
+Trong khoá luận này, em sẽ tìm hiểu về tấn công gây nhiễu, cũng như tấn công gây nhiễu từ UAV đối với mạng truyền thông không dây.
+Qua đó đề xuất một phương án để không những chống lại mà còn tận dụng cuộc tấn công gây nhiễu để đảm bảo chất lượng đường truyền.
+Phần còn lại của khoá luận sẽ được chia thành các chương với nội dung cụ thể như sau:
+
+Chương 2: Cơ sở lý thuyết. Trong chương này trình bày lý thuyết nền tảng về tấn công gây nhiễu và tấn công gây nhiễu bằng UAV.
+Cũng như tìm hiểu một số chiến lược chống nhiễu đã được nghiên cứu. Sau đó sẽ đi vào tìm hiểu về RL và DRL - hai phương pháp được
+sử dụng để chống nhiễu.
+
+Chương 3: Đề xuất phương án giải quyết bài toán tấn công gây nhiễu từ UAV. Trong chương này, em sẽ mô hình hoá bài toán tấn công
+gây nhiễu bằng UAV và đề xuất phương pháp chống nhiễu sử dụng DRL.
+
+Chương 4: Thiết lập mô phỏng và kết quả mô phỏng. Trong chương này, em sẽ trình bày chi tiết về mô hình và thông số thiết lập mô
+phỏng phương pháp chống nhiễu được đề xuất. Cũng như so sánh hiệu quả mà phương pháp đề xuất mang lại so với chiến lược phòng thủ
+''tham lam''.
+
+Chương 5: Kết luận.
 
 % Chapter 2
-\chapter{Cơ sở lý thuyết}
+\chapter{Cơ sở lý thuyết.}
 
-\section{Ambient backscatter}
+\section{Tấn công gây nhiễu.}
 
-\section{Bài toán gây nhiễu}
-\section{Bài toán gây nhiễu bằng UAV}
-\section{Kĩ thuật giải quyết bài toán gây nhiễu}
+\section{Tấn công gây nhiễu bằng UAV.}
+
+\section{Kỹ thuật chống nhiễu.}
+
+\subsection{Tán xạ môi trường xung quanh.}
+
+\subsection{Thu hoạch năng lượng.}
+
+\section{Markov decision process and Reinforcement learning.}
+
+\section{Deep Reinforcement Learning}
+\subsection{Deep Q Networking}
 
 % Chapter 3
-\chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV}
+\chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV.}
+\section{Mô hình hệ thống.}
+Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị
+bộ thu năng lượng và một mạch tán xạ ngược. Máy phát có thể thu năng lượng từ tín hiệu nhiễu và sử dụng năng lượng thu được này
+để truyền gói tin chủ động đến máy thu - chế độ HTT, hoặc tán xạ ngược dữ liệu dựa trên sóng nhiễu - chế độ tán xạ ngược. Lưu ý
+là máy phát chỉ có khả năng nhận biết cuộc tấn công có đang xảy ra hay không mà không biết được cụ thể cường độ tín hiệu nhiễu.
+
+\subsection{Mô hình gây nhiễu.}
+
+\subsection{Mô hình kênh truyền.}
+Phần này trình bày chi tiết về kênh truyền giữa máy phát và máy thu, khi bị tấn công cũng như khi không bị tấn công
+
+
+\section{Công thức hoá vấn đề.}
+\subsection{Không gian trạng thái.}
+Trình bày không gian trạng thái (state space) của bài toán
+
+\subsection{Không gian hành động.}
+Trình bày không gian hành động (Action Space)
+
+\subsection{Phần thưởng tức thời.}
+
+
+\subsection{Công thức tối ưu hoá.}
+
+
+\section{Test}
 
 % Chapter 4
-\chapter{Thiết lập mô phỏng}
+\chapter{Thiết lập mô phỏng và đánh giá hiệu năng.}
+\section{Thông số cài đặt thử nghiệm.}
+Trong hệ thống đang được xem xét, máy phát có thể lưu trữ tối đa $D = 10$ gói tin trong hàng đợi dữ liệu, tối đa $E = 10$ đơn vị năng lượng
+trong bộ lưu trữ năng lượng. Dữ liệu đến máy phát giả định tuân theo phân phối Poisson với tốc độ trung bình $\lambda = 3$ 
+gói tin. Khi UAV gây nhiễu không tấn công, máy phát có thể truyền chủ động tối đa $\hat{d}_t = 4$ gói tin đến máy thu. Mỗi gói tin truyền đi cần
+1 đơn vị năng lượng. Do sự thay đổi vị trí của UAV như đã nói ở trên, công suất gây nhiễu của UAV cũng thay đổi, giả định tín hiệu nhiễu từ 
+UAV ảnh hưởng đến đường truyền không dây đang xét gồm bốn mức $P_J = \{0W, 5W, 10W, 15W\}$ với $P_{\text{max}} = 15W$. Do lượng năng lượng
+thu hoạch được cũng như số gói tin tán xạ ngược thành công tăng lên khi tín hiệu nhiễu mạnh hơn, chúng ta đặt $e = \{0, 1, 2, 3\}$ là số đơn vị
+năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}$ là số gói tin mà máy thu có thể tán xạ ngược tương ứng với mức công suất nhiễu
+ảnh hưởng tới đường truyền. Ngoài ra, khi UAV tấn công gây nhiễu và máy phát sử dụng kỹ thuật RA, nó có thể truyền $d^r_m = \{2, 1, 0\}$ gói tin
+tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_avg = 7.2W$.
+
+\section{Kết quả mô phỏng.}
+\subsection{Tốc độ hội tụ của hai phương pháp học tăng cường Q và DQN.}
+
+\subsection{So sánh với chiến lược phòng thủ ''tham lam'' không sử dụng DRL.}
+Ở đây, chúng ta thực hiện so sánh giữa việc sử dụng phương án DQN được đề xuất và chiến lược phòng thủ cố định ''tham lam'' được mô tả như sau: (i) Khi
+UAV gây nhiễu không tấn công kênh truyền, máy phát sẽ phát chủ động gói tin đến máy thu, (ii) Khi UAV gây nhiễu tấn công kênh truyền, máy phát sẽ tận dụng
+sóng nhiễu từ UAV để thu năng lượng hoặc tán xạ ngược đan xen nhau theo một chu kì cố định - máy phát sẽ tiến hành thu năng lượng từ sóng nhiễu sau mỗi chu kì
+$T_\text{harvest} = 5$ đơn vị thời gian, thời gian còn lại máy phát sẽ tiến hành tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu. Ta gọi chiến lược này
+là chiến lược phòng thủ cố định ''tham lam''. Với phương án sử dụng DQN được đề xuất, em thực hiện $4 \times 10^4$ lần lặp để tìm ra chiến lược tối ưu cho máy
+phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nêu ở trên.
+
+% Chapter 5
+\chapter{Kết luận}
 
 % Tài liệu tham khảo
 \begin{thebibliography}{9}
 \begin{bibsection}{Tiếng Anh}
-\bibitem{drlbook}
-    Dinh Thai Hoang, Nguyen Van Huynh, Diep N. Nguyen, Ekram Hossain, Dusit Niyato,
-    \textit{Deep Reinforcement Learning for Wireless Communications and Networking: Theory, 
-    Applications and Implementation},
-    \textit{Wiley-IEEE Press},
-    2023, pp. 37-163.
+    % Book
+    \bibitem{hoang2023deep}
+    Hoang, D.T. and Van Huynh, N. and Nguyen, D.N. and Hossain, E. and Niyato, D.
+    \textit{Deep Reinforcement Learning for Wireless Communications and Networking: Theory, Applications and Implementation},
+    \textit{Wiley}, 2023, pp. 37-163.
+    % Paper
+    \bibitem{Hossein22}
+    Pirayesh, Hossein and Zeng, Huacheng
+    ''Jamming Attacks and Anti-Jamming Strategies in Wireless Networks: A Comprehensive Survey'',
+    \textit{IEEE Communications Surveys \& Tutorials},
+    vol. 24, no. 2,
+    pp. 767-809
 \end{bibsection}
 \end{thebibliography}
 \end{document}
