@@ -8,7 +8,7 @@
 \input{sizes.clo}
 
 \RequirePackage{amsmath}
-\RequirePackage[a4paper,twoside,inner=3cm,outer=2cm,top=2.5cm,bottom=2cm,includefoot,footskip=1cm]{geometry}
+\RequirePackage[a4paper,inner=3cm,outer=2cm,top=2.5cm,bottom=2cm,includefoot,footskip=1cm]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage{icomma}
 \RequirePackage{indentfirst}
@@ -180,9 +180,9 @@
 	\noindent\large\textbf{Chương \thechapter.}\par
 	\noindent\huge#1\par\vspace{1cm}\normalsize%
 	% Hot fix wrong align on next page
-	\setlength{\oddsidemargin}{0pt}% Reset odd margin
-    \setlength{\evensidemargin}{0pt}% Reset even margin
-    \setlength{\textwidth}{\dimexpr\paperwidth-2in\relax}% Align text width
+	% \setlength{\oddsidemargin}{0pt}% Reset odd margin
+    % \setlength{\evensidemargin}{0pt}% Reset even margin
+    % \setlength{\textwidth}{\dimexpr\paperwidth-2in\relax}% Align text width
 }
 \newcommand\section[1]{%
 	\refstepcounter{section}\addcontentsline{toc}{section}{\protect\numberline{\thesection.}{#1}}
