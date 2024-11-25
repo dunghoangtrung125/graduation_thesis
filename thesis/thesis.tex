@@ -79,6 +79,10 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
     HTT: harvest then transmit -- Chiến lược thu năng lượng để truyền tin
 
     RA: rate adaption -- Kĩ thuật điều chỉnh tốc độ phát gói tin
+
+    PSR: Packet Send Ratio -- Tỉ lệ gói tin được máy phát gửi
+
+    PDR: Packet Delivery Ratio -- Tỉ lệ gói tin được gửi thành công đến máy thu 
 \end{contentlistingsection}
 
 \end{contentlisting}
@@ -120,7 +124,41 @@ Chương 5: Kết luận.
 % Chapter 2
 \chapter{Cơ sở lý thuyết.}
 
-\section{Tấn công gây nhiễu.}
+\section{Tấn công gây nhiễu sóng vô tuyến.}
+Trong phần này, em sẽ giới thiệu về tấn công gây nhiễu sóng vô tuyến nhằm vào mạng truyền thông không dây.
+
+
+\subsection{Định nghĩa.}
+Tấn công gây nhiễu sóng vô tuyến được định nghĩa là một hành động cố tình can thiệp vào quá trình truyền và nhận vật lý của truyền thông
+không dây. Trong đó kẻ tấn công (máy gây nhiễu) sẽ phát tín hiệu vô tuyến trên cùng băng tần mà mạng mục tiêu sử dụng. Mục tiêu của việc
+tấn công là làm giảm hiệu suất mạng hoặc thậm chí ngăn chặn hoàn toàn việc truyền thông tin không dây giữa các thiết bị.
+
+Trong cuộc tấn công gây nhiễu, máy gây nhiễu đưa năng lượng gây nhiễu vào môi trường không dây, gây cản trở việc truyền tải hợp pháp theo
+một trong hai cách: 
+\begin{itemize}
+    \item Máy gây nhiễu gửi tín hiệu nhiễu mạnh gây giảm tỉ lệ tín hiệu trên nhiễu cộng với nhiễu (SINR) ở máy thu.
+    \item Gây nhiễu liên tục ngăn cản việc máy phát truy cập vào kênh truyền, dẫn đến một cuộc tấn công từ chối dịch vụ (DOS).
+\end{itemize}
+
+Tấn công gây nhiễu sóng vô tuyến có một số đặc điểm sau đây:
+\begin{itemize}
+    \item Cố ý: Đây là hành động gây nhiễu có chủ đích của kẻ tấn công, nhằm vào một mục tiêu cụ thể, không giống với nhiễu tự nhiên gây
+    ra bởi các yếu tố của môi trường.
+    \item Không tuân thủ các giao thức MAC: đặc điểm chung của các cuộc tấn công gây nhiễu là việc liên lạc của chúng không tuân theo các
+    giao thức MAC.
+    \item Phạm vi tấn công: Máy gây nhiễu có thể nhắm vào một tần số cố định hoặc nhiều tần số khác nhau.
+\end{itemize}
+
+\subsection{Đánh giá hiệu quả của một cuộc tấn công gây nhiễu.}
+Chúng ta xác định hai chỉ số để đánh giá hiệu quả của một cuộc tấn công gây nhiễu:
+\begin{itemize}
+    \item PSR: đại diện cho tỉ lệ giữa gói tin thực sự được gửi thành công bởi máy phát và số gói tin mà máy phát dự định gửi.
+    Khi tín hiệu tấn công khiến cho kênh truyền giữa máy phát và máy thu bận
+    \item PDR:
+\end{itemize}
+
+
+\subsection{Các mô hình tấn công gây nhiễu.}
 
 \section{Tấn công gây nhiễu bằng UAV.}
 
