@@ -89,6 +89,10 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
     WLAN: wireless local area network -- Mạng cục bộ không dây
 
     WSN: wireless sensor network -- Mạng cảm biến không dây
+
+    FHSS: Frequency Hopping Spread Spectrum -- Trải phổ nhảy tần
+
+    RA: Rate adaption -- Điều chỉnh tốc độ
 \end{contentlistingsection}
 
 \end{contentlisting}
@@ -238,16 +242,43 @@ Tấn công gây nhiễu sóng vô tuyến có một số đặc điểm sau đ�
 \end{itemize}
 
 \subsection{Thông số đánh giá một cuộc tấn công gây nhiễu.}
-Chúng ta xác định hai chỉ số để đánh giá hiệu quả của một cuộc tấn công gây nhiễu:
+Trong tấn công gây nhiễu sóng vô tuyến, các thông số sau phản ánh tác động của cuộc tấn công đến mạng không dây.
 \begin{itemize}
     \item \textbf{SINR}: tỉ lệ tín hiệu trên nhiễu cộng nhiễu là tỉ số giữa công suất của tín hiệu máy phát so với tín hiệu gây nhiễu như
     tín hiệu từ máy gây nhiễu và nhiễu môi trường trong kênh truyền
     \[
-    \theta = \frac{P_R}{\phi P_J + \rho^n},
+    \theta = \frac{P_R}{\varphi P_J + \rho^2}
     \]
-    \item \textbf{PSR}: đại diện cho tỉ lệ giữa gói tin thực sự được gửi thành công bởi máy phát và số gói tin mà máy phát dự định gửi.
-    Khi tín hiệu tấn công khiến cho kênh truyền giữa máy phát và máy thu bận
-    \item \textbf{PDR}:
+    Trong đó $P_R$ là công suất nhận được từ máy phát tại cổng (máy thu), $P_J$ là công suất nhiễu được phát của máy gây nhiễu, $\rho^2$ là phương sai
+    của nhiễu Gauss trắng cộng thêm. $\varphi P_J$ là công suất nhiễu tại cổng, trong đó $0 \leq \varphi \leq 1$ là hệ số suy giảm kênh truyền.
+
+    Có thể thấy tín hiệu nhiễu càng mạng càng làm giảm giá trị SINR ở máy thu, khiến cho tỉ lệ lỗi bit (BER) tăng, gây lỗi khi giải mã gói tin ở máy thu,
+    làm giảm thông lượng và độ tin cậy của kết nối giữa máy phát và máy thu.
+    \item \textbf{Thông lượng}: được định nghĩa là tốc độ trung bình gửi gói tin thành công thông qua kênh truyền, được tính thông qua công thức Shannon:
+    \[
+    C = B \log_2(1 + \text{SINR})
+    \]
+    Trong đó $C$ là dung lượng kênh hoặc thông lượng lý thuyết tối đa (bit/s), B là băng thông của kênh (Hz). Ta có thể nhận thấy thông qua công thức này,
+    thông lượng của kênh giảm khi có sự xuất hiện của tín hiệu gây nhiễu làm giảm chỉ số SINR.
+    \item \textbf{PSR}: đại diện cho tỉ lệ giữa gói tin thực sự được gửi thành công bởi máy phát và số gói tin mà máy phát dự định gửi. Nếu máy phát có ý
+    định gửi n gói tin và máy thu chỉ nhận được m gói tin ($m \leq n$) thì PSR được tính như sau:
+    \[
+    PSR = \frac{m}{n}
+    \]
+    Số gói tin bị mất so với gói tin dự định gửi là do nhiễu. Tín hiệu nhiễu khiến cho kênh truyền luôn bận khiến máy phát không thể truyền gói tin đến máy
+    thu, dẫn đến gói tin mới đến máy phát bị loại bỏ do hàng đợi gói tin của máy phát đầy, hoặc gói tin bị loại do ở quá lâu trong hàng đợi. Các giao thức
+    MAC khác nhau có cách xác định kênh truyền đang bận hay không khác nhau, một trong số đó là nếu cường độ tín hiệu của kênh lớn hơn ngưỡng xác định trước,
+    kênh sẽ được xác định là bận.
+    \item \textbf{PDR}: là tỉ lệ số gói tin được gửi thành công đến máy thu so với số gói tin được máy phát gửi đi. Sau khi gói tin được máy phát gửi, máy thu
+    vẫn có thể không giải mã được gói tin do ảnh hưởng của nhiễu, dẫn đến gói tin gửi không thành công. PDR có thể được tính ở máy thu bằng tỉ lệ giữa số gói
+    tin nhận được và số gói tin vượt qua được kiểm tra CRC - là kĩ thuật phát hiện lỗi thường được dùng trong mạng truyền thông.
+    
+    Giả sử n là số gói tin máy thu nhận được và q là số gói tin vượt qua kiểm tra CRC thì:
+    \[
+    PDR = \frac{q}{n}
+    \]
+    Ngoài ra PDR còn có thể được tính ở máy phát bằng số gói tin ACK mà máy phát nhận được từ máy thu. Trong cả 2 trường hợp, nếu không có gói tin nào nhận thành
+    công ở máy thu, PDR được xác định là 0.
 \end{itemize}
 
 
@@ -281,10 +312,39 @@ dây.
 \section{Tấn công gây nhiễu bằng UAV.}
 
 \section{Kỹ thuật chống nhiễu.}
+Có nhiều biện pháp đối phó khác nhau để ngăn chặn và giảm thiểu tác động của các cuộc tấn công gây nhiễu, sau đây là một số biện pháp.
 
-\subsection{Tán xạ môi trường xung quanh.}
+\subsection{Điều chỉnh công suất phát.}
+Đây là cách tiếp cận đơn giản và phổ biến nhất, cụ thể máy phát có thể quyết định phát ở mức công suất thấp để khiến máy gây nhiễu khó khăn hơn trong việc phát hiện
+tín hiệu truyền phát. Cách tiếp cận này chỉ khả thi trong việc đối phó với máy gây nhiễu phản ứng và khiến hiệu suất truyền tải giảm xuống rõ rệt. Ngoài ra máy phát
+có thể lựa chọn tăng công suất phát để lấn át tín hiệu nhiễu ở máy thu, tuy nhiên cách này tốn nhiều năng lượng và không hiệu quả nếu máy gây nhiễu tấn công với mức
+năng lượng rất lớn.
 
-\subsection{Thu hoạch năng lượng.}
+\subsection{Trải phổ nhảy tần - FHSS.}
+Trải phổ là kĩ thuật điều chế giúp trải rộng dữ liệu trên toàn bộ băng tần, mặc dù không cần toàn bộ băng tần để gửi dữ liệu đó. Việc trải rộng dữ liệu vượt quá giới
+hạn cần thiết trên toàn bộ băng tần giúp cho tín hiệu có khả năng chống lại nhiễu.
+
+FHSS là một kĩ thuật trải phổ, trong đó tín hiệu phát chuyển đổi nhanh chóng giữa các kênh tần số. Việc thay đổi kênh được thực hiện bằng thuật toán được chia sẻ giữa
+máy phát và máy thu trước khi trao đổi dữ liệu. Khi kênh hiện tại bị tấn công, máy phát có thể chuyển sang kênh liên lạc khác để truyền dữ liệu. Nhiều chiến lược tối
+ưu khác nhau nhằm tối đa hoá thông lượng có thể được sử dụng để máy phát chọn tần số để nhảy khi bị tấn công gây nhiễu như học Q hoặc học sâu Q, hoặc áp dụng lý thuyết
+trò chơi\dots Tuy nhiên điểm yếu của FHSS là kĩ thuật này đòi hỏi nhiều tài nguyên phổ tần hơn để nhảy tần và tránh máy gây nhiễu, nếu máy gây nhiễu đủ mạnh để tấn công
+nhiều kênh truyền đồng thời thì FHSS trở nên kém hiệu quả hơn.
+
+\subsection{Kĩ thuật điều chỉnh tốc độ - Kĩ thuật RA.}
+Kĩ thuật điều chỉnh tốc độ cung cấp một cơ chế quan trọng cho hệ thống không dây đánh đổi giữa tốc độ dữ liệu ở tầng vật lý và độ bền vững của hệ thống (khả năng duy
+trì hiệu suất và độ ổn định của mạng ngay cả trong môi trường bất lợi) nhằm tối đa hoá hiệu suất. RA được coi là cơ chế của tầng MAC và nhiều giải thuật điều chỉnh
+tốc độ được nghiên cứu, hầu hết dựa trên thông tin của tầng MAC, ví dụ như lựa chọn tốc độ phát dựa trên số khung bị mất. Giả thiết là khi số khung bị mất tăng lên,
+có nghĩa là kênh truyền đang suy giảm chất lượng, và máy phát nên giảm tốc độ dữ liệu vật lý bằng cách sử dụng sơ đồ điều chế hoặc mã hoá mạnh mẽ hơn. Tuy nhiên trong
+trường hợp khung bị mất do nhiễu thay vì suy giảm kênh, việc giảm tốc độ truyền có thể thậm chí gây ra tỉ lệ mất mát cao hơn do kéo dài thời gian truyền của khung.
+
+Trong môi trường bị tấn công, ý tưởng chính của kĩ thuật RA là chủ động hoặc thích ứng điều chỉnh tốc độ phát xuống mức thấp hơn. Về cơ bản, RA sử dụng thuật toán điều 
+chỉnh tốc độ để lựa chọn tốc độ phát phù hợp dựa trên điều kiện hiện tại của kênh. Do đó, RA có thể giúp tăng độ tin cậy của đường truyền và vẫn cung cấp thông lượng 
+trên kênh trong trường hợp bị nhiễu tấn công. Tuy nhiên, một số nghiên cứu đã chỉ ra rằng kĩ thuật RA không hiệu quả trên một kênh đơn, và nó cũng không hiệu
+quả để đối phó với một cuộc tấn công thông minh.
+
+\section{Tán xạ môi trường xung quanh.}
+
+\section{Thu hoạch năng lượng.}
 
 \section{Markov decision process and Reinforcement learning.}
 

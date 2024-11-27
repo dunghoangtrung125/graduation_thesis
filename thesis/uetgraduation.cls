@@ -16,6 +16,11 @@
 \RequirePackage{siunitx}
 \RequirePackage{tikz}
 	\usetikzlibrary{calc}
+\RequirePackage{hyperref}
+\hypersetup{
+    pdfview=FitH,
+    pdfcenterwindow=true
+}
 
 \lefthyphenmin 64
 \frenchspacing
