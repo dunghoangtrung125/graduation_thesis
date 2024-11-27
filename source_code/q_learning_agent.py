@@ -1,6 +1,7 @@
 from enviroment import Environment
 import numpy as np
 from parameters import *
+from util.csv_util import *
 
 class QLearningAgent:
   def __init__(self):
@@ -14,6 +15,8 @@ class QLearningAgent:
     min_epsilon = 0.01
     action = 0
     total_reward = 0
+
+    create_csv('q_learning.csv', 'Iteration', 'Avg Throughput')
 
     for i in range(1_000_000):
       current_state = self.env.get_state()
@@ -42,8 +45,9 @@ class QLearningAgent:
       self.rewards.append(total_reward / (i + 1))
       if (i + 1) % step == 0:
         print("Iteration " + str(i + 1) + " reward: " + str(total_reward / (i + 1)))
+        insert_row('q_learning.csv', i + 1, total_reward / (i + 1))
     
-    self.save_model('model/q_matrix.npy')
+    # self.save_model('model/q_matrix.npy')
 
 
   def save_model(self, file_path):

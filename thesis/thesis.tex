@@ -1,5 +1,6 @@
 \documentclass{uetgraduation}
 \usepackage{graphicx}
+\usepackage{enumerate}
 \graphicspath{{graph/}}
 \begin{document}
 \studentname{Hoàng Trung Dũng}
@@ -354,29 +355,99 @@ quả để đối phó với một cuộc tấn công thông minh.
 % Chapter 3
 \chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV.}
 \section{Mô hình hệ thống.}
-Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị
-bộ thu năng lượng và một mạch tán xạ ngược. Máy phát có thể thu năng lượng từ tín hiệu nhiễu và sử dụng năng lượng thu được này
-để truyền gói tin chủ động đến máy thu - chế độ HTT, hoặc tán xạ ngược dữ liệu dựa trên sóng nhiễu - chế độ tán xạ ngược. Lưu ý
-là máy phát chỉ có khả năng nhận biết cuộc tấn công có đang xảy ra hay không mà không biết được cụ thể cường độ tín hiệu nhiễu.
+Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị bộ đệm dữ liệu để lưu
+trữ dữ liệu trước khi truyền đến máy thu, ngoài ra máy phát còn được trang bị
+bộ thu năng lượng và một mạch tán xạ ngược. Khi bị nhiễu tấn công, máy phát có thể thu năng lượng từ tín hiệu nhiễu để sử dụng cho mục đích truyền gói tin chủ
+động đến máy thu sau này khi máy gây nhiễu không tấn công - chế độ HTT, hoặc tán xạ ngược dữ liệu dựa trên sóng nhiễu - chế độ tán xạ ngược.
 
 \subsection{Mô hình gây nhiễu.}
+Thiết bị gây nhiễu ở đây được gắn trên UAV và di chuyển hoàn toàn ngẫu nhiên giữa máy phát và máy thu. Việc di chuyển của UAV dẫn đến sự thay đổi về 
+cường độ nhiễu tác động lên kênh truyền, cụ thể ở đây, mục tiêu của UAV là làm suy giảm kênh truyền thông qua việc làm giảm SINR ở máy thu. 
+
 
 \subsection{Mô hình kênh truyền.}
-Phần này trình bày chi tiết về kênh truyền giữa máy phát và máy thu, khi bị tấn công cũng như khi không bị tấn công
+Khi UAV gây nhiễu không tấn công kênh truyền, hoặc khi tín hiệu nhiễu từ UAV không tác động đến kênh truyền do vật cản, máy phát có thể phát chủ động $\hat{d}_t$
+gói tin đến máy thu (sử dụng phương pháp truyền dẫn chủ động thông thường), hoặc không hoạt động. Mỗi gói tin truyền thành công cần $e_t$ đơn vị năng lượng.
+Khi UAV gây nhiễu tấn công và nằm trong phạm vi ảnh hưởng đến kênh truyền, máy phát vẫn có thể hoặc phát gói tin đến máy thu bằng cách điều chỉnh tốc độ phát tương
+ứng với cường độ nhiễu sử dụng kỹ thuật RA, hoặc thu năng lượng từ sóng nhiễu, hoặc tán xạ ngược tín hiệu nhiễu để truyền dữ liệu đến máy thu. Thông qua các thí nghiệm
+và phân tích về các hệ thống truyền thông tán xạ ngược, có thể thấy rằng với sóng nhiễu với cường độ càng lớn, càng nhiều gói tin có thể tán xạ ngược đến máy thu, và cũng
+càng nhiều năng lượng có thể thu được từ sóng nhiễu nếu máy phát hoạt động ở chế độ thu năng lượng. 
+
+Cụ thể, trong trường hợp máy
+phát chọn điều chỉnh tốc độ phát dùng kĩ thuật RA, đặt $r = \{r_1, \dots, r_m,\dots, r_M\}$ là tập hợp các tốc độ truyền mà máy thu có thể lựa chọn để truyền khi bị tấn
+công. Ở mỗi tốc độ $r_m$, máy phát có thể truyền tối đa $\hat{d_m^t}$ gói tin. Với $m = 1, \dots, M$ khi $\gamma_{m-1} \leq \theta < \gamma_m$ với $\gamma_m$ là giá
+trị của SINR, máy thu chỉ có thể giải mã những gói tin được gửi ở tốc độ $r_0, r_1, \dots, r_\text{m-1}$, những gói tin gửi ở tốc độ $r_m$ hoặc cao hơn sẽ bị mất,
+do máy thu không giải mã được. 
+
+Trong trường hợp máy thu chọn thu năng lượng từ sóng nhiễu, năng lượng này có thể được sử dụng cho quá trình truyền chủ động sau này, tương ứng với mỗi mức cường độ nhiễu $P_n^J$
+ảnh hưởng đến máy phát khác nhau, máy phát có thể thu được $e_n^J$ đơn vị năng lượng. Kí hiệu $e = \{e_0^J, \dots, e_N^J\}$ là các giá trị năng lượng có thể thu được tương ứng
+với các mức nhiễu khác nhau của UAV.
+
+Trong trường hợp máy pháp chọn tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu, kí hiệu $\hat{d_n^J}$ là số gói tin tối đa có thể được tán xạ ngược bởi máy phát nếu
+cường độ nhiễu tương ứng là $P_n^J$. Lưu ý rằng tốc độ tán xạ ngược dữ liệu được quy định bởi mạch tán xạ ngược và không thay đổi và kí hiệu là $b^{\dagger}$. Trong mô hình đề xuất này
+, chúng ta giả sử khi máy phát lựa chọn tán xạ ngược sóng nhiễu, nó có thể truyền được $b^{\dagger}$ gói tin, nếu $b^{\dagger} > \hat{d_n^J}$ thì $(b^{\dagger} - d_n^J)$ gói tin sẽ bị mất trong
+quá trình tán xạ ngược dữ liệu. Kí hiệu $\hat{d} = \{\hat{d_0^J}, \dots, \hat{d_N^J}\}$ là vector thể hiện số gói tin có thể được tán xạ ngược tương ứng với cường độ nhiễu.
+
+Chúng ta kí hiệu D và E tương ứng là kích cỡ bộ đệm dữ liệu và lượng năng lượng tối đa mà máy phát có thể lưu trữ. Quá trình gói tin đến máy phát được giả sử tuân theo phân
+phối Poisson với tốc độ trung bình $\lambda$. Khi bộ đệm dữ liệu của máy phát đầy, gói tin mới đến sẽ bị loại bỏ.
+
+Lưu ý là trong hệ thống đề xuất này, máy phát chỉ có thể xác định nó có đang bị tấn công gây nhiễu hay không mà không biết cụ thể cường độ của sóng nhiễu. Thuật toán đề xuất sử dụng học tăng 
+cường sâu có khả năng học được thông tin về chiến lược tấn công của UAV, cường độ của sóng nhiễu và những khả năng liên quan, qua đó đưa ra lựa chọn
+phù hợp nhằm làm tối đa thông lượng trung bình của kênh truyền.
 
 
 \section{Công thức hoá vấn đề.}
+Để minh hoạ cho tính động và không chắc chắn của máy gây nhiễu trên UAV, chúng ta xây dựng vấn đề tối ưu hoá của hệ thống được đề cập ở trên như một quá trình ra quyết định
+Markov (MDP). Việc mô hình hoá này giúp máy thu có thể ra quyết định tối ưu nhằm tối đa hoá giá trị phần thưởng dài hạn, trong trường hợp này là giá trị thông lượng trung bình
+của hệ thống truyền thông. MDP được xác định bởi một bộ $\langle S, A, r \rangle$ trong đó S là không gian trạng thái, A là không gian hành động và r là hàm giá trị phần thưởng
+tức thời của hệ thống.
+
 \subsection{Không gian trạng thái.}
-Trình bày không gian trạng thái (state space) của bài toán
+Không gian trạng thái trong trường hợp này được xác định bởi ba trạng thái bao gồm trạng thái của máy gây nhiễu, trạng thái của bộ đệm dữ liệu máy phát và trạng thái của bộ lưu
+trữ năng lượng của máy phát.
+\[
+S = \{(j, d, e) : j \in \{0, 1\}; d \in \{0, \dots, D\}; e \in \{0, \dots, E\}\}
+\]
+
+Trong đó j là trạng thái UAV gây nhiễu, với $j = 0$ nếu như UAV không tấn công hoặc $j = 1$ nếu sóng nhiễu của UAV tấn công kênh truyền, d và e tương ứng là số gói tin trong bộ
+đệm và số đơn vị năng lượng trong bộ lưu trữ năng lượng của máy phát. Trạng thái của hệ thống được xác định bởi một biến tổng hợp $s = (j, d, e) \in S$.
 
 \subsection{Không gian hành động.}
-Trình bày không gian hành động (Action Space)
+Không gian hành động bao gồm $(M+4)$ hành động mà máy phát có thể lựa chọn, bao gồm không hoạt động, truyền dữ liệu chủ động, thu thập năng lượng từ sóng nhiễu, tán xạ ngược sóng
+nhiễu và điều chỉnh tốc độ phát là một trong M giá trị tốc độ của vector $r = \{r_1, \dots, r_m,\dots, r_M\}$ bằng cách sử dụng kĩ thuật RA khi sóng nhiễu từ UAV ảnh hưởng đến
+kênh truyền (UAV tấn công). Do đó, không gian hành động được xác đinh là tập $A = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
+
+\begin{align*}
+    a &= \begin{cases}
+        1, & \text{Không hoạt động,} \\
+        2, & \text{Truyền dữ liệu chủ động,} \\
+        3, & \text{Thu hoạch năng lượng từ sóng nhiễu,} \\
+        4, & \text{Tán xạ ngược dữ liệu trên sóng nhiễu,} \\
+        4 + m, & \text{Điều chỉnh tốc độ phát sang } \\
+                & r_m \text{ với } m \in \{1, \ldots, M\}.
+    \end{cases}
+\end{align*}
 
 \subsection{Phần thưởng tức thời.}
+Trong mô hình này, phần thưởng tức thời sau khi thực hiện hành động a ở trạng thái s là số gói tin được truyền thành công đến máy thu. Do đó hàm giá
+trị phần thưởng tức thời được biểu diễn như sau:
 
+\begin{align*}
+    r(s,a) &= \begin{cases}
+        d_t, & \text{Không hoạt động,} \\
+        d_n^J, & \text{Truyền dữ liệu chủ động,} \\
+        d_m^r, & \text{Thu hoạch năng lượng từ sóng nhiễu,} \\
+        0, & \text{Trong các trường hợp còn lại.} \\
+    \end{cases}
+\end{align*}
 
 \subsection{Công thức tối ưu hoá.}
+Mục tiêu của chúng ta là tìm ra một chính sách tối ưu cho máy phát, được kí hiệu là $\pi^*$, nhằm làm tối đa hoá giá trị thông lượng trung bình
+của hệ thống. Công thức hàm tối ưu hoá được xác định như sau:
 
+% \begin{align*}
+%     \max R(\pi) &= \lim_{T\to\infty} \frac{1}{T} \sum_{k=1}^T \mathbb{E}[r_k(s_k, \pi(s_k))]
+% \end{align*}
 
 \section{Test}
 
@@ -386,7 +457,7 @@ Trình bày không gian hành động (Action Space)
 Trong hệ thống đang được xem xét, máy phát có thể lưu trữ tối đa $D = 10$ gói tin trong hàng đợi dữ liệu, tối đa $E = 10$ đơn vị năng lượng
 trong bộ lưu trữ năng lượng. Dữ liệu đến máy phát giả định tuân theo phân phối Poisson với tốc độ trung bình $\lambda = 3$ 
 gói tin. Khi UAV gây nhiễu không tấn công, máy phát có thể truyền chủ động tối đa $\hat{d}_t = 4$ gói tin đến máy thu. Mỗi gói tin truyền đi cần
-1 đơn vị năng lượng. Do sự thay đổi vị trí của UAV như đã nói ở trên, công suất gây nhiễu của UAV cũng thay đổi, giả định tín hiệu nhiễu từ 
+$e_t = 1$ đơn vị năng lượng. Do sự thay đổi vị trí của UAV như đã nói ở trên, công suất gây nhiễu của UAV cũng thay đổi, giả định tín hiệu nhiễu từ 
 UAV ảnh hưởng đến đường truyền không dây đang xét gồm bốn mức $P_J = \{0W, 5W, 10W, 15W\}$ với $P_{\text{max}} = 15W$. Do lượng năng lượng
 thu hoạch được cũng như số gói tin tán xạ ngược thành công tăng lên khi tín hiệu nhiễu mạnh hơn, chúng ta đặt $e = \{0, 1, 2, 3\}$ là số đơn vị
 năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}$ là số gói tin mà máy thu có thể tán xạ ngược tương ứng với mức công suất nhiễu
@@ -394,7 +465,18 @@ năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}
 tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_avg = 7.2W$.
 
 \section{Kết quả mô phỏng.}
-\subsection{Tốc độ hội tụ của hai phương pháp học tăng cường Q và DQN.}
+\subsection{So sánh sự hội tụ của hai thuật toán học tăng cường Q và DQN.}
+Trong Hình 4.1, chúng ta thực hiện so sánh quá trình học để tiến đến trạng thái hội tụ của hai phương pháp DQN và Q-learning trong bài toán
+chống nhiễu với các thông số môi trường như trên. Ta có thể thấy tốc độ hội tụ của thuật toán DQN là nhanh hơn so với thuật toán Q-learning.
+Thậm chí sau $10^6$ lần lặp, thuật toán Q-learning vẫn chưa đạt đến trạng thái hội tụ tối ưu. Điều này là do DQN với việc sử dụng mạng thần
+kinh sâu, kết hợp với việc học hỏi lại từ kinh nghiệm nhiều lần khiến nó có thể học chiến lược gây nhiễu hiệu quả hơn, qua đó đưa ra quyết đinh
+tối ưu hơn.
+
+\begin{figure}{Tỉ lệ hội tụ giữa DQN và Q learning.}
+    \centering
+    \includegraphics[scale=0.5]{converged}
+    \label{fig:converged}
+\end{figure}
 
 \subsection{So sánh với chiến lược phòng thủ ''tham lam'' không sử dụng DRL.}
 Ở đây, chúng ta thực hiện so sánh giữa việc sử dụng phương án DQN được đề xuất và chiến lược phòng thủ cố định ''tham lam'' được mô tả như sau: (i) Khi
@@ -404,6 +486,80 @@ $T_\text{harvest} = 5$ đơn vị thời gian, thời gian còn lại máy phát
 là chiến lược phòng thủ cố định ''tham lam''. Với phương án sử dụng DQN được đề xuất, em thực hiện $4 \times 10^4$ lần lặp để tìm ra chiến lược tối ưu cho máy
 phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nêu ở trên.
 
+\begin{enumerate}
+    \item[a.] Đánh giá hiệu quả khi thay đổi công suất nhiễu.
+    \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $P_\text{avg}$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{p_avg_throughput}
+        \label{fig:p_avg_throughput}
+    \end{figure}
+    \begin{figure}{So sánh số gói tin mất mát giữa DQN và Greedy $P_\text{avg}$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{p_avg_loss}
+        \label{fig:p_avg_loss}
+    \end{figure}
+    \begin{figure}{So sánh PDR giữa DQN và Greedy $P_\text{avg}$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{p_avg_pdr}
+        \label{fig:p_avg_pdr}
+    \end{figure}
+
+    Trong Hình 4.2, Hình 4.3, Hình 4.4, ta thực hiện thay đổi công suất phát của máy gây nhiễu, dễ nhận thấy khi công suất gây nhiễu tăng lên, tức là khả năng 
+    máy gây nhiễu tấn công kênh truyền với mức năng lượng lớn dẫn đến khả năng tán xạ ngược sóng nhiễu và khả năng thu năng lượng từ sóng nhiễu cũng tăng lên ở 
+    cả 2 phương án. Điều này đã làm cải thiện hiệu năng của hệ thống (thông lượng tăng, số gói tin mất mát giảm và tỉ lệ truyền thành công cao hơn). Tuy nhiên 
+    với phương án đề xuất sử dụng học tăng cường sâu, đã giúp máy thu thích ứng được với sự bất định của môi trường nhiễu, với chiến lược tấn công dẫn đến tốc độ 
+    cải thiện hiệu năng hệ thống của phương án đề xuất là cao hơn so với phương án sử dụng chiến lược “tham lam” cố định ở trên. Khi công suất trung bình của máy 
+    gây nhiễu thấp, dễ nhận thấy 2 phương án có hiệu suất khá tương đồng, tuy nhiên khi công suất nhiễu trung bình càng tăng lên, sự hiệu quả của phương án đề xuất 
+    càng thấy rõ.
+
+    \item[b.] Đánh giá hiệu quả khi thay đổi số gói tin có thể phát chủ động $\hat{d}_t$.
+    
+    Thử nghiệm được thực hiện với công suất nhiễu $P_avg = 7W$, trong thử nghiệm ở Hình 4.5, Hình 4.6, Hình 4.7 này ta thực hiện thay đổi số gói tin tối đa mà máy phát
+    có thể phát chủ động đến máy thu.
+
+    \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $\hat{d}_t$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{dt_throughput}
+        \label{fig:dt_throughput}
+    \end{figure}
+    \begin{figure}{So sánh số gói tin mất mát giữa DQN và Greedy $\hat{d}_t$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{dt_loss}
+        \label{fig:dt_loss}
+    \end{figure}
+    \begin{figure}{So sánh PDR giữa DQN và Greedy $\hat{d}_t$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{dt_pdr}
+        \label{fig:dt_pdr}
+    \end{figure}
+
+    \item[c.] Đánh giá hiệu quả khi thay đổi chu kì thu năng lượng $T_\text{harvest}$ của máy thu trong phương án sử dụng chiến lược phòng thủ cố định “tham lam”.
+    
+    Trong mô phỏng Hình 4.8, Hình 4.9, Hình 4.10 , công suất nhiễu trung bình trong mô phỏng này $P_\text{avg} = 7W$, ta thấy được việc thay đổi chu kì thu năng lượng trong 
+    phương án phòng thủ tham lam khiến cho hiệu suất hệ thống thay đổi rõ rệt. Dễ thấy trong trường hợp này,  khi công suất nhiễu cao, cơ hội để máy phát có thể phát 
+    chủ động không nhiều dẫn đến chiến lược phòng thủ “tham lam” chủ yếu sẽ truyền gói tin thông qua kĩ thuật tán xạ ngược, điều này khiến cho nếu chu kì thu năng lượng 
+    của chiến lược “tham lam” càng lớn (càng ít thực hiện thu năng lượng hơn) sẽ khiến cho thông lượng, số gói tin bị mất và tỉ lệ gói tin thành công tăng nhanh, tuy nhiên
+    khi chu kì thu năng lượng tăng đến giá trị 5 đơn vị thời gian thì hiệu quả của hệ thống với chiến lược tham lam gần như không thay đổi nhiều, do lúc này máy phát chủ yếu 
+    lựa chọn tán xạ ngược thay vì thu năng lượng để chờ cơ hội phát chủ động, dẫn đến hiệu quả tán xạ ngược đã đạt gần giá trị tối ưu, khiến cho hiệu quả của hệ thống gần 
+    như ổn định. Tuy nhiên vẫn chưa thể đạt đến hiệu quả như phương án đề xuất sử dụng DQN mang lại.
+    \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $T_\text{harvest}$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{t_harvest_throughput.png}
+        \label{fig:t_throughput}
+    \end{figure}
+    \begin{figure}{So sánh số gói tin mất mát giữa DQN và Greedy $T_\text{harvest}$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{t_harvest_loss.png}
+        \label{fig:t_loss}
+    \end{figure}
+    \begin{figure}{So sánh PDR giữa DQN và Greedy $T_\text{harvest}$ thay đổi.}
+        \centering
+        \includegraphics[scale=0.5]{t_harvest_pdr.png}
+        \label{fig:t_pdr}
+    \end{figure}
+
+
+\end{enumerate}
 % Chapter 5
 \chapter{Kết luận}
 
