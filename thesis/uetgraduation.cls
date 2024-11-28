@@ -21,6 +21,10 @@
     pdfview=FitH,
     pdfcenterwindow=true
 }
+% \RequirePackage{graphicx}
+
+\RequirePackage{amssymb} % for additional symbols
+\RequirePackage{amsfonts} % for math fonts (e.g., \mathbb)
 
 \lefthyphenmin 64
 \frenchspacing

@@ -1,6 +1,4 @@
 \documentclass{uetgraduation}
-\usepackage{graphicx}
-\usepackage{enumerate}
 \graphicspath{{graph/}}
 \begin{document}
 \studentname{Hoàng Trung Dũng}
@@ -94,6 +92,10 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
     FHSS: Frequency Hopping Spread Spectrum -- Trải phổ nhảy tần
 
     RA: Rate adaption -- Điều chỉnh tốc độ
+
+    RFID: Radio frequency identification -- Nhận dạng tần số vô tuyến
+
+    ATG: Air-to-ground -- Kênh truyền không đối đất
 
     MDP: Markov decision process -- Quá trình ra quyết định Markov
 \end{contentlistingsection}
@@ -313,6 +315,50 @@ dây.
 \end{itemize}
 
 \section{Tấn công gây nhiễu bằng UAV.}
+Trong phần này, chúng ta cùng xem xét về mô hình kênh truyền ATG giữa UAV và thiết bị trên mặt đất, qua đó đưa ra một số cơ sở lý thuyết về bài toán tấn công gây
+nhiễu bằng UAV.
+
+Xem xét một UAV gây nhiễu, thiết bị I nằm trên mặt đất chịu tác động của tín hiệu nhiễu UAV, kênh liên lạc giữa UAV và thiết bị I được mô 
+hình hoá là kênh không đối đất ATG, bao gồm ba thành phần là:
+\begin{itemize}
+    \item Đường truyền tầm nhìn thẳng LoS: không có vật cản giữa UAV và thiết bị
+    \item Đường truyền không tầm nhìn thẳng NLoS: tín hiệu không thể đi thẳng giữa UAV và thiết bị vì có vật cản như cây cối, toà nhà, địa hình\dots 
+    \item Pha đinh quy mô nhỏ (small-scale fading): là sự biến động tín hiệu nhanh chóng do hiện tượng đa đường, gây ra các thay đổi về cường độ tín hiệu khi môi trường
+    thay đổi\dots
+\end{itemize}
+
+Về cơ bản, tác động của pha đinh quy mô nhỏ nhỏ hơn nhiều so với LoS và NLoS, do đó yếu tố này bị bỏ qua. Suy hao đường truyền của kênh không đối đất giữa UAV và thiết
+bị I được tính như sau:
+\begin{align*}
+    PL &= \begin{cases}
+        \beta_\text{LoS}|d|^{-\alpha}, & \text{với đường truyền LoS} \\
+        \beta_\text{NLoS}|d|^{-\alpha}, & \text{với đường truyền NLoS} \\
+    \end{cases}
+\end{align*}
+
+Trong đó $\beta_\text{LoS}$ và $\beta_\text{NLoS}$ lần lượt là hệ số suy giảm bổ sung của kênh truyền LoS và NLoS, $d$ là khoảng cách giữa UAV và thiết bị I,
+$\alpha$ là hệ số suy hao đường truyền của kênh ATG. 
+
+Xác suất của kết nối LoS, phụ thuộc vào góc nâng $\theta_i$ giữa thiết bị I và UAV, môi trường truyền thông, mật độ xây dựng xung quanh và chiều cao $H_J$ của UAV,
+có thể được biểu diễn như sau:
+\[
+P_\text{LoS} = \frac{1}{1 + \Phi \exp(-\Psi [\theta_i - \Phi])}
+\]
+Trong đó $\Phi$ và $\Psi$ là các tham số của đường cong chữ S, phụ thuộc vào môi trường truyền, ví dụ $\Phi = 150$ và $\Psi =15$ là các giá trị thường được sử dụng trong
+môi trường đô thị, góc $\theta_i$ được tính như sau:
+\[
+\theta_i = \frac{180}{\pi} \arcsin(\frac{H_J}{d})
+\]
+
+Xác suất của kết nối NLoS là $P_\text{NLoS} = 1 - P_\text{LoS}$. Do đó giá trị kì vọng của công suất nhiễu của UAV gây ra ở thiết bị I là:
+\[
+P_\text{Ji} = p_J P_\text{LoS} \beta_\text{LoS} |d|^{-\alpha} + p_J P_\text{NLoS} \beta_\text{NLoS} |d|^{-\alpha}
+\]
+Trong đó $p_J$ là công suất của UAV gây nhiễu.
+
+Do đó khi UAV di chuyển, khoảng cách $d$ và góc nâng $\theta_i$ giữa UAV và thiết bị i thay đổi, dẫn đến sự thay đổi cường độ nhiễu tại thiết bị I.
+Điều này khiến cho tác động của nhiễu UAV lên thiết bị I thay đổi do tỉ lệ tín hiệu trên nhiễu cộng nhiễu SINR thay đổi.
+
 
 \section{Kỹ thuật chống nhiễu.}
 Có nhiều biện pháp đối phó khác nhau để ngăn chặn và giảm thiểu tác động của các cuộc tấn công gây nhiễu, sau đây là một số biện pháp.
@@ -345,7 +391,70 @@ chỉnh tốc độ để lựa chọn tốc độ phát phù hợp dựa trên 
 trên kênh trong trường hợp bị nhiễu tấn công. Tuy nhiên, một số nghiên cứu đã chỉ ra rằng kĩ thuật RA không hiệu quả trên một kênh đơn, và nó cũng không hiệu
 quả để đối phó với một cuộc tấn công thông minh.
 
-\section{Tán xạ môi trường xung quanh.}
+\section{Tán xạ ngược môi trường xung quanh.}
+\subsection{Giới thiệu.}
+Tán xạ ngược môi trường xung quanh là một kĩ thuật truyền thông cho phép hai thiết bị có thể truyền dữ liệu cho nhau nhờ việc tận dụng tín hiệu tần số vô tuyến từ môi trường 
+xung quanh. Tín hiệu môi trường xung quanh là những tín hiệu có sẵn trong môi trường như tín hiệu nhiễu, tín hiệu truyền hình, tín hiệu di động.
+
+So với liên lạc vô tuyến truyền thống, kĩ thuật tán xạ ngược này cho phép truyền thông tin mà không cần các quá trình tiêu hao nhiều năng lượng như tạo ra sóng vô tuyến, 
+do đó nó có mức độ tiết kiệm năng lượng cao hơn. 
+
+So với kĩ thuật tán xạ ngược truyền thống, ví dụ như RFID hoạt động theo nguyên lý sau: đầu đọc RFID sẽ truyền các tín hiệu công suất cao (1W) đến 
+các thiết bị lân cận như thẻ RFID thụ động - không có pin và hoạt động dựa trên việc thu năng lương từ tín hiệu của đầu đọc RFID, sau đó tán xạ tín hiệu này để gửi thông tin
+đến đầu đọc RFID, đầu đọc sau đó sẽ giải mã tín hiệu tán xạ này để trích xuất dữ liệu. So với kĩ thuật RFID này thì tán xạ ngược môi trường xung quanh có một số điểm ưu việt hơn.
+Thứ nhất, do tận dụng tín hiệu trong môi trường nên nó không cần phải có thêm cơ sở hạ tầng cung cấp năng lượng như đầu đọc RFID cung cấp năng lượng cho các thiết bị lân cận 
+thông qua việc phát tín hiệu công suất cao. Điều này giúp giảm chi phí lắp đặt và bảo trì, thứ khiến cho hệ thống như RFID khó khăn nếu triển khai ở những môi trường ngoài trời
+hoặc trải rộng trên một không gian rộng lớn. Thứ hai, tác động của nó với môi trường rất nhỏ do nó không tiêu thụ thêm nguồn năng lượng nào ngoài năng lượng có sẵn trong không
+khí. Cuối cùng nó cung cấp khả năng liên lạc trực tiếp giữa các thiết bị, không giống như hệ thống RFID mà các thẻ cần giao tiếp riêng với đầu đọc và không thể cảm nhận được sự
+truyền tải của các thẻ lân cận.
+
+\subsection{Mô tả nguyên lý hoạt động.}
+\begin{enumerate}
+    \item [a.] Quá trình truyền gói tin ở máy phát.
+    
+    Thiết kế của máy phát trong tán xạ ngược môi trường xung quanh dựa trên kĩ thuật truyền thông tán xạ ngược thông thường. Về cơ bản, tán xạ ngược đạt được bằng cách thay đổi
+    trở kháng của ăng ten. Theo trực giác, khi sóng gặp ranh giới giữa hai môi trường có trở kháng hoặc mật độ khác nhau thì sóng bị phản xạ trở lại. Điều này đúng trong cho dù
+    là trong trường hợp sóng cơ truyền qua một sợi dây treo vào một điểm cố định trên tường hay sóng điện từ khi gặp ăng ten. Bằng cách điều chỉnh trở kháng của ăng ten, người ta
+    có thể điều chỉnh năng lượng sóng RF đến bị tán xạ, từ đó cho phép truyền thông tin. Máy phát sẽ điều chế và phản xạ tín hiệu vô tuyến xung quanh hoặc tín hiệu gây nhiễu bằng
+    cách sử dụng bộ điều biến tải. Đầu vào của bộ điều biến tải là một chuỗi các bit 0,1 được tạo ra dựa theo gói tin, khi bit đầu vào là 0, bộ điều biến tải thay đổi trở kháng
+    thành $Z_1$ và do đó máy phát ở trạng thái không phản xạ. Khi bit đầu vào là 1, bộ điều biến tải thay đổi trở kháng thành $Z_2$ qua đó máy phát ở trạng thái phản xạ. Bằng cách
+    này, máy phát có thể tán xạ ngược gói tin đến máy thu. Lưu ý là trong khi thực hiện tán xạ ngược, máy phát còn có thể thu năng lượng (ở trạng thái không phản xạ) nhưng lượng
+    năng lượng thu được là tương đối nhỏ và chỉ đủ dùng cho các hoạt động của mạch tán xạ ngược.
+    
+
+    \item [b.] Quá trình giải mã gói tin ở máy thu.
+    
+    Để máy thu có thể giải mã tín hiệu tán xạ ngược thông tin với tốc độ thấp hơn tín hiệu môi trường xung quanh (cụ thể là tín hiệu gây nhiễu và tín hiệu môi trường xung quanh).
+    Quá trình giải mã có thể được mô tả như sau. Giả sử chúng ta có một bộ thu kĩ thuật số lấy mẫu tín hiệu ở tốc độ thông tin Nyquist (giả sử dùng ADC), tín hiệu nhận được ở máy thu được lấy mẫu
+    thành $y[n]$ như sau:
+    \[
+    y[n] = x[n] + \alpha B[n]x[n] + w[n]
+    \]
+    Trong đó $x[n]$ là mẫu của tín hiệu môi trường xung quanh (có thể là tín hiệu gây nhiễu) nhận được ở máy thu, $w[n]$ là nhiễu môi trường, $\alpha$ là sự suy giảm phức tạp của
+    tín hiệu tán xạ ngược, $B[n]$ là các bit dữ liệu được truyền bởi máy phát. Nếu máy phát truyền thông tin với tốc độ một phần nhỏ, giả sử là $\frac{1}{N}$ dẫn đến $B[Ni + j]$ bằng
+    nhau với j = 1 đến N. Sau đó máy thu tính công suất trung bình của N mẫu nhận được như sau:
+    \[
+    \frac{1}{N}\sum_{i=1}^N|y[n]|^2 = \frac{1}{N}\sum_{i=1}^N|x[n] + \alpha B x[n] + w[n]|^2
+    \]
+    Với B nhận giá trị 0 hoặc 1 tuỳ thuộc vào trạng thái không phản xạ hoặc phản xạ. Do $x[n]$ không tương quan với nhiễu $w[n]$ nên công thức bên trên có thể được viết lại như sau;
+    \[
+    \frac{1}{N} \sum_{i=1}^{N}|y[n]|^2 = \frac{|1 + \alpha B|^2}{N} \sum_{i=1}^{N}|x[n]|^2 + \frac{1}{N}\sum_{i=1}^{N}w[n]^2
+    \]
+    Kí hiệu $P = \frac{1}{N}\sum_{i=1}^{N}|x[n]|^2$ là công suất trung bình của tín hiệu gây nhiễu nhận được (hoặc tín hiệu xung quanh). Bỏ qua nhiễu môi trường, công suất trung bình
+    nhận được ở máy thu là $|1 + \alpha|^2 P$ và $P$ khi máy phát ở trạng thái phản xạ $(B = 1)$ và không phản xạ $(B = 0)$ tương ứng. Dựa trên sự khác biệt giữa $|1 + \alpha|^2 P$ 
+    và $P$, máy thu có thể giải mã dữ liệu được gửi từ máy phát.
+
+    Tuy nhiên sử dụng ADC để lấy mẫu tín hiệu ở máy thu tiêu tốn nhiều năng lượng. Hình sau đây mô tả một sơ đồ mạng chỉ sử dụng các thành phần tương tự để giải mã tín hiệu tán xạ ngược.
+    \begin{figure}{Sơ đồ mạch cho bộ giải mã tín hiệu tán xạ ngược}
+        \centering
+        \includegraphics[scale=0.5]{backscatter_circuit}
+        \label{fig:backscatter}
+    \end{figure}
+
+    Cụ thể ở bộ giải mã trong Hình 2.4, tín hiệu tán xạ ngược đầu tiên được làm mịn bởi mạch ''Average Envelope''. Sau đó mạch ''Compute threshold'' xuất ra điện áp thấp và cao của tín
+    hiệu được làm mịn. Sau đó bộ so sánh ''Comparator'' so sánh tín hiệu với các ngưỡng được xác định trước để lấy ra các bit 0, 1 một cách chính xác.
+
+\end{enumerate}
 
 \section{Thu hoạch năng lượng.}
 
@@ -619,6 +728,12 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
     \textit{Association for Computing Machinery},
     2005,
     pp. 46–57
+    \bibitem{Vincent}
+    Ambient Backscatter: Wireless Communication Out of Thin Air
+    \bibitem{Ning_Gao}
+    Anti-Intelligent UAV Jamming Strategy via Deep Q-Networks
+    \bibitem{jam_me}
+    “Jam Me If You Can”: Defeating Jammer with Deep Dueling Neural Network Architecture and Ambient Backscattering Augmented Communications
 \end{bibsection}
 \end{thebibliography}
 \end{document}
