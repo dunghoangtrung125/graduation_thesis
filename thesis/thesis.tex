@@ -94,6 +94,8 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
     FHSS: Frequency Hopping Spread Spectrum -- Trải phổ nhảy tần
 
     RA: Rate adaption -- Điều chỉnh tốc độ
+
+    MDP: Markov decision process -- Quá trình ra quyết định Markov
 \end{contentlistingsection}
 
 \end{contentlisting}
@@ -347,10 +349,12 @@ quả để đối phó với một cuộc tấn công thông minh.
 
 \section{Thu hoạch năng lượng.}
 
-\section{Markov decision process and Reinforcement learning.}
+\section{Quá trình ra quyết định Markov - MDP.}
 
-\section{Deep Reinforcement Learning}
-\subsection{Deep Q Networking}
+\section{Học tăng cường.}
+
+\section{Học sâu tăng cường.}
+\section{Mạng sâu Q - DQN.}
 
 % Chapter 3
 \chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV.}
@@ -434,26 +438,45 @@ trị phần thưởng tức thời được biểu diễn như sau:
 
 \begin{align*}
     r(s,a) &= \begin{cases}
-        d_t, & \text{Không hoạt động,} \\
-        d_n^J, & \text{Truyền dữ liệu chủ động,} \\
-        d_m^r, & \text{Thu hoạch năng lượng từ sóng nhiễu,} \\
+        d_t, & (j = 0, d > 0, e \geq e_t, a = 2; 0 < d_t \leq \hat{d_t}) \\
+        d_n^J, & (j = 1, d > 0, a = 4; 0 < d_n^J \leq \hat{d_n^J}) \\
+        d_m^r, & (j = 1, d > 0, e \geq e_t, a = 4 + m; 0 < d_m^r \leq \hat{d_m^r}) \\
         0, & \text{Trong các trường hợp còn lại.} \\
     \end{cases}
 \end{align*}
 
+Khi UAV gây nhiễu không tấn công kênh truyền (j = 0), máy phát có dữ liệu trong bộ đệm và có đủ năng lượng trong bộ lưu trữ, lúc này nó có thể chọn phát
+chủ động gói tin đến máy thu (a = 2), số gói tin có thể truyền đến máy thu là $d_t$ gói tin thoả mãn $0 < d_t \leq \hat{d_t}$ gói tin.
+
+Khi máy gây nhiễu tấn công kênh truyền (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$, nó có thể tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu (a = 4), 
+số gói tin tán xạ ngược thành công là $d_n^J$ gói tin trong đó $0 < d_n^J \leq \hat{d_n^J}$.
+
+Ngoài ra khi máy gây nhiễu tấn công (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$ và có đủ năng lượng $(e \geq e_t)$, nó còn có thể lựa chọn phát gói 
+tin với tốc độ $r_m$, (a = 4 + m) để truyển chủ động gói tin theo kĩ thuật RA, số gói tin truyền thành công đến máy thu là $d_m^r$ trong đó $0 < d_m^r \leq \hat{d_m^r}$.
+
+Trong các trường hợp còn lại, khi máy phát không truyền thành công gói tin đến máy thu thì giá trị phần thưởng tức thời là 0.
+
+
 \subsection{Công thức tối ưu hoá.}
 Mục tiêu của chúng ta là tìm ra một chính sách tối ưu cho máy phát, được kí hiệu là $\pi^*$, nhằm làm tối đa hoá giá trị thông lượng trung bình
-của hệ thống. Công thức hàm tối ưu hoá được xác định như sau:
+của hệ thống. Cụ thể $\pi^*$ là ánh xạ từ một trạng thái nhất định của hệ thống (trạng thái nhiễu, trạng thái bộ đệm dữ liệu và trạng thái năng
+lượng của máy phát) đến một hành động tối ưu ở trạng thái đó.
+Công thức hàm tối ưu hoá được xác định như sau:
+\[
+\max_{\pi} R(\pi) = \lim_{T \to \infty} \frac{1}{T} \sum_{k=1}^{T} \mathbb{E} \left( r_k(s_k, \pi(s_k)) \right)
+\]
 
-% \begin{align*}
-%     \max R(\pi) &= \lim_{T\to\infty} \frac{1}{T} \sum_{k=1}^T \mathbb{E}[r_k(s_k, \pi(s_k))]
-% \end{align*}
+Trong đó $R(\pi)$ là giá trị thông lượng trung bình của máy phát tuân theo $\pi$.
 
-\section{Test}
+$r_k(s_k, \pi(s_k))$ là giá trị phần thưởng tức thời ở thời điểm $k$ sau khi thực hiện hành động $a_k$ ở trạng thái $s_k$. 
+
+$\pi(s_k)$ là hành động $a_k$ tuân theo chính sách $\pi$, ta thấy $\pi(s_k) = a_k$.
+
 
 % Chapter 4
 \chapter{Thiết lập mô phỏng và đánh giá hiệu năng.}
 \section{Thông số cài đặt thử nghiệm.}
+\subsection{Thông số hệ thống.}
 Trong hệ thống đang được xem xét, máy phát có thể lưu trữ tối đa $D = 10$ gói tin trong hàng đợi dữ liệu, tối đa $E = 10$ đơn vị năng lượng
 trong bộ lưu trữ năng lượng. Dữ liệu đến máy phát giả định tuân theo phân phối Poisson với tốc độ trung bình $\lambda = 3$ 
 gói tin. Khi UAV gây nhiễu không tấn công, máy phát có thể truyền chủ động tối đa $\hat{d}_t = 4$ gói tin đến máy thu. Mỗi gói tin truyền đi cần
@@ -462,7 +485,10 @@ UAV ảnh hưởng đến đường truyền không dây đang xét gồm bốn 
 thu hoạch được cũng như số gói tin tán xạ ngược thành công tăng lên khi tín hiệu nhiễu mạnh hơn, chúng ta đặt $e = \{0, 1, 2, 3\}$ là số đơn vị
 năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}$ là số gói tin mà máy thu có thể tán xạ ngược tương ứng với mức công suất nhiễu
 ảnh hưởng tới đường truyền. Ngoài ra, khi UAV tấn công gây nhiễu và máy phát sử dụng kỹ thuật RA, nó có thể truyền $d^r_m = \{2, 1, 0\}$ gói tin
-tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_avg = 7.2W$.
+tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_\text{avg} = 7.2W$.
+
+\subsection{Thông số cài đặt thuật toán Q-learning và DQN.}
+
 
 \section{Kết quả mô phỏng.}
 \subsection{So sánh sự hội tụ của hai thuật toán học tăng cường Q và DQN.}
