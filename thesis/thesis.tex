@@ -60,14 +60,12 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
 
 \tableofcontents
 \listoffigures
-\listoftables
+% \listoftables
 
 \begin{contentlistingsection}{Các từ viết tắt}
     UAV: unmanned aerial vehicle -- Thiết bị bay không người lái
 
     LoS: line-of-sight -- Đường truyền tầm nhìn thẳng
-
-    MDP: Markov decision process
 
     RL: reinforcement learning -- Học tăng cường
 
@@ -79,9 +77,9 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
 
     RA: rate adaption -- Kĩ thuật điều chỉnh tốc độ phát gói tin
 
-    PSR: Packet Send Ratio -- Tỉ lệ gói tin được máy phát gửi
+    PSR: packet send ratio -- Tỉ lệ gói tin được máy phát gửi
 
-    PDR: Packet Delivery Ratio -- Tỉ lệ gói tin được gửi thành công đến máy thu
+    PDR: packet delivery ratio -- Tỉ lệ gói tin được gửi thành công đến máy thu
 
     MAC: medium access control -- Điều khiển truy nhập môi trường
 
@@ -89,13 +87,13 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
 
     WSN: wireless sensor network -- Mạng cảm biến không dây
 
-    FHSS: Frequency Hopping Spread Spectrum -- Trải phổ nhảy tần
+    FHSS: frequency hopping spread spectrum -- Trải phổ nhảy tần
 
-    RA: Rate adaption -- Điều chỉnh tốc độ
+    RA: rate adaption -- Điều chỉnh tốc độ
 
-    RFID: Radio frequency identification -- Nhận dạng tần số vô tuyến
+    RFID: radio frequency identification -- Nhận dạng tần số vô tuyến
 
-    ATG: Air-to-ground -- Kênh truyền không đối đất
+    ATG: air-to-ground -- Kênh truyền không đối đất
 
     MDP: Markov decision process -- Quá trình ra quyết định Markov
 \end{contentlistingsection}
@@ -352,9 +350,9 @@ môi trường đô thị, góc $\theta_i$ được tính như sau:
 
 Xác suất của kết nối NLoS là $P_\text{NLoS} = 1 - P_\text{LoS}$. Do đó giá trị kì vọng của công suất nhiễu của UAV gây ra ở thiết bị I là:
 \[
-P_\text{Ji} = p_J P_\text{LoS} \beta_\text{LoS} |d|^{-\alpha} + p_J P_\text{NLoS} \beta_\text{NLoS} |d|^{-\alpha}
+P_\text{Ji} = P_J P_\text{LoS} \beta_\text{LoS} |d|^{-\alpha} + p_J P_\text{NLoS} \beta_\text{NLoS} |d|^{-\alpha}
 \]
-Trong đó $p_J$ là công suất của UAV gây nhiễu.
+Trong đó $P_J$ là công suất của UAV gây nhiễu.
 
 Do đó khi UAV di chuyển, khoảng cách $d$ và góc nâng $\theta_i$ giữa UAV và thiết bị i thay đổi, dẫn đến sự thay đổi cường độ nhiễu tại thiết bị I.
 Điều này khiến cho tác động của nhiễu UAV lên thiết bị I thay đổi do tỉ lệ tín hiệu trên nhiễu cộng nhiễu SINR thay đổi.
@@ -410,7 +408,7 @@ truyền tải của các thẻ lân cận.
 
 \subsection{Mô tả nguyên lý hoạt động.}
 \begin{enumerate}
-    \item [a.] Quá trình truyền gói tin ở máy phát.
+    \item [\textbf{a.}] \textbf{Quá trình truyền gói tin ở máy phát.}
     
     Thiết kế của máy phát trong tán xạ ngược môi trường xung quanh dựa trên kĩ thuật truyền thông tán xạ ngược thông thường. Về cơ bản, tán xạ ngược đạt được bằng cách thay đổi
     trở kháng của ăng ten. Theo trực giác, khi sóng gặp ranh giới giữa hai môi trường có trở kháng hoặc mật độ khác nhau thì sóng bị phản xạ trở lại. Điều này đúng trong cho dù
@@ -421,8 +419,7 @@ truyền tải của các thẻ lân cận.
     này, máy phát có thể tán xạ ngược gói tin đến máy thu. Lưu ý là trong khi thực hiện tán xạ ngược, máy phát còn có thể thu năng lượng (ở trạng thái không phản xạ) nhưng lượng
     năng lượng thu được là tương đối nhỏ và chỉ đủ dùng cho các hoạt động của mạch tán xạ ngược.
     
-
-    \item [b.] Quá trình giải mã gói tin ở máy thu.
+    \item [\textbf{b.}] \textbf{Quá trình giải mã gói tin ở máy thu.}
     
     Để máy thu có thể giải mã tín hiệu tán xạ ngược thông tin với tốc độ thấp hơn tín hiệu môi trường xung quanh (cụ thể là tín hiệu gây nhiễu và tín hiệu môi trường xung quanh).
     Quá trình giải mã có thể được mô tả như sau. Giả sử chúng ta có một bộ thu kĩ thuật số lấy mẫu tín hiệu ở tốc độ thông tin Nyquist (giả sử dùng ADC), tín hiệu nhận được ở máy thu được lấy mẫu
@@ -622,7 +619,7 @@ là chiến lược phòng thủ cố định ''tham lam''. Với phương án s
 phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nêu ở trên.
 
 \begin{enumerate}
-    \item[a.] Đánh giá hiệu quả khi thay đổi công suất nhiễu.
+    \item[\textbf{a}.] \textbf{Đánh giá hiệu quả khi thay đổi công suất nhiễu.}
     \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $P_\text{avg}$ thay đổi.}
         \centering
         \includegraphics[scale=0.5]{p_avg_throughput}
@@ -647,9 +644,9 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
     gây nhiễu thấp, dễ nhận thấy 2 phương án có hiệu suất khá tương đồng, tuy nhiên khi công suất nhiễu trung bình càng tăng lên, sự hiệu quả của phương án đề xuất 
     càng thấy rõ.
 
-    \item[b.] Đánh giá hiệu quả khi thay đổi số gói tin có thể phát chủ động $\hat{d}_t$.
+    \item[\textbf{b}.] \textbf{Đánh giá hiệu quả khi thay đổi số gói tin có thể phát chủ động $\hat{d}_t$.}
     
-    Thử nghiệm được thực hiện với công suất nhiễu $P_avg = 7W$, trong thử nghiệm ở Hình 4.5, Hình 4.6, Hình 4.7 này ta thực hiện thay đổi số gói tin tối đa mà máy phát
+    Thử nghiệm được thực hiện với công suất nhiễu $P_\text{avg} = 7W$, trong thử nghiệm ở Hình 4.5, Hình 4.6, Hình 4.7 này ta thực hiện thay đổi số gói tin tối đa mà máy phát
     có thể phát chủ động đến máy thu.
 
     \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $\hat{d}_t$ thay đổi.}
@@ -668,7 +665,7 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
         \label{fig:dt_pdr}
     \end{figure}
 
-    \item[c.] Đánh giá hiệu quả khi thay đổi chu kì thu năng lượng $T_\text{harvest}$ của máy thu trong phương án sử dụng chiến lược phòng thủ cố định “tham lam”.
+    \item[\textbf{c}.] \textbf{Đánh giá hiệu quả khi thay đổi chu kì thu năng lượng $T_\text{harvest}$ của máy thu trong phương án sử dụng chiến lược phòng thủ cố định “tham lam”.}
     
     Trong mô phỏng Hình 4.8, Hình 4.9, Hình 4.10 , công suất nhiễu trung bình trong mô phỏng này $P_\text{avg} = 7W$, ta thấy được việc thay đổi chu kì thu năng lượng trong 
     phương án phòng thủ tham lam khiến cho hiệu suất hệ thống thay đổi rõ rệt. Dễ thấy trong trường hợp này,  khi công suất nhiễu cao, cơ hội để máy phát có thể phát 

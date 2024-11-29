@@ -233,7 +233,7 @@
 	\expandafter\newcommand\expandafter*\csname l@#1\endcsname{\@tocline{2}{0cm}}
 	\newenvironment{#1}[1]{\def\@captiontext{##1}\@float{#1}#4}{#5\end@float}
 }
-\makeattachmenttype{figure}{htbp}{Hình}{}{%
+\makeattachmenttype{figure}{h!}{Hình}{}{%
 	\vspace{0.25cm}\captionbox{\setfontsize{12pt}\caption}%
 }{lof}{\listoffigures}{Danh sách hình vẽ}
 \makeattachmenttype{table}{htbp}{Bảng}{%
