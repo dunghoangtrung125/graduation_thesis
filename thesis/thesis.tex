@@ -350,7 +350,7 @@ môi trường đô thị, góc $\theta_i$ được tính như sau:
 
 Xác suất của kết nối NLoS là $P_\text{NLoS} = 1 - P_\text{LoS}$. Do đó giá trị kì vọng của công suất nhiễu của UAV gây ra ở thiết bị I là:
 \[
-P_\text{Ji} = P_J P_\text{LoS} \beta_\text{LoS} |d|^{-\alpha} + p_J P_\text{NLoS} \beta_\text{NLoS} |d|^{-\alpha}
+P_\text{Ji} = P_J P_\text{LoS} \beta_\text{LoS} |d|^{-\alpha} + P_J P_\text{NLoS} \beta_\text{NLoS} |d|^{-\alpha}
 \]
 Trong đó $P_J$ là công suất của UAV gây nhiễu.
 
@@ -455,25 +455,73 @@ truyền tải của các thẻ lân cận.
 
 \section{Thu hoạch năng lượng.}
 
-\section{Quá trình ra quyết định Markov - MDP.}
 
 \section{Học tăng cường.}
+\subsection{Giới thiệu.}
+Học tăng cường là quá trình học xem nên làm gì, là quá trình học để kết nối giữa trạng thái và hành động nhằm mục đích tối đa hoá một giá trị phần thưởng số học. Đối tượng học sẽ không được chỉ cụ thể là
+nên thực hiện hành động nào, thay vào đó phải tự mình khám phá những hành động nào mạng lại phần thưởng cao nhất bằng cách thử chúng. Hành động của đối tượng không chỉ mang lại phần thưởng ngay lập tức mà còn ảnh hưởng
+đến những trạng thái tiếp theo, dẫn đến những phần thưởng tiếp theo. Hai đặc tính thử-sai và những giá trị phần thưởng đến sau là hai đặc điểm nổi bật nhất của học tăng cường.
+
+\subsection{Quá trình ra quyết định Markov - MDP.}
+Quá trình ra quyết định Markov là một khuôn khổ toán học quan trọng để mô hình hoá việc ra quyết định trong các tình huống mà kết quả một phần là ngẫu nhiên và một phần dưới sự kiểm soát
+của người ra quyết định. MDP là mô tả cho một môi trường được quan sát đầy đủ cho việc học tăng cường.
+
 
 \section{Học sâu tăng cường.}
 \section{Mạng sâu Q - DQN.}
 
 % Chapter 3
 \chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV.}
+Trong chương này, em đề xuất phương pháp giải quyết chống nhiễu từ UAV đối với kênh truyền gồm một máy phát và một máy thu sử dụng thuật toán học tăng cường Q-learning và DQN.
+
+
 \section{Mô hình hệ thống.}
-Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị bộ đệm dữ liệu để lưu
-trữ dữ liệu trước khi truyền đến máy thu, ngoài ra máy phát còn được trang bị
-bộ thu năng lượng và một mạch tán xạ ngược. Khi bị nhiễu tấn công, máy phát có thể thu năng lượng từ tín hiệu nhiễu để sử dụng cho mục đích truyền gói tin chủ
+Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị bộ đệm dữ liệu để đóng vai trò như hàng đợi dữ 
+liệu trước khi truyền đến máy thu, ngoài ra máy phát còn được trang bị bộ thu năng lượng và một mạch tán xạ ngược môi trường có khả năng tán xạ sóng nhiễu để truyền gói tin. Khi bị nhiễu
+tấn công, máy phát có thể thu năng lượng từ tín hiệu nhiễu để sử dụng cho mục đích truyền gói tin chủ
 động đến máy thu sau này khi máy gây nhiễu không tấn công - chế độ HTT, hoặc tán xạ ngược dữ liệu dựa trên sóng nhiễu - chế độ tán xạ ngược.
 
-\subsection{Mô hình gây nhiễu.}
-Thiết bị gây nhiễu ở đây được gắn trên UAV và di chuyển hoàn toàn ngẫu nhiên giữa máy phát và máy thu. Việc di chuyển của UAV dẫn đến sự thay đổi về 
-cường độ nhiễu tác động lên kênh truyền, cụ thể ở đây, mục tiêu của UAV là làm suy giảm kênh truyền thông qua việc làm giảm SINR ở máy thu. 
+\begin{figure}{Mô hình hệ thống.}
+    \centering
+    \includegraphics[scale=0.5]{system_model}
+    \label{fig:system_model}
+\end{figure}
 
+\subsection{Mô hình gây nhiễu.}
+Chúng ta xem xét một UAV có khả năng gây nhiễu thông minh. Giả sử UAV có khả năng lắng nghe kênh truyền giữa máy phát và máy thu khi tấn công. Điều này cho phép UAV có thể điều chỉnh vị trí
+cũng như chiến lược gây nhiễu để tối đa hoá thiệt hại lên kênh truyền giữa máy phát và máy thu. Mục tiêu của UAV là làm giảm giá trị SINR tại máy thu, khiến cho kênh thông lượng của kênh
+truyền giảm xuống, giá trị SINR được tính như đã trình bày ở phần cơ sở lý thuyết như sau:
+\[
+\theta = \frac{P_R}{\varphi P_J + \rho^2}
+\]
+Trong đó $P_R$ là công suất nhận được từ máy phát tại cổng (máy thu), $P_J$ là công suất nhiễu được phát của máy gây nhiễu, $\rho^2$ là phương sai của nhiễu Gauss trắng cộng thêm. 
+$\varphi P_J$ là công suất nhiễu tại cổng, trong đó $0 \leq \varphi \leq 1$ là hệ số suy giảm kênh truyền.
+
+Giá trị công suất sóng nhiễu $P_J$ của UAV tác động lên máy thu là giá trị thay đổi do UAV có khả năng thay đổi vị trí để tối ưu hoá khả năng tấn công kênh truyền như giả thiết ở trên.
+Khi UAV đến gần máy phát và máy thu, khả năng xuất hiện đường truyền LoS tăng lên do góc nâng $\theta_i$
+tăng lên, dẫn đến cường độ nhiễu tác động lên máy phát và máy thu tăng lên. Ngược lại khi UAV di chuyển ra xa máy phát và máy thu, khả năng gặp vật cản và các yếu tố như tăng khả năng kênh
+truyền NLoS, dẫn đến cường độ nhiễu tác động lên máy phát và máy thu giảm. Ngoài ra, sẽ có những thời điểm sóng nhiễu từ UAV không tác động đến máy phát và máy thu, do sóng nhiễu có thể không
+truyền đến được máy phát và máy thu do yếu tố vật cản từ môi trường, hoặc do UAV là thiết bị hạn chế về mặt năng lượng, nên có những thời điểm nó cần quay lại trạm để thay pin để bổ sung năng
+lượng, khi đó UAV không tấn công kênh truyền hay cường độ gây nhiễu của UAV lên máy phát và máy thu là 0W.
+
+Ta giả sử $P_J = \{P_0^J, \dots, P_n^J, \dots, P_N^J\}$ là vector tập các giá trị cường độ nhiễu khác nhau trong các thời điểm khác nhau của UAV. Tại mỗi thời điểm, do sự thay đổi vị trí
+hoặc do yếu tố môi trường\dots, cường độ nhiễu từ UAV là khác nhau và là một trong những giá trị trong vector $P_J$ với giá trị xác suất là $x_n$. Trong đó giá trị nhỏ nhất trong vector $P_J$
+là 0W, tương ứng với những thời điểm sóng nhiễu từ UAV không tác động đến kênh truyền như đã trình bày ở trên.
+
+Ta kí hiệu $J_s = \{x = (x_0, \dots, x_n\dots, x_N), \sum_{i=0}^{N}x_n = 1\}$ là vector xác suất tấn công của UAV tương ứng với các mức năng lượng trong vector $P_J$, hay $J_s$ còn được coi như
+là chiến lược tấn công của UAV.
+
+Do UAV là thiết bị hạn chế về mặt năng lượng, UAV xác định một chiến lược tấn công $J_s$ sao cho mức công suất nhiễu trung bình $P_\text{avg}$ phù hợp với mức năng lượng và trạng thái hiện tại của UAV.
+Do giả thiết UAV gây nhiễu thông minh có khả năng lắng nghe kênh truyền, chúng ta giả sử UAV gây nhiễu sẽ nhận về một phần thưởng $w_n^J$ tương ứng với mỗi giá trị $P_n^J$ trong vector $P_J$, đại diện
+cho số gói tin từ máy phát đến máy thu không thành công do tác động từ sóng nhiễu (ví dụ do không giải mã thành công tại máy thu do SINR giảm). Kí hiệu $w_J = \{w_0^J, \dots, w_n^J, \dots, w_N^J\}$
+là vector phần thưởng của UAV gây nhiễu. Mục tiêu của UAV gây nhiễu được xác định như sau:
+\begin{align*}
+    \begin{cases}
+        \underset{x}{\max} \, x w_J^\top, \\
+        \sum_{n=0}^{N} x_n = 1, x_n \in [0, 1], \forall n \in \{0, \dots, N\}, \\
+        x P^T \leq P_\text{avg} \\
+    \end{cases}
+\end{align*}
 
 \subsection{Mô hình kênh truyền.}
 Khi UAV gây nhiễu không tấn công kênh truyền, hoặc khi tín hiệu nhiễu từ UAV không tác động đến kênh truyền do vật cản, máy phát có thể phát chủ động $\hat{d}_t$
@@ -525,7 +573,7 @@ Trong đó j là trạng thái UAV gây nhiễu, với $j = 0$ nếu như UAV kh
 \subsection{Không gian hành động.}
 Không gian hành động bao gồm $(M+4)$ hành động mà máy phát có thể lựa chọn, bao gồm không hoạt động, truyền dữ liệu chủ động, thu thập năng lượng từ sóng nhiễu, tán xạ ngược sóng
 nhiễu và điều chỉnh tốc độ phát là một trong M giá trị tốc độ của vector $r = \{r_1, \dots, r_m,\dots, r_M\}$ bằng cách sử dụng kĩ thuật RA khi sóng nhiễu từ UAV ảnh hưởng đến
-kênh truyền (UAV tấn công). Do đó, không gian hành động được xác đinh là tập $A = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
+kênh truyền (UAV tấn công). Do đó, không gian hành động được xác định là tập $A = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
 
 \begin{align*}
     a &= \begin{cases}
@@ -569,7 +617,7 @@ của hệ thống. Cụ thể $\pi^*$ là ánh xạ từ một trạng thái nh
 lượng của máy phát) đến một hành động tối ưu ở trạng thái đó.
 Công thức hàm tối ưu hoá được xác định như sau:
 \[
-\max_{\pi} R(\pi) = \lim_{T \to \infty} \frac{1}{T} \sum_{k=1}^{T} \mathbb{E} \left( r_k(s_k, \pi(s_k)) \right)
+\max_{\pi} R(\pi) = \lim_{T \to \infty} \frac{1}{T} \sum_{k=1}^{T} \mathbb{E}\left( r_k(s_k, \pi(s_k)) \right)
 \]
 
 Trong đó $R(\pi)$ là giá trị thông lượng trung bình của máy phát tuân theo $\pi$.
@@ -577,6 +625,8 @@ Trong đó $R(\pi)$ là giá trị thông lượng trung bình của máy phát 
 $r_k(s_k, \pi(s_k))$ là giá trị phần thưởng tức thời ở thời điểm $k$ sau khi thực hiện hành động $a_k$ ở trạng thái $s_k$. 
 
 $\pi(s_k)$ là hành động $a_k$ tuân theo chính sách $\pi$, ta thấy $\pi(s_k) = a_k$.
+
+\section{Áp dụng phương pháp học tăng cường và học tăng cường sâu DQN để chống nhiễu.}
 
 
 % Chapter 4
@@ -591,7 +641,7 @@ UAV ảnh hưởng đến đường truyền không dây đang xét gồm bốn 
 thu hoạch được cũng như số gói tin tán xạ ngược thành công tăng lên khi tín hiệu nhiễu mạnh hơn, chúng ta đặt $e = \{0, 1, 2, 3\}$ là số đơn vị
 năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}$ là số gói tin mà máy thu có thể tán xạ ngược tương ứng với mức công suất nhiễu
 ảnh hưởng tới đường truyền. Ngoài ra, khi UAV tấn công gây nhiễu và máy phát sử dụng kỹ thuật RA, nó có thể truyền $d^r_m = \{2, 1, 0\}$ gói tin
-tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_\text{avg} = 7.2W$.
+tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_\text{avg} = 7W$.
 
 \subsection{Thông số cài đặt thuật toán Q-learning và DQN.}
 
@@ -601,7 +651,7 @@ tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 1
 Trong Hình 4.1, chúng ta thực hiện so sánh quá trình học để tiến đến trạng thái hội tụ của hai phương pháp DQN và Q-learning trong bài toán
 chống nhiễu với các thông số môi trường như trên. Ta có thể thấy tốc độ hội tụ của thuật toán DQN là nhanh hơn so với thuật toán Q-learning.
 Thậm chí sau $10^6$ lần lặp, thuật toán Q-learning vẫn chưa đạt đến trạng thái hội tụ tối ưu. Điều này là do DQN với việc sử dụng mạng thần
-kinh sâu, kết hợp với việc học hỏi lại từ kinh nghiệm nhiều lần khiến nó có thể học chiến lược gây nhiễu hiệu quả hơn, qua đó đưa ra quyết đinh
+kinh sâu, kết hợp với việc học hỏi lại từ kinh nghiệm nhiều lần khiến nó có thể học chiến lược gây nhiễu hiệu quả hơn, qua đó đưa ra quyết định
 tối ưu hơn.
 
 \begin{figure}{Tỉ lệ hội tụ giữa DQN và Q learning.}
