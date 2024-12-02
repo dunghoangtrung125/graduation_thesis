@@ -453,7 +453,7 @@ truyền tải của các thẻ lân cận.
 
 \end{enumerate}
 
-\section{Thu hoạch năng lượng.}
+% \section{Thu hoạch năng lượng.}
 
 
 \section{Học tăng cường.}
@@ -631,14 +631,91 @@ giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đ�
     \[
     V_\text{k+1} (s) = \sum_{a} \pi (s, a) \sum_{s' | s, a} [r(s, a, s') + \gamma V_k (s')]
     \]
-    Khi $k \to \infty$, chuỗi $V_k$ hội tụ đến giá trị $V_\pi$
+    Khi $k \to \infty$, chuỗi $V_k$ hội tụ đến giá trị $V_\pi$ với điều kiện $\gamma < 1$ hoặc tồn tại trạng thái kết thúc dù cho bắt đầu ở bất kì trạng thái nào. Thuật toán này gọi là thuật toán đánh giá
+    chính sách.
 
-    \item[] 
+    \item[\textbf{b.}] \textbf{Cải thiện chính sách.}
+    
+    Mục đích của việc tính toán hàm giá trị-trạng thái cho một chính sách bất kì ở trên là nhằm tìm ra chính sách tốt hơn. Định nghĩa chính sách $\pi'$ tốt hơn chính sách $\pi$ nếu:
+    \[
+    V_\pi' (s) \geq V_\pi (s), \forall s \in \mathcal{S}
+    \]
+    Ở trạng thái s, thay vì chọn hành động tiếp theo dựa theo chính sách $\pi$ đã xác định từ trước, ta lựa chọn một hành động khác với hành động $a = \pi(s)$ của chính sách $\pi$, sau
+    đó tiếp tục tuân theo chính sách $\pi$. Như vậy ta có chính sách mới $\pi'$. Chứng minh được rằng nếu:
+    \[
+    Q_\pi(s, \pi'(s)) \geq V_\pi (S) \iff V_\pi' (s) \geq V_\pi (s), \forall s \in \mathcal{S}
+    \]
+    Có nghĩa là nếu ở trạng thái s, ta lựa chọn được hành động mới $\pi'(s)$ tốt hơn hành động của chính sách cũ $\pi(s)$, sau đó tiếp tục tuân theo chính sách $\pi$, thì chính sách mới
+    $\pi'$ tốt hơn chính sách $\pi$.
+
+    Do đó ta sẽ có phương pháp cải thiện chính sách như sau: ở mỗi trạng thái s, ta tính toán giá trị của các hành động và chọn hành động có giá trị lớn nhất, ta thu được chính sách mới
+    $\pi'$ gọi là chính sách tham lam:
+    \begin{align*}
+        \pi' (s) &= \arg \max_{a} Q_\pi (s, a) \\
+        &= \arg \max_{a} \mathbb{E} [r_\text{t+1} + \gamma V_\pi (s_\text{t+1}) | s_t = s, a_t = a] \\
+        &= \arg \max_{a} \sum_{s'} P(s' | s, a) [r(s, a, s') + \gamma V_\pi(s')]
+    \end{align*}
+
+    Với $\arg \max_{a}$ là kí hiệu thể hiện việc lựa chọn hành động a để giá trị biểu thức đó lớn nhất.
+
+    \item[\textbf{c.}] \textbf{Phương pháp lặp chính sách.}
+    
+    Phương pháp này phép lặp đi lặp lại một quá trình kết hợp giữa đánh gía chính sách và cải thiện chính sách, ta có một phương pháp gọi là lặp chính sách. Lựa chọn một chính sách $\pi$, chúng ta thực hiện đánh gía chính sách để tính được
+    giá trị $V_\pi$, sau đó sử dụng phương pháp cải thiện chính sách để cải thiện chính sách $\pi$ để tìm ra chính sách mới $\pi'$ tốt hơn chính sách cũ. Quá trình này được lặp đi lặp lại giúp ta tìm ra chính sách tối ưu.
+
+    \item[\textbf{d.}] \textbf{Phương pháp lặp giá trị.}
+    
+    Là thuật toán tìm ra chính sách tối ưu $\pi^\star$ bằng cách lặp hàm giá trị - trạng thái để tìm ra $V^\star (s)$ dựa trên phuơng trình Bellman của hàm giá trị tối ưu $V^\star$ như đã trình bày
+    ở phần trước:
+    \[
+    V^\star (s) = \underset{a}{max } \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma V^\star (s')]
+    \]
+    Hàm giá trị tối ưu $V*$ được thực hiện bằng cách lặp với luật cập nhật hàm giá trị sau mỗi lần lặp như sau:
+    \[
+    V_\text{k+1} (s) = \underset{a}{max } \sum_{s'} P(s' | s, a) [r + \gamma V_k (s')]
+    \]
+    Quá trình lặp được thực hiện cho đến khi hội tụ (khi kết quả hàm giá trị không thay đổi quá một ngưỡng $\epsilon$ xác định trước), lúc này ta thu được hàm gía trị
+    tối ưu. Chính sách tối ưu được rút ra từ hàm giá trị tối ưu như sau:
+    \[
+    \pi (s) = \arg \max_a \sum_{s'} P(s'|s, a) [r + \gamma V^\star (s')]
+    \]
+    $\pi \approx \pi^\star$ chính là chính sách tối ưu cần tìm.
+    
 \end{itemize}
 
-\subsection{Phương pháp Monte Carlo.}
+\subsection{Phương pháp lấy mẫu Monte Carlo.}
+Trong phương pháp quy hoạch động như trình bày ở trên, giả thiết cần phải biết đầy đủ về tính động của môi trường (hàm P(.|s, a) xác định), điều này đôi khi khó đạt được
+trong các bài toán thực tế. Phương pháp Monte Carlo dựa trên ý tưởng không cần tính toán hàm giá trị - trạng thái $V(s)$ và hàm giá trị trạng thái - hành động
+$Q(s,a)$ sử dụng hàm xác suất chuyển đổi trạng thái $P(.|s, a)$ như quy hoạch động, thay vào đó ước tính giá trị hàm $V(s)$ và $Q(s,a)$ thông qua việc lấy mẫu
+một tập các hành động chuyển trạng thái của môi trường. Phương pháp Monte Carlo được trình bày như sau:
+\begin{itemize}
+    \item Bắt đầu từ trạng thái $s_0$.
+    \item Lấy mẫu một quỹ đạo từ thời điểm t: $\tau = (s_0, a_0, r_1, s_1, a_1, \dots, s_T, a_T, r_\text{T+1}, s_\text{T+1})$ dựa trên môi trường sử dụng chính
+    sách $\pi$ hiện tại.
+    \item Tính toán giá trị phần thưởng tích luỹ $R_t^\text{(e)} = \sum_{k=0}^{T} \gamma^k r_\text{t+k+1}$ ở thời điểm t dựa trên quỹ đạo $\tau$
+    \item Lặp lại những bước trên M lần để ước tính giá trị $V^\pi$ như sau:
+    \[
+    V^\pi (s) = \mathbb{E} [R_t | s_t = s] \approx \frac{1}{M} \sum_{t=1}^{M} R_t^\text{(e)}
+    \]
+\end{itemize}
 
-\section{Q learning}
+Bằng cách lấy mẫu nhiều quỹ đạo $\tau$ từ môi trường, giá trị $V^\pi (s)$ được lấy xấp xỉ bằng cách lấy trung bình như trên. Tuy nhiên trong thực tế, khó xác
+định được số mẫu quỹ đạo cần lấy để có thể ước tính giá trị được chính xác nhất. Do đó, trong thực hành, ta sẽ tiến hành cập nhật liên tục các giá trị ước tính
+\[
+V^\pi (s) \leftarrow V^\pi (s) + \alpha (R_t - V^\pi (s))
+\]
+\[
+Q^\pi (s, a) \leftarrow Q^\pi (s, a) + \alpha (R_t - Q^\pi (s, a))
+\]
+Trong đó $\alpha \in [0, 1]$ là trọng số.
+
+Phương pháp lấy mẫu Monte Carlo chỉ phù hợp với những bài toán mà nhiệm vụ được chia theo tập (tức là quỹ đạo theo chính sách $\pi$ hữu hạn), do nó có thể tính
+được giá trị $R_t$ trong trường hợp hữu hạn, với bài toán tương tác vô hạn lần, khó để có thể lấy trung bình của phần thưởng tích luỹ.
+
+\section{Giải quyết MDP bằng học tăng cường.}
+
+\subsection{Phương pháp khác biệt thời gian - Temporal Difference}
+Trong phương pháp Monte Carlo, hàm giá trị $V^\pi$ được ước tính dựa vào việc tính trung bình giá trị phần thưởng tích luỹ của tất cả các tập
 
 \section{Học sâu tăng cường.}
 
@@ -697,6 +774,8 @@ là vector phần thưởng của UAV gây nhiễu. Mục tiêu của UAV gây n
     \end{cases}
 \end{align*}
 
+Mục tiêu của UAV bao gồm tối đa hoá thiệt hại của đường truyền, nhưng đồng thời cũng điều chỉnh chiến lược tấn công phù hợp với trạng thái hiện tại của UAV.
+
 \subsection{Mô hình kênh truyền.}
 Khi UAV gây nhiễu không tấn công kênh truyền, hoặc khi tín hiệu nhiễu từ UAV không tác động đến kênh truyền do vật cản, máy phát có thể phát chủ động $\hat{d}_t$
 gói tin đến máy thu (sử dụng phương pháp truyền dẫn chủ động thông thường), hoặc không hoạt động. Mỗi gói tin truyền thành công cần $e_t$ đơn vị năng lượng.
@@ -711,11 +790,11 @@ công. Ở mỗi tốc độ $r_m$, máy phát có thể truyền tối đa $\ha
 trị của SINR, máy thu chỉ có thể giải mã những gói tin được gửi ở tốc độ $r_0, r_1, \dots, r_\text{m-1}$, những gói tin gửi ở tốc độ $r_m$ hoặc cao hơn sẽ bị mất,
 do máy thu không giải mã được. 
 
-Trong trường hợp máy thu chọn thu năng lượng từ sóng nhiễu, năng lượng này có thể được sử dụng cho quá trình truyền chủ động sau này, tương ứng với mỗi mức cường độ nhiễu $P_n^J$
+Trong trường hợp máy phát chọn thu năng lượng từ sóng nhiễu, năng lượng này có thể được sử dụng cho quá trình truyền chủ động sau này, tương ứng với mỗi mức cường độ nhiễu $P_n^J$
 ảnh hưởng đến máy phát khác nhau, máy phát có thể thu được $e_n^J$ đơn vị năng lượng. Kí hiệu $e = \{e_0^J, \dots, e_N^J\}$ là các giá trị năng lượng có thể thu được tương ứng
 với các mức nhiễu khác nhau của UAV.
 
-Trong trường hợp máy pháp chọn tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu, kí hiệu $\hat{d_n^J}$ là số gói tin tối đa có thể được tán xạ ngược bởi máy phát nếu
+Trong trường hợp máy phát chọn tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu, kí hiệu $\hat{d_n^J}$ là số gói tin tối đa có thể được tán xạ ngược bởi máy phát nếu
 cường độ nhiễu tương ứng là $P_n^J$. Lưu ý rằng tốc độ tán xạ ngược dữ liệu được quy định bởi mạch tán xạ ngược và không thay đổi và kí hiệu là $b^{\dagger}$. Trong mô hình đề xuất này
 , chúng ta giả sử khi máy phát lựa chọn tán xạ ngược sóng nhiễu, nó có thể truyền được $b^{\dagger}$ gói tin, nếu $b^{\dagger} > \hat{d_n^J}$ thì $(b^{\dagger} - d_n^J)$ gói tin sẽ bị mất trong
 quá trình tán xạ ngược dữ liệu. Kí hiệu $\hat{d} = \{\hat{d_0^J}, \dots, \hat{d_N^J}\}$ là vector thể hiện số gói tin có thể được tán xạ ngược tương ứng với cường độ nhiễu.
@@ -774,13 +853,16 @@ trị phần thưởng tức thời được biểu diễn như sau:
 \end{align*}
 
 Khi UAV gây nhiễu không tấn công kênh truyền (j = 0), máy phát có dữ liệu trong bộ đệm và có đủ năng lượng trong bộ lưu trữ, lúc này nó có thể chọn phát
-chủ động gói tin đến máy thu (a = 2), số gói tin có thể truyền đến máy thu là $d_t$ gói tin thoả mãn $0 < d_t \leq \hat{d_t}$ gói tin.
+chủ động gói tin đến máy thu (a = 2), số gói tin có thể truyền đến máy thu là $d_t$ gói tin thoả mãn $0 < d_t \leq \hat{d_t}$ gói tin (trong đó $\hat{d_t}$
+là số gói tin tối đa mà máy phát có thể phát chủ động).
 
 Khi máy gây nhiễu tấn công kênh truyền (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$, nó có thể tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu (a = 4), 
-số gói tin tán xạ ngược thành công là $d_n^J$ gói tin trong đó $0 < d_n^J \leq \hat{d_n^J}$.
+số gói tin tán xạ ngược thành công là $d_n^J$ gói tin trong đó $0 < d_n^J \leq \hat{d_n^J}$. (Trong đó $\hat{d_n^J}$ là số gói tin tối đa mà máy phát có thể tán xạ ngược
+ở cường độ nhiễu là $P_n^J$).
 
 Ngoài ra khi máy gây nhiễu tấn công (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$ và có đủ năng lượng $(e \geq e_t)$, nó còn có thể lựa chọn phát gói 
 tin với tốc độ $r_m$, (a = 4 + m) để truyển chủ động gói tin theo kĩ thuật RA, số gói tin truyền thành công đến máy thu là $d_m^r$ trong đó $0 < d_m^r \leq \hat{d_m^r}$.
+($\hat{d_m^r}$ là số gói tin tối đa mà máy phát có thể phát thành công nếu máy phát phát với tốc độ $r_m$).
 
 Trong các trường hợp còn lại, khi máy phát không truyền thành công gói tin đến máy thu thì giá trị phần thưởng tức thời là 0.
 
@@ -798,9 +880,23 @@ Trong đó $R(\pi)$ là giá trị thông lượng trung bình của máy phát 
 
 $r_k(s_k, \pi(s_k))$ là giá trị phần thưởng tức thời ở thời điểm $k$ sau khi thực hiện hành động $a_k$ ở trạng thái $s_k$. 
 
-$\pi(s_k)$ là hành động $a_k$ tuân theo chính sách $\pi$, ta thấy $\pi(s_k) = a_k$.
+$\pi(s_k) = a_k$ là hành động tại thời điểm k tuân theo chính sách $\pi$.
 
-\section{Áp dụng phương pháp học tăng cường và học tăng cường sâu DQN để chống nhiễu.}
+Do trong mô hình MDP được xây dựng cho bài toán này, các trạng thái trong không gian trạng thái $S$ thuộc cùng một lớp liên kết trong chuỗi Markov, nên chuỗi Markov này là chuỗi không thể giảm bớt.
+Khiến cho với mọi chính sách $\pi$, thông lượng trung bình $R(\pi)$ là một giá trị xác định và không phụ thuộc vào trạng thái bắt đầu của chuỗi.
+
+\section{Áp dụng phương pháp học tăng cường Q-learning và học tăng cường sâu DQN để chống nhiễu.}
+Trong hệ thống được đề xuất ở trên, máy phát không xác định được cụ thể mức độ nhiễu mà UAV gây ra trên kênh truyền, cũng như chiến lược tấn công của UAV để có thể tìm ra được
+chính sách tối ưu $\pi^\star$ để tối đa hoá thông lượng kênh truyền. Do đó chúng ta sẽ áp dụng các thuật toán học tăng cường để giúp máy phát tìm ra được chiến lược đối
+phó với máy gây nhiễu, hay nói cách khác là lựa chọn những hành động đúng trong không gian hành động $\mathcal{A}$ để đạt được thông lượng trung bình cao nhất.
+
+\subsection{Sử dụng thuật toán học tăng cường Q-learning.}
+Thuật toán Q-learning sử dụng một bảng gọi là bảng Q nhằm lưu giữ giá trị của các cặp trạng thái và hành động tương ứng của máy phát. Dựa trên trạng thái hiện tại, máy phát đưa ra hành động dựa trên
+chiến lược phòng thủ hiện tại của nó. Sau khi thực hiện hành động, máy phát quan sát phần thưởng nhận được và trạng thái tiếp theo sau đó tiến hành cập nhật bảng Q, thực hiện việc này lặp đi lặp lại nhiều lần. 
+Bằng cách này, máy phát có thể học cách đưa ra quyết định đúng dựa trên kinh nghiệm của chính nó, qua đó đạt được một chiến lược phòng thủ tối ưu $\pi^\star$: là một liên kết giữa trạng thái và hành động tương
+ứng mà máy phát sẽ lựa chọn để tối đa hoá thông lượng, giảm số gói tin bị mất khi bị UAV tấn công.
+
+\subsection{Phương pháp học tăng cường sâu DQN.}
 
 
 % Chapter 4
@@ -914,7 +1010,6 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
         \label{fig:t_pdr}
     \end{figure}
 
-
 \end{enumerate}
 % Chapter 5
 \chapter{Kết luận}
@@ -927,6 +1022,9 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
     Hoang, D.T. and Van Huynh, N. and Nguyen, D.N. and Hossain, E. and Niyato, D.
     \textit{Deep Reinforcement Learning for Wireless Communications and Networking: Theory, Applications and Implementation},
     \textit{Wiley}, 2023, pp. 37-163.
+    \bibitem{Sutton}
+    R. S. Sutton and A. G. Barto, Reinforcement learning: An introduction.
+    MIT Press, 2018.
     % Paper
     \bibitem{Hossein22}
     Pirayesh, Hossein and Zeng, Huacheng
