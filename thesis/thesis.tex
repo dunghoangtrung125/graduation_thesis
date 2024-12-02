@@ -462,12 +462,186 @@ Học tăng cường là quá trình học xem nên làm gì, là quá trình h�
 nên thực hiện hành động nào, thay vào đó phải tự mình khám phá những hành động nào mạng lại phần thưởng cao nhất bằng cách thử chúng. Hành động của đối tượng không chỉ mang lại phần thưởng ngay lập tức mà còn ảnh hưởng
 đến những trạng thái tiếp theo, dẫn đến những phần thưởng tiếp theo. Hai đặc tính thử-sai và những giá trị phần thưởng đến sau là hai đặc điểm nổi bật nhất của học tăng cường.
 
-\subsection{Quá trình ra quyết định Markov - MDP.}
-Quá trình ra quyết định Markov là một khuôn khổ toán học quan trọng để mô hình hoá việc ra quyết định trong các tình huống mà kết quả một phần là ngẫu nhiên và một phần dưới sự kiểm soát
-của người ra quyết định. MDP là mô tả cho một môi trường được quan sát đầy đủ cho việc học tăng cường.
+Học tăng cường là một nhánh của học máy, tuy nhiên nó khác biệt so với học có giám sát - là nhánh học máy được nghiên cứu nhiều nhất. Học có giám sát học từ một tập dữ liệu đào tạo đã được gán nhãn
+bởi một người giám sát có kiến thức. Mỗi dữ liệu trong tập đào tạo bao gồm mô tả về tình huống và một nhãn chỉ ra hành động đúng mà hệ thống cần thực hiện trong tình huống đó. Mục tiêu là hệ thống
+có thể tổng quát từ các ví dụ huấn luyện và đưa ra được dự đoán chính xác trong các tình huống mới không có trong tập dữ liệu đào tạo. Tuy nhiên học có giám sát lại không phù hợp với bài toán tương
+tác, do môi trường đôi khi không rõ ràng, có nhiều yếu tố không đoán trước khiến việc thu thập dữ liệu về hành vi mong muốn là rất khó khăn, không thể thu thập đủ dữ liệu đại diện cho tất cả tình huống
+mà tác nhân phải hành động. Học tăng cường cũng khác so với học không giám sát - là loại hình học tập giúp tìm ra cấu trúc ẩn trong cái tập dữ liệu chưa gán nhãn. Học tăng cường không thể được coi là
+một dạng của học không giám sát dù nó cũng không dựa vào những dữ liệu có trước về hành vi đúng đắn, tuy nhiên học tăng cường có mục tiêu là tối đa giá trị phần thưởng, thay vì tìm ra cấu trúc ẩn.
 
+Trong học tăng cường, một vấn đề cần giải quyết là yếu tố đánh đổi giữa khám phá và khai thác. Để tác nhân có thể lấy được nhiều phần thưởng, cách tốt nhất là nó sẽ ưu tiên những hành động đã thử trong
+quá khứ và giành được nhiều giá trị phần thưởng. Tuy nhiên, để tìm được những hành động này, tác nhân cần thử những hành động mà nó chưa từng chọn trước đây. tác nhân cần khai thác những hành động tốt trong
+quá khứ, nhưng cũng cần khám phá các hành động mới để tìm được những hành động tốt hơn trong tương lai.
+
+\subsection{Quá trình ra quyết định Markov - MDP.}
+MDP là mô hình toán học dùng để mô tả môi trường cho bài toán học tăng cường. MDP là dạng hình thức cổ điển của việc ra quyết định theo chuỗi, hành động đưa ra không chỉ ảnh hưởng đến giá trị phần thưởng
+tức thì mà còn quan tâm đến những tình huống, trạng thái tiếp theo, và những phần thưởng trong tương lai. Đối tượng ra quyết định là tác nhân, thứ mà nó tương tác là môi trường. Khi tác nhân thực hiện một
+hành động, môi trường phản ứng với hành động đó, thay đổi trạng thái và trả lại một số đại diện cho giá trị phần thưởng, thứ mà tác nhân sẽ tìm cách tối đa hoá theo thời gian thông qua cách nó lựa chọn các
+hành động.
+\begin{figure}{Tương tác giữa tác nhân và môi trường.}
+    \centering
+    \includegraphics[scale=0.5]{mdp}
+    \label{fig:mdp}
+\end{figure}
+
+Một tính chất quan trọng của MDP là: "Tương lai độc lập với quá khứ khi biết hiện tại". Khi trạng thái hiện tại được xác định, những thông tin thu được trong quá khứ sẽ không còn quan trọng để
+dự đoán hành động tiếp theo. Tương lai chỉ phụ thuộc vào hiện tại chứ không phụ thuộc vào cách hệ thống đạt được trạng thái hiện tại trong quá khứ.
+Về mặt toán học, một trạng thái $S_t$ có tính chất Markov khi và chỉ khi:
+\[
+P(s_{t+1} | s_t) = P(s_{t+1} | s_t, s_{t-1},\dots, s_1)
+\]
+
+MDP mô hình hoá một môi trường trong đó tất cả trạng thái có tính chất Markov. MDP được mô hình hoá gồm một bộ $(\mathcal{S}, \mathcal{A}, P, \mathcal{r}, \gamma)$ trong đó:
+\begin{itemize}
+    \item $\mathcal{S}$ là không gian trạng thái: bao gồm tất cả trạng thái của hệ thống.
+    \item $\mathcal{A}$ là không gian hành động: bao gồm tất cả hành động của tác nhân.
+    \item $P$ là hàm xác suất chuyển đổi trạng thái $P := \mathcal{S} \times \mathcal{A} \to [0, 1] $, biểu thị xác suất mà hệ thống chuyển từ trạng thái này đến trạng thái tiếp theo khi thực hiện
+    một hành động cụ thể.
+    \item $r$ là hàm giá trị phần thưởng $r := \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$, giúp xác định giá trị phần thưởng mà tác nhân nhận được khi thực hiện một hành động
+    trong một trạng thái cụ thể.
+    \item $\gamma \in [0, 1]$ là hệ số chiết khấu, nó đại diện cho sự đánh đổi giữa giá trị phần thưởng tức thời và những giá trị phần thưởng đến sau trong tương lai.
+\end{itemize}
+
+Dựa vào mô hình cụ thể ở trên, ta diễn tả quá trình ra quyết định Markov một cách chính thức như sau: tác nhân và môi trường tương tác với nhau theo một chuỗi các bước thời gian rời rạc
+$t = 0, 1, 2,\dots$ Ở mỗi thời điểm t, tác nhân nhận được trạng thái của môi trường $s \in S$, dựa vào trạng thái này để đưa ra hành động $a \in A$. Một bước thời gian sau ở thời điểm $t+1$,
+tác nhân nhận được một giá trị phần thưởng số học $r_\text{t+1} \in R$ và môi trường chuyển sang trạng thái mới $s_\text{t+1}$. Hàm xác suất chuyển đổi trạng thái $P$ thể hiện tính động của
+môi trường trong MDP.
+
+Học tăng cường là một cách giải quyết cho bài toán MDP trong trường hợp các tham số của mô hình MDP chưa xác định.
+
+\subsection{Hàm giá trị trả về.}
+Hàm giá trị trả về $R_t$ là tổng số phần thưởng được chiết khấu từ mốc thời gian t.
+\[
+R_t = r_\text{t+1} + \gamma r_\text{t+2} + \dots = \sum_{k=0}^{T} \gamma^k r_\text{t+k+1}
+\]
+
+Trong đó T là bước thời gian cuối cùng. T có thể có giá trị hữu hạn hoặc $T = \infty$. Trong trường hợp T có giá trị hữu hạn, chuỗi các tương tác giữa tác nhân và môi trường được chia thành các chuỗi
+con gọi là các tập, mỗi tập kết thúc với một trạng thái được gọi là trạng thái kết thúc, sau đó môi trường sẽ được đặt lại để chuẩn bị cho một tập tiếp theo. Lấy ví dụ khi chơi một trò chơi, trạng thái
+kết thúc sẽ là trạng thái thắng, thua\dots, tác nhân sẽ nhận được phần thưởng tuỳ thuộc vào trạng thái kết thúc. Các tập hoàn toàn độc lập và không ảnh hưởng đến nhau. Thời gian T cho mỗi tập có thể khác
+nhau trong các tập khác nhau. Đối với trường hợp $T = \infty$, quá trình tương tác giữa tác nhân và môi trường là một quá trình liên tục và vô hạn, không có trạng thái kết thúc.
+
+Hệ số chiết khấu $\gamma \in [0, 1]$, đại diện cho sự đánh đổi giữa giá trị phần thưởng tức thời và phần thưởng trong tương lai. Giá trị phần thưởng trong tương lai ở thời điểm k chỉ bằng $\gamma^\text{k-1}$
+so với giá trị phần thưởng tức thời mà tác nhân nhận được.
+\begin{itemize}
+    \item Nếu $\gamma$ gần với giá trị 0, tác nhân sẽ bị coi là thiển cận, do nó chỉ quan tâm đến việc tối đa hoá giá trị phần thưởng tức thời. Điều này khiến tác nhân bỏ qua hành động có thể mang lại lợi ích 
+    cao hơn về mặt lâu dài.
+    \item Nếu $\gamma$ gần với giá trị 1, tác nhân sẽ được coi là nhìn xa trông rộng hơn do nó có tính đến những phần thưởng ở trong tương lai xa hơn.
+\end{itemize}
+
+Nếu MDP là quá trình theo tập (có trạng thái kết thúc) thì $\gamma$ có thể có giá trị bằng 1, tuy nhiên nếu MDP là quá trình vô hạn $(T = \infty)$ thì $\gamma$ phải có giá trị nhỏ hơn 1, để tránh trường
+hợp kết quả của hàm giá trị trả về $R_t$ là một giá trị vô hạn.
+
+\subsection{Hàm giá trị và chính sách.}
+Hành động của tác nhân được xác định bởi một chính sách, kí hiệu là $\pi$, quy định cách mà tác nhân đưa ra hành động ở một trạng thái nhất định. Có hai loại chính sách là xác định và ngẫu nhiên. Chính sách xác định được
+đại diện bởi hàm $\pi(s_t) = a_t$ ($a_t \in \mathcal{A}, s_t \in \mathcal{S}$) là hàm kết nối giữa một trạng thái từ không gian $\mathcal{S}$ đến một hành động từ không gian $\mathcal{A}$. Chính sách
+ngẫu nhiên là một phân phối xác suất của không gian hành động $\mathcal{A}$, dựa trên trạng thái $s_t$ hiện tại: $(\pi(a_t | s_t) \in [0, 1])$. Thông qua học tăng cường, chính sách sẽ được điều chỉnh
+dựa trên kinh nghiệm mà tác nhân học được.
+
+Hàm giá trị là hàm ước tính mức độ tốt hay xấu của một tác nhân khi ở một trạng thái cụ thể dựa trên giá trị phần thưởng kì vọng. Hàm giá trị thường được xác định cùng với một chính sách $\pi$ cụ thể vì giá trị phần
+thưởng trong tương lai phụ thuộc vào chuỗi hành động mà tác nhân sẽ thực hiện dưới chính sách đó.
+\[
+V_\pi (s) = \mathbb{E}_\pi \{R_t | s_t = s\} = \mathbb{E}_\pi \{\sum_{k=0}^{T} \gamma^k r_\text{t+k+1} | s_t = s\}, \forall s \in \mathcal{S}
+\]
+
+Trong đó kí hiệu $\mathbb{E}_\pi$ là giá trị kì vọng của biến ngẫu nhiên trong trường hợp tác nhân tuân theo chính sách $\pi$. Chúng ta gọi $V_\pi$ là hàm giá trị trạng thái cho chính sách $\pi$.
+
+Tương tự, chúng ta cũng định nghĩa giá trị của việc lựa chọn hành động $a \in \mathcal{A}$ khi tác nhân ở trạng thái $s \in \mathcal{S}$ tuân theo chính sách $\pi$, kí hiệu là $Q_\pi (s, a)$:
+\[
+Q_\pi (s, a) = \mathbb{E}_\pi [R_t | s_t = s, a_t = a] = \mathbb{E}_\pi [\sum_{k=0}^{T} \gamma^k R_\text{t+k+1} | s_t = s, a_t = a]
+\]
+
+Chúng ta gọi $Q_\pi (s, a)$ là hàm giá trị trạng thái - hành động cho chính sách $\pi$, thể hiện giá trị khi tác nhân ở trạng thái s, lựa chọn hành động a.
+
+Ta có thể biểu thị hàm giá trị trạng thái $V_\pi (s)$ như là tổng của các giá trị trạng thái - hành động của tất cả các hành động mà tác nhân có thể thực hiện ở trạng thái hiện tại, dựa trên xác suất
+mà hành động đó được lựa chọn $\pi(s, a)$:
+\[
+V_\pi (s, a) = \sum_{a \in \mathcal{A}} \pi(s, a) Q_\pi (s, a)
+\]
+
+\subsection{Phương trình Bellman.}
+Ta có thể viết lại $V_\pi(s)$ như sau:
+\begin{align*}
+    V_\pi(s) &= \mathbb{E}_\pi [R_t | s_t = s] \\
+    &= \mathbb{E}_\pi [r_\text{t+1} + \gamma r_\text{t+2} + \dots | s_t = s] \\
+    &= \mathbb{E}_\pi [r_\text{t+1} + \gamma R_\text{t+1} | s_t = s] \\
+    &= \sum_{a \in \mathcal{A}} \pi (s, a) \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma \mathbb{E}_\pi [R_\text{t+1} | s_\text{t+1} = s']] \\
+    &= \sum_{a \in \mathcal{A}} \pi (s, a) \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma V_\pi (s')], \forall s \in \mathcal{S}
+\end{align*}
+Phương trình trên mô tả mối quan hệ giữa giá trị của hàm giá trị ở trạng thái s và giá trị của hàm giá trị ở trạng thái s' là trạng thái kế tiếp của trạng thái s. Được gọi là phương trình Bellman
+của $V_\pi$.
+
+Tương tự ta cũng có phương trình Bellman cho $Q_\pi(s, a)$ như sau:
+\[
+Q_\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma \sum_{a' \in \mathcal{A}} \pi(s', a') Q_\pi(s', a')]
+\]
+
+\subsection{Chính sách tối ưu và hàm giá trị tối ưu.}
+Giải quyết bài toán MDP, hay học tăng cường có nghĩa là tìm ra một chính sách giúp tác nhân đạt được nhiều phần thưởng về lâu dài. Một chính sách $\pi$ được coi là tốt hơn một chính sách $\pi'$ nếu giá
+trị trả về kì vọng $V_\pi(s)$ có giá trị lớn hơn giá trị $V_\pi'(s)$ với mọi trạng thái s:
+\[
+\pi > \pi' \iff V_\pi(s) > V_\pi'(s), \forall s \in \mathcal{S}
+\]
+
+Về mặt lý thuyết, chứng minh được rằng tồn tại một chính sách mà tốt hơn các chính sách còn lại, gọi là chính sách tối ưu (kí hiệu là $\pi^\star$). Chúng ta tìm được chính sách tối ưu $\pi^\star$ bằng
+cách tìm ra hàm giá trị tối ưu $V^\star(s)$ và hàm giá trị hành động - trạng thái tối ưu $Q^\star (s, a)$:
+\[
+V^\star (s) = \underset{\pi}{\text{max }} V_\pi(s)
+\]
+
+\[
+Q^\star (s, a) = \underset{\pi}{\text{max }} Q_\pi(s, a)
+\]
+Mối quan hệ giữa $V^\star (s)$ và $Q^\star (s)$ được xác định như sau:
+\[
+V^\star (s) = \underset{a \in \mathcal{A}}{\text{max }} Q^\star (s, a)
+\]
+thể hiện rằng giá trị trả về tối ưu $V^\star (s)$ ở trạng thái s đạt được bằng cách chọn hành động ở trạng thái s tuân theo chính sách tối ưu $\pi^\star$.
+
+Phương trình Bellman cho hàm giá trị tối ưu:
+\begin{align*}
+    V^\star (s) &= \underset{a}{max } \mathbb{E} [r(s, a, s') + \gamma V^\star (s') | s_t = s, a_t = a] \\
+    &= \underset{a}{max } \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma V^\star (s')]
+\end{align*}
+
+\begin{align*}
+    Q^\star (s, a) &= \mathbb{E} [r(s, a, s') + \gamma \underset{a'}{ max } Q^\star (s', a') | s_t = s, a_t = a] \\
+    &= \sum_{s'} P(s' | s, a) [r(s, a, s') + \gamma \underset{a'}{max } Q^\star (s', a')]
+\end{align*}
+
+\section{Một số phương pháp giải quyết bài toán MDP.}
+Trong phần này, chúng ta cùng xem qua một vài phương pháp có thể được sử dụng để giải quyết vấn đề MDP.
+
+\subsection{Lập trình động - Dynamic programming.}
+Lập trình động là lớp các phương thức để tìm ra những giải pháp cho bài toán MDP trong đó thông tin về tính động của môi trường là giá trị hàm $P(.|s, a)$ được biết trước. Lập trình động tìm ra
+giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đó tìm ra chính sách tốt.
+
+\begin{itemize}
+    \item[\textbf{a.}] \textbf{Đánh giá chính sách.}
+    
+    Để đánh giá một chính sách, chúng ta cần tìm ra kết quả hàm giá trị $V_\pi$ của chính sách đó. Nghĩa là chúng ta sẽ tính giá trị của hàm giá trị trạng thái $V_\pi$ của một chính sách bất kì.
+    Nhắc lại phương trình Bellman đối với hàm giá trị:
+    \begin{align*}
+        V_\pi (s) &= \mathbb{E} [R_t | s_t = s] \\
+        &= \mathbb{E} [r_\text{t+1} + \gamma R_\text{t+1} | s_t = s] \\
+        &= \mathbb{E} [r_\text{t+1} + \gamma V_\pi (s_\text{t+1}) | s_t = s] \\
+        &= \sum_{a} \pi(s, a) \sum_{s'} P(s' | s, a) [r(s, a, s') + \gamma V_\pi (s')]
+    \end{align*}
+    Để tính giá trị của $V_\pi$, chúng ta khởi tạo một giá trị $V_0$ bất kì ở trạng thái bắt đầu (nếu trạng thái được chọn là trạng thái kết thúc thì khởi tạo $V_0 = 0$), sau đó ta tính hàm giá trị
+    ở trạng thái tiếp theo sử dụng công thức cập nhật sau:
+    \[
+    V_\text{k+1} (s) = \sum_{a} \pi (s, a) \sum_{s' | s, a} [r(s, a, s') + \gamma V_k (s')]
+    \]
+    Khi $k \to \infty$, chuỗi $V_k$ hội tụ đến giá trị $V_\pi$
+
+    \item[] 
+\end{itemize}
+
+\subsection{Phương pháp Monte Carlo.}
+
+\section{Q learning}
 
 \section{Học sâu tăng cường.}
+
 \section{Mạng sâu Q - DQN.}
 
 % Chapter 3
