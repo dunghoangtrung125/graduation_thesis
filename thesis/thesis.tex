@@ -96,6 +96,8 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
     ATG: air-to-ground -- Kênh truyền không đối đất
 
     MDP: Markov decision process -- Quá trình ra quyết định Markov
+
+    TD: Temporal Difference -- Thuật toán học khác biệt thời gian
 \end{contentlistingsection}
 
 \end{contentlisting}
@@ -510,7 +512,7 @@ môi trường trong MDP.
 Học tăng cường là một cách giải quyết cho bài toán MDP trong trường hợp các tham số của mô hình MDP chưa xác định.
 
 \subsection{Hàm giá trị trả về.}
-Hàm giá trị trả về $R_t$ là tổng số phần thưởng được chiết khấu từ mốc thời gian t.
+Hàm giá trị trả về $R_t$ là tổng số phần thưởng tích luỹ được chiết khấu từ mốc thời gian t.
 \[
 R_t = r_\text{t+1} + \gamma r_\text{t+2} + \dots = \sum_{k=0}^{T} \gamma^k r_\text{t+k+1}
 \]
@@ -577,7 +579,7 @@ Q_\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma \sum_
 
 \subsection{Chính sách tối ưu và hàm giá trị tối ưu.}
 Giải quyết bài toán MDP, hay học tăng cường có nghĩa là tìm ra một chính sách giúp tác nhân đạt được nhiều phần thưởng về lâu dài. Một chính sách $\pi$ được coi là tốt hơn một chính sách $\pi'$ nếu giá
-trị trả về kì vọng $V_\pi(s)$ có giá trị lớn hơn giá trị $V_\pi'(s)$ với mọi trạng thái s:
+trị trả về kì vọng $V_\pi(s)$ có giá trị lớn hơn giá trị $V_\pi'(s)$ với mọi trạng thái s. Một vấn đề có thể có một hoặc nhiều chính sách tối ưu.
 \[
 \pi > \pi' \iff V_\pi(s) > V_\pi'(s), \forall s \in \mathcal{S}
 \]
@@ -588,14 +590,24 @@ cách tìm ra hàm giá trị tối ưu $V^\star(s)$ và hàm giá trị hành �
 V^\star (s) = \underset{\pi}{\text{max }} V_\pi(s)
 \]
 
+Các chính sách tối ưu có cùng một hàm giá trị hành động tối ưu, kí hiệu là $Q^\star$:
+
 \[
-Q^\star (s, a) = \underset{\pi}{\text{max }} Q_\pi(s, a)
+Q^\star (s, a) = \underset{\pi}{\text{max }} Q_\pi(s, a), \forall s \in \mathcal{S}, a \in \mathcal{A}
 \]
-Mối quan hệ giữa $V^\star (s)$ và $Q^\star (s)$ được xác định như sau:
+
+Hàm giá trị hành động tối ưu được mô tả là giá trị phần thưởng kì vọng tối đa mà một tác nhân có thể nhận được khi thực hiện một hành động tại một trạng thái, và sau đó theo chính sách tối ưu. Do đó ta có
+thể viết lại hàm $Q^\star$ dựa trên hàm $V^\star$ như sau:
+\[
+Q^\star (s, a) = \mathbb{E} [r_\text{t+1} + \gamma V^\star (s') | s_t = s, a_t = a]
+\]
+
+Ngoài ra mối quan hệ giữa $V^\star (s)$ và $Q^\star (s)$ còn có thể được biểu diễn như sau:
 \[
 V^\star (s) = \underset{a \in \mathcal{A}}{\text{max }} Q^\star (s, a)
 \]
-thể hiện rằng giá trị trả về tối ưu $V^\star (s)$ ở trạng thái s đạt được bằng cách chọn hành động ở trạng thái s tuân theo chính sách tối ưu $\pi^\star$.
+
+thể hiện rằng giá trị trả về tối ưu $V^\star (s)$ ở trạng thái s đạt được bằng cách chọn hành động có giá trị hành động tối ưu cao nhất.
 
 Phương trình Bellman cho hàm giá trị tối ưu:
 \begin{align*}
@@ -713,9 +725,73 @@ Phương pháp lấy mẫu Monte Carlo chỉ phù hợp với những bài toán
 được giá trị $R_t$ trong trường hợp hữu hạn, với bài toán tương tác vô hạn lần, khó để có thể lấy trung bình của phần thưởng tích luỹ.
 
 \section{Giải quyết MDP bằng học tăng cường.}
+\subsection{Học tăng cường không mô hình - Model-free RL.}
+Trong học tăng cường, học tăng cường không mô hình là lớp các thuật toán học tăng cường không yêu cầu mô hình môi trường. Điều này có nghĩa là thuật toán học
+không cố gắng xây dựng hoặc sử dụng một mô hình để dự đoán sự chuyển tiếp trạng thái (hàm xác suất chuyển đổi trạng thái P) hay hàm phần thưởng r. Thay vào đó, nó học thông
+qua trải nghiệm từ việc tương tác trực tiếp với môi trường.
 
-\subsection{Phương pháp khác biệt thời gian - Temporal Difference}
-Trong phương pháp Monte Carlo, hàm giá trị $V^\pi$ được ước tính dựa vào việc tính trung bình giá trị phần thưởng tích luỹ của tất cả các tập
+\subsection{Thuật toán học khác biệt thời gian - Temporal Difference.}
+Trong phương pháp Monte Carlo, hàm giá trị $V^\pi$ được ước tính dựa vào việc tính trung bình giá trị phần thưởng tích luỹ trong mỗi tập. Tuy nhiên phương pháp Monte Carlo chỉ cập nhật
+hàm giá trị sau mỗi tập, điều này dẫn đến nó không phù hợp với những vấn đề vô hạn. Phương pháp học khác biệt thời gian TD là sự kết hợp giữa ý tưởng từ phương pháp Monte Carlo và
+phương pháp quy hoạch động (dynamic programming). Giống như Monte Carlo, phương pháp học TD có thể học trực tiếp từ kinh nghiệm tương tác với môi trường mà không cần nắm được tính
+động của môi trường. Giống quy hoạch động ở chỗ, phương pháp TD cũng cập nhật các ước tính dựa trên những giá trị ước tính khác, mà không cần đợi đến khi kết thúc một tập mới cập
+nhật giá trị như phương pháp Monte Carlo, thay vào đó phương pháp TD cập nhật giá trị ước tính ngay ở bước thời gian tiếp theo.
+
+Phương pháp TD đơn giản nhất thực hiện cập nhật hàm giá trị như sau:
+\[
+V^\pi (s) \leftarrow V^\pi (s) + \alpha [\underbrace{r(s, a, s') + \gamma V^\pi (s') - V^\pi (s)}_\delta]
+\]
+
+Quá trình này có thể được mô tả như sau: ở thời điểm t, tác nhân thực hiện hành động a theo chính sách hiện tại $\pi$, quan sát giá trị phần thưởng tức thời và hệ thống chuyển sang
+sang trạng thái mới s', lúc này hàm giá trị $V^\pi$ được cập nhật theo quy tắc cập nhật như trên. Trong đó $r(s, a, s') + \gamma V^\pi (s')$ là ước tính giá trị hàm $V^\pi (s)$ dựa
+trên ước tính hàm giá trị của trạng thái s' tiếp theo sau khi tác nhân thực hiện hành động a và nhận phần thưởng, biểu thức $\delta = r(s, a, s') + \gamma V^\pi (s') - V^\pi (s)$ gọi là "lỗi khác biệt thời gian", 
+thể hiện sự sai lệch giữa giá trị ước tính hiện tại của $V^\pi$ so với giá trị ước tính cập nhật sau khi tác nhân thực hiện hành động và nhận phần thưởng. $\alpha$ biểu thị cho tốc
+độ học của tác nhân, tức là tốc độ điều chỉnh giá trị của hàm $V^\pi$ sau mỗi hành động được thực hiện. Hàm giá trị được cập nhật liên tục theo từng bước thời gian chứ không cần đợi
+hết một tập (tác nhân đến trạng thái kết thúc) và không chỉ khả dụng với bài toán tương tác theo từng tập như phương pháp Monte Carlo.
+
+Tương tự với hàm giá trị hành động $Q(s, a)$ cũng áp dụng quy tắc cập nhật tương tự trong phương pháp TD:
+\[
+Q^\pi (s, a) \leftarrow Q^\pi (s, a) + \alpha [\underbrace{r(s, a, s') + \gamma Q^\pi (s', a') - Q^\pi (s, a)}_\delta]
+\]
+
+Việc cập nhật giá trị hàm Q như ở trên gọi là quá trình học giá trị hàm Q, chúng ta có hai cách để tác nhân lựa chọn hành động tiếp theo khi học, cách thứ nhất, tác nhân sẽ lựa chọn
+hành động dựa trên chính sách $\pi (s)$ hiện tại hoặc tác nhân lựa chọn theo hướng tham lam bằng cách chọn hành động tiếp theo $a = \arg \max_{a} Q(s', a)$. Cách lựa chọn hành động
+tiếp theo của tác nhân trong phương pháp TD dẫn đến hai phương pháp:
+\begin{itemize}
+    \item Phương pháp theo chính sách (on-policy method): ví dụ SARSA - là một phương pháp học TD mà hành động tiếp theo của tác nhân được lựa chọn theo chính sách hiện tại $\pi (s)$.
+    Chính sách nên áp dụng thêm một số phương pháp chọn hành động ví dụ như $\epsilon$ tham lam để đảm bảo khám phá được các hành động khác.
+
+    Giá trị "lỗi khác biệt thời gian" $\delta$ được biểu diễn như sau:
+    \[
+    \delta = r(s, a, s') + \gamma Q^\pi (s', \pi(s')) - Q^\pi (s, a)
+    \]
+
+    \item Phương pháp không theo chính sách (off-policy method): ví dụ thuật toán Q-learning - thuật toán lựa chọn hành động dựa trên cơ chế tham lam, lựa chọn hành động có giá trị
+    hàm giá trị hành động Q cao nhất để cập nhật:
+    \[
+    \delta = r(s, a, s') + \gamma \max_{a'} Q^\pi (s', a') - Q^\pi (s, a)
+    \]
+
+\end{itemize}
+
+\section{Thuật toán Q-learning.}
+Như đã trình bày ở phần trước, thuật toán Q-learning là thuật toán TD với phương pháp lựa chọn hành động tham lam không theo chính sách. Hàm giá trị hành động Q được cập nhật như sau:
+\[
+Q^\pi (s, a) \leftarrow Q^\pi (s, a) + \alpha [r(s, a, s') + \gamma \max_{a'} Q^\pi (s', a') - Q^\pi (s, a) ]
+\]
+
+Lựa chọn hành động a kế tiếp tuân theo chiến lược tham lam $\epsilon$ như sau:
+\begin{align*}
+    a =& \begin{cases}
+        \arg \max Q(s, a) & \text{với xác suất } 1 - \epsilon, \\ 
+        \text{ngẫu nhiên} & \text{với xác suất } \epsilon.
+    \end{cases}
+\end{align*}
+
+Khi tác nhân lựa chọn hành động có hàm giá trị lớn nhất, tác nhân đang khai thác kinh nghiệm cũ, ưu tiên hành động đem lại nhiều phần thưởng đã được học trong quá khứ.
+Khi tác nhân lựa chọn hành động ngẫu nhiên, nó đang khám phá những hành động mới nhằm tìm ra những hành động có giá trị phần thưởng cao hơn. Vấn đề cân bằng giữa khám phá và khai thác là
+vấn đề quan trọng, ở thời điểm bắt đầu học, tác nhân nên ưu tiên việc khám phá thông qua lựa chọn ngẫu nhiên những hành động, càng về sau, tác nhân càng giảm tỉ lệ chọn ngẫu nhiên hành
+động xuống và ưu tiên khai thác từ kinh nghiệm trong quá khứ.
 
 \section{Học sâu tăng cường.}
 
@@ -808,25 +884,25 @@ phù hợp nhằm làm tối đa thông lượng trung bình của kênh truyề
 
 
 \section{Công thức hoá vấn đề.}
-Để minh hoạ cho tính động và không chắc chắn của máy gây nhiễu trên UAV, chúng ta xây dựng vấn đề tối ưu hoá của hệ thống được đề cập ở trên như một quá trình ra quyết định
-Markov (MDP). Việc mô hình hoá này giúp máy thu có thể ra quyết định tối ưu nhằm tối đa hoá giá trị phần thưởng dài hạn, trong trường hợp này là giá trị thông lượng trung bình
+Để đối phó với cuộc tấn công gây nhiễu từ UAV vốn có tính động và không chắc chắn, chúng ta xây dựng vấn đề tối ưu hoá của hệ thống được đề cập ở trên như một quá trình ra quyết định
+Markov (MDP). Việc mô hình hoá này giúp máy phát có thể ra quyết định tối ưu nhằm tối đa hoá giá trị phần thưởng dài hạn, trong trường hợp này là giá trị thông lượng trung bình
 của hệ thống truyền thông. MDP được xác định bởi một bộ $\langle S, A, r \rangle$ trong đó S là không gian trạng thái, A là không gian hành động và r là hàm giá trị phần thưởng
 tức thời của hệ thống.
 
 \subsection{Không gian trạng thái.}
-Không gian trạng thái trong trường hợp này được xác định bởi ba trạng thái bao gồm trạng thái của máy gây nhiễu, trạng thái của bộ đệm dữ liệu máy phát và trạng thái của bộ lưu
+Chúng ta xác định không gian trạng thái của hệ thống trong trường hợp này bao gồm ba trạng thái là trạng thái tấn công của máy gây nhiễu UAV, trạng thái của bộ đệm dữ liệu máy phát và trạng thái của bộ lưu
 trữ năng lượng của máy phát.
 \[
-S = \{(j, d, e) : j \in \{0, 1\}; d \in \{0, \dots, D\}; e \in \{0, \dots, E\}\}
+\mathcal{S} = \{(j, d, e) : j \in \{0, 1\}; d \in \{0, \dots, D\}; e \in \{0, \dots, E\}\}
 \]
 
 Trong đó j là trạng thái UAV gây nhiễu, với $j = 0$ nếu như UAV không tấn công hoặc $j = 1$ nếu sóng nhiễu của UAV tấn công kênh truyền, d và e tương ứng là số gói tin trong bộ
 đệm và số đơn vị năng lượng trong bộ lưu trữ năng lượng của máy phát. Trạng thái của hệ thống được xác định bởi một biến tổng hợp $s = (j, d, e) \in S$.
 
 \subsection{Không gian hành động.}
-Không gian hành động bao gồm $(M+4)$ hành động mà máy phát có thể lựa chọn, bao gồm không hoạt động, truyền dữ liệu chủ động, thu thập năng lượng từ sóng nhiễu, tán xạ ngược sóng
+Máy phát có thể thực hiện $(M+4)$ hành động trong không gian trạng thái $\mathcal{A}$, bao gồm không hoạt động, truyền dữ liệu chủ động, thu thập năng lượng từ sóng nhiễu, tán xạ ngược sóng
 nhiễu và điều chỉnh tốc độ phát là một trong M giá trị tốc độ của vector $r = \{r_1, \dots, r_m,\dots, r_M\}$ bằng cách sử dụng kĩ thuật RA khi sóng nhiễu từ UAV ảnh hưởng đến
-kênh truyền (UAV tấn công). Do đó, không gian hành động được xác định là tập $A = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
+kênh truyền (UAV tấn công). Do đó, không gian hành động được xác định là tập $]\mathcal{A} = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
 
 \begin{align*}
     a &= \begin{cases}
@@ -896,8 +972,122 @@ chiến lược phòng thủ hiện tại của nó. Sau khi thực hiện hành
 Bằng cách này, máy phát có thể học cách đưa ra quyết định đúng dựa trên kinh nghiệm của chính nó, qua đó đạt được một chiến lược phòng thủ tối ưu $\pi^\star$: là một liên kết giữa trạng thái và hành động tương
 ứng mà máy phát sẽ lựa chọn để tối đa hoá thông lượng, giảm số gói tin bị mất khi bị UAV tấn công.
 
-\subsection{Phương pháp học tăng cường sâu DQN.}
+Kí hiệu $V^\pi (s)$ là giá trị phần thưởng kì vọng mà máy phát sẽ nhận được khi tuân theo chính sách $\pi$ ở trạng thái $s \in \mathcal{S}$:
+\[
+V_\pi (s) = \mathbb{E}_\pi \{\sum_{k=0}^{\infty} \gamma^k r_\text{t+k+1} | s_0 = s\} = \mathbb{E}_\pi [r + \gamma V^\pi (s_\text{t+1}) | s_0 = s]
+\]
+Với $0 \leq \gamma < 1$ là hệ số chiết khấu, đại diện cho sự đánh đổi giữa phần thưởng tức thời và phần thưởng trong tương lai, nếu $\gamma$ gần giá trị 0, thuật toán sẽ lựa chọn những hành động để
+tối đa giá trị phần thưởng tức thời, còn nếu $\gamma$ gần với giá trị 1, máy phát sẽ lựa chọn những hành động để tối đa hoá giá trị phần thưởng tích luỹ về lâu dài, hay nói cách khác là tác nhân sẽ nhìn xa
+trông rộng hơn.
 
+Tìm ra chính sách tối ưu $\pi^\star$ là mục tiêu của thuật toán này, hàm giá trị tối ưu và hàm giá trị hành động tối ưu được định nghĩa như sau:
+\[
+V^\star (s) = \underset{a}{\max} \mathbb{E} [r(s, a, s') + \gamma V^\star (s')]
+\]
+\[
+Q^\star (s, a) = \mathbb{E} [r(s, a, s') + \gamma \underset{a'}{ max } Q^\star (s', a') | s_t = s, a_t = a]
+\]
+
+Hàm giá trị tối ưu có mối quan hệ với hàm giá trị hành động tối ưu như sau:
+\[
+V^\star (s) = \underset{a \in \mathcal{A}}{\text{max }} Q^\star (s, a)
+\]
+
+Thuật toán Q-learning là thuật toán TD với cơ chế lựa chọn hành động tiếp theo không theo chính sách hiện tại mà lựa chọn hành động có giá trị
+$Q(s, a)$ cao nhất. Bằng việc thực hiện phép lặp và cập nhật giá trị hàm $Q(s, a)$ liên tiếp, hàm $Q(s, a)$ sẽ hội tụ đến một chiến lược tối ưu $\pi^\star$.
+Hàm $Q(s, a)$ được cập nhật như sau:
+\[
+Q_\text{t+1} (s_t, a_t) = Q_t (s_t, a_t) + \alpha_t [r_t(s_t, a_t, s_\text{t+1}) + \gamma \max_{a_\text{t+1}} Q_t (s_\text{t+1}, a_\text{t+1}) - Q_t (s_t, a_t) ]
+\]
+
+Biểu thức $\delta = r_t(s_t, a_t, s_\text{t+1}) + \gamma \max_{a_\text{t+1}} Q_t (s_\text{t+1}, a_\text{t+1}) - Q_t (s_t, a_t)$ là giá trị thể hiện sự sai khác
+giữa giá trị hàm Q được dự đoán và giá trị hàm Q hiện tại. Hệ số $\alpha_t$ gọi là tốc độ học, định nghĩa tác động của giá trị mới lên giá trị hiện tại. Để đảm bảo thuật toán
+Q-learning hội tụ, tìm được chính sách tối ưu, tốc độ học $\alpha_t$ thoả mãn điều kiện sau:
+\[
+\sum_{t=0}^{\infty} \alpha_t (s, a) = \infty, \text{và } \sum_{t=0}^{\infty} \alpha_t^2 (s, a) < \infty
+\]
+\begin{algorithm}
+    \caption{Thuật toán chống nhiễu dựa trên lập bảng Q-learning.}\label{alg:qlearning}
+    \begin{algorithmic}[1]
+    \State \textbf{Initialize } $Q_0(s,a) = 0 \forall s,a.$, learning rate $\alpha$ and discount factor $\gamma$
+    
+    \For{t = 1 to T}
+        \State From current state $s_t$, choose action $a_t$ based on $\epsilon$-greedy and and execute, obtain the immediate reward
+        $r_t$ and new state $s_\text{t+1}$. Select an action $a_\text{t+1}$ based on the state $s_{t+1}$ and then update the table entry for $Q(s_t, a_t)$
+        as follows:
+        \[
+        Q_\text{t+1} (s_t, a_t) = Q_t (s_t, a_t) + \alpha_t [r_t(s_t, a_t, s_\text{t+1}) + \gamma \max_{a_\text{t+1}} Q_t (s_\text{t+1}, a_\text{t+1}) - Q_t (s_t, a_t) ]
+        \]
+        \State Replace $s_t \leftarrow s_\text{t+1}$
+    \EndFor
+    \State \textbf{Output: } $\pi^\star (s) = \arg \max_{a} Q^\star (s, a)$
+\end{algorithmic}
+\end{algorithm}
+
+Hành động a được lựa chọn theo chiến lược $\epsilon$-greedy như sau: ở lần lặp thứ k
+\begin{align*}
+    a =& \begin{cases}
+        \arg \max Q(s, a) & \text{với xác suất } 1 - \epsilon, \\ 
+        \text{ngẫu nhiên} & \text{với xác suất } \epsilon.
+    \end{cases}
+\end{align*}
+
+\subsection{Phương pháp học tăng cường sâu DQN.}
+Vấn đề của thuật toán Q-learning là tốc độ hội tụ thấp, đồng thời không khả thi với bài toán dữ liệu nhiều chiều. Ngoài ra với thuật toán lập bảng Q-learning,
+khi có số lượng lớn các hành động và trạng thái, thuật toán gặp vấn đề bộ nhớ khi kích thước bảng Q lớn, do không gian trạng thái $\mathcal{S}$ và không gian hành động $\mathcal{A}$
+lớn, số lượng cặp trạng thái - hành động $(s,a)$ cũng sẽ rất lớn, điều này dẫn đến bảng Q cần phải lưu trữ một lượng dữ liệu khổng lồ. Tốc độ cập nhật bảng Q và tốc độ hội tụ cũng sẽ
+chậm hơn rất nhiều.
+
+Ở đây em đề xuất một thuật toán tìm ra chiến lược phòng thủ tối ưu cho máy phát dựa trên học sâu sử dụng mạng thần kinh nhân tạo. Thuật toán học sâu DQN được đề xuất bởi Google Deepmind 
+sử dụng mạng thần kinh sâu để ước tính giá trị xấp xỉ của hàm giá trị hành động tối ưu $Q^\star (s, a)$. Thuật toán sử dụng một số cơ chế sau:
+\begin{itemize}
+    \item Cơ chế lưu trữ, phát lại trải nghiệm: Thuật toán sử dụng một bộ nhớ phát lại D, là bể dữ liệu để lưu các kinh nghiệm của quá trình chuyển đổi trạng thái $(s_t, a_t, r_t, s_\text{t+1})$
+    thay vì ngay lập tức đào tạo mạng thần kinh sử dụng các cặp trạng thái hành động diễn ra trong quá trình trải nghiệm. Tiến hành lấy ngẫu nhiên từ bể dữ liệu, sau đó đưa vào
+    mạng thần kinh sâu để đào tạo. Cách làm này giúp thuật toán học hiệu quả những kinh nghiệm cũ nhiều lần và loại bỏ mối tương quan trong các mẫu.
+
+    \item  Sử dụng một mạng Q mục tiêu: Trong thuật toán DQN, ta sử dụng hai mạng Q có kiến trúc giống hệt nhau, một mạng Q mục tiêu và một mạng Q chính. Việc sử dụng mạng Q 
+    mục tiêu giúp cải thiện tính ổn định trong quá trình học. Cụ thể, mạng Q mục tiêu giảm thiểu sự dao động mạnh mẽ của giá trị Q bằng cách cập nhật ít thường xuyên hơn so với
+    mạng Q chính. Điều này giúp giảm hiện tượng ước lượng quá mức và tránh làm mất ổn định quá trình học, nhờ đó quá trình hội tụ trở nên ổn định và nhanh chóng hơn.
+\end{itemize}
+
+\begin{algorithm}
+    \caption{Thuật toán chống nhiễu sử dụng DQN.}\label{alg:dqn}
+    \begin{algorithmic}[1]
+    \State Initialize replay memory D
+    \State Initialize the Q-network $\mathcal{Q}$ with random weights $\theta$.
+    \State Initialize the target Q-network $\hat{\mathcal{Q}}$ with weight $\theta' = \theta$.
+    \For{t = 1 to T}
+        \State With probability $\epsilon$ select a random action $a_t$, otherwise select $a_t = \arg \max \mathcal{Q}^\star (s_t, a_t, \theta)$
+        \State Perform action $a_t$ and observe reward $r_t$ and next state $s_\text{t+1}$
+        \State Store transition $(s_t,a_t,r_t,s_\text{t+1})$ in the replay memory D
+        \State Sample random mini-batch of transitions $(s_j,a_j,r_j,s_\text{j+1})$ from D
+        \State $y_j = r_j + \gamma \max_{a\text{j+1}} \hat{\mathcal{Q}} (s_\text{j+1}, a_\text{j+1}, \theta')$
+        \State Perform a gradient descent step on $(y_j - \mathcal{Q} (s_j, a_j, \theta))^2$.
+        \State Every C steps reset $\hat{\mathcal{Q}} = \mathcal{Q}$
+    \EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Trong thuật toán DQN ở trên quá trình đào tạo bao gồm T tập. Trong mỗi tập, ở trạng thái hiện tại, tác nhân lựa chọn một hành động dựa trên chiến lược tham lam $\epsilon$.
+Ban đầu, hành động được lựa chọn theo một chính sách ngẫu nhiên, sau khi học được kinh nghiệm từ phần thưởng nhận được, tác nhân dần xác định một chính sách cố định mà ở
+đó thu được nhiều phần thưởng nhất. Cụ thể thì ban đầu giá trị $\epsilon$ là một số gần với 1, sau đó giảm dần xuống một giá trị nhỏ dựa trên một hệ số suy giảm nhất định.
+Điều này giúp tác nhân tự do khám phá những hành động tiềm năng từ lúc bắt đầu, càng về sau, khi giá trị $\epsilon$ giảm, tác nhân sẽ chọn những hành động có giá trị Q lớn
+nhất, nhằm khai thác những kiến thức đã học được để tối đa hóa phần thưởng. Điều này giúp thuật toán học hỏi một cách hiệu quả, vừa đảm bảo sự ổn định trong quá trình
+huấn luyện, vừa đảm bảo khả năng khai thác khám phá để tối ưu chiến lược về dài hạn.
+
+Sau đó, tác nhân tiến hành thực hiện hành động, quan sát trạng thái kế tiếp và nhận về phần thưởng. Quá trình chuyển đổi này được lưu trong bộ nhớ phát lại D để cho
+quá trình đào tạo về sau.
+
+Trong quá trình học tập, một số mẫu được lấy ngẫu nhiên từ bộ nhớ phát lại D và được đưa vào mạng thần kinh. Thuật toán cập nhật tham số mạng bằng giảm thiểu hàm mất mát
+sử dụng SGD:
+\[
+L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \left[ \left( r + \gamma \max_{a'} \mathcal{Q}(s', a'; \theta'_i) - \mathcal{Q}(s, a; \theta_i) \right)^2 \right]
+\]
+Trong đó $\theta_i$ là tham số của mạng chính Q ở tập đào tạo thứ i và $\theta_i'$ là tham số của mạng mục tiêu $\hat{\mathcal{Q}}$
+
+Sau C bước, thuật toán cập nhật tham số mạng mục tiêu $\theta_i'$ với tham số của mạng chính $\theta_i$.
+
+Sau khi quá trình đào tạo kết thúc, tham số từ mạng chính $\mathcal{Q}$ được sử dụng để giúp máy phát đưa ra quyết định để tối ưu hoá thông lượng.
 
 % Chapter 4
 \chapter{Thiết lập mô phỏng và đánh giá hiệu năng.}
@@ -914,7 +1104,21 @@ năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}
 tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_\text{avg} = 7W$.
 
 \subsection{Thông số cài đặt thuật toán Q-learning và DQN.}
-
+\begin{itemize}
+    \item[\textbf{a.}] \textbf{Thuật toán Q-learning.}
+    
+    Trong mô phỏng tìm ra chiến lược tối ưu cho mô hình hệ thống ở trên sử dụng thuật toán Q-learning, ta đặt các thông số như sau: tốc độ học $\alpha = 0.1$,
+    hệ số chiết khấu $\gamma = 0.9$. Ngoài ra còn áp dụng chiến lược $\epsilon$ tham lam với $\epsilon = 1$, giá trị $\epsilon$ giảm dần xuống giá trị $\epsilon_\text{min} = 0.01$,
+    với tốc độ giảm giá trị $\epsilon_\text{decay} = 0.01$. Số lần lặp $T = 10^6$.
+    \item[\textbf{b.}] \textbf{Thuật toán DQN.}
+    
+    Trong mô phỏng thuật toán DQN, kiến trúc của mạng mục tiêu $\hat{\mathcal{Q}}$ và mạng chính $\mathcal{Q}$ là như nhau: mô hình sử dụng kiến trúc DQN chuẩn, 
+    gồm ba lớp ẩn với 512, 256, và 64 neuron, mỗi lớp sử dụng hàm kích hoạt tanh. Lớp đầu ra có $M+4$ neuron tương ứng với kích cỡ không gian hành động của hệ thống 
+    và sử dụng hàm kích hoạt linear để xuất ra giá trị Q cho từng hành động. Giá trị ban đầu của $\epsilon$ trong chiến lược $\epsilon$ tham lam là $\epsilon = 1$,
+    $\epsilon_min = 0.01$, hệ số suy giảm giá trị $\epsilon$ là $\epsilon_\text{decay} = 0.9999$. Tốc độ học (learning rate) là $\alpha = 0.0001$. Kích cỡ của bộ
+    nhớ phát lại là $D = 10000$, số mẫu được lấy ngẫu nhiên ở mỗi lần đào tạo mạng từ bộ nhớ phát lại (mini-batch) là 32 mẫu, mạng mục tiêu $\hat{\mathcal{Q}}$ được cập
+    nhật tham số với tần suất là 5000 bước huấn luyện.
+\end{itemize}
 
 \section{Kết quả mô phỏng.}
 \subsection{So sánh sự hội tụ của hai thuật toán học tăng cường Q và DQN.}
@@ -1013,6 +1217,14 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
 \end{enumerate}
 % Chapter 5
 \chapter{Kết luận}
+Trong đồ án này, em đã đề xuất một phương pháp chống nhiễu cho hệ thống truyền thông không dây để chống lại cuộc tấn công từ thiết bị gây nhiễu gắn trên máy bay không người lái UAV.
+Máy phát trong trường hợp này có thể tận dụng sóng nhiễu từ thiết bị tấn công để thu năng lượng để phục vụ hoạt động truyền gói tin chủ động khi không bị tấn công, hoặc điều chỉnh tốc
+độ phát thích hợp, hoặc tận dụng sóng nhiễu để tán xạ ngược gói tin đến máy thu. Dựa trên việc xây dựng mô hình hệ thống truyền thông này như một bài toán MDP, em đã đã sử dụng các
+thuật toán học tăng cường như
+Q-learning và DQN để giúp máy phát tìm ra được chiến lược phòng thủ phù hợp trước cuộc tấn công gây nhiễu, qua đó tối đa hoá thông lượng trung bình của hệ thống, giảm số gói tin bị mất mát trên đường truyền.
+Kết quả mô phỏng đã chỉ ra rằng, với việc sử dụng các thuật toán học tăng cường, thông lượng của hệ thống cũng như số gói tin mất mát và tỉ lệ truyền gói tin thành công đều tăng lên rõ
+rệt so với một chiến lược truyền tin tham lam không sử dụng thuật toán học tăng cường. Qua đó giúp hệ thống không những có khả năng chống lại, mà còn tận dụng được cuộc tấn công gây nhiễu
+để thực hiện nhiệm vụ truyền thông tin của mình và giảm thiểu thiệt hại của cuộc tấn công gây nhiễu.
 
 % Tài liệu tham khảo
 \begin{thebibliography}{9}

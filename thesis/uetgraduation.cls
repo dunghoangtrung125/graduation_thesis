@@ -7,6 +7,9 @@
 
 \input{sizes.clo}
 
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+
 \RequirePackage{amsmath}
 \RequirePackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2cm,includefoot,footskip=1cm]{geometry}
 \RequirePackage{fontspec}
