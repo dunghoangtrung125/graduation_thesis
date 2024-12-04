@@ -44,7 +44,7 @@ Tất cả các tham khảo nghiên cứu liên quan đều nêu rõ nguồn g�
 danh mục tài liệu tham khảo trong khóa luận. Khóa luận không sao chép tài liệu, 
 công trình nghiên cứu từ người khác mà không có rõ về mặt tài liệu tham khảo.
 
-Các thông kê, các kết quả trình bày khóa luận đều là tự thực nghiệm khi chạy chương trình. Nếu tôi sai 
+Các thống kê, các kết quả trình bày khóa luận đều là từ thực nghiệm khi chạy chương trình. Nếu tôi sai 
 tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại học Công Nghệ - Đại học Quốc Gia Hà Nội.
 
 \begin{flushright}
@@ -257,7 +257,7 @@ Trong tấn công gây nhiễu sóng vô tuyến, các thông số sau phản á
     Trong đó $P_R$ là công suất nhận được từ máy phát tại cổng (máy thu), $P_J$ là công suất nhiễu được phát của máy gây nhiễu, $\rho^2$ là phương sai
     của nhiễu Gauss trắng cộng thêm. $\varphi P_J$ là công suất nhiễu tại cổng, trong đó $0 \leq \varphi \leq 1$ là hệ số suy giảm kênh truyền.
 
-    Có thể thấy tín hiệu nhiễu càng mạng càng làm giảm giá trị SINR ở máy thu, khiến cho tỉ lệ lỗi bit (BER) tăng, gây lỗi khi giải mã gói tin ở máy thu,
+    Có thể thấy tín hiệu nhiễu càng mạnh càng làm giảm giá trị SINR ở máy thu, khiến cho tỉ lệ lỗi bit (BER) tăng, gây lỗi khi giải mã gói tin ở máy thu,
     làm giảm thông lượng và độ tin cậy của kết nối giữa máy phát và máy thu.
     \item \textbf{Thông lượng}: được định nghĩa là tốc độ trung bình gửi gói tin thành công thông qua kênh truyền, được tính thông qua công thức Shannon:
     \[
@@ -400,7 +400,7 @@ So với liên lạc vô tuyến truyền thống, kĩ thuật tán xạ ngượ
 do đó nó có mức độ tiết kiệm năng lượng cao hơn. 
 
 So với kĩ thuật tán xạ ngược truyền thống, ví dụ như RFID hoạt động theo nguyên lý sau: đầu đọc RFID sẽ truyền các tín hiệu công suất cao (1W) đến 
-các thiết bị lân cận như thẻ RFID thụ động - không có pin và hoạt động dựa trên việc thu năng lương từ tín hiệu của đầu đọc RFID, sau đó tán xạ tín hiệu này để gửi thông tin
+các thiết bị lân cận như thẻ RFID thụ động - không có pin và hoạt động dựa trên việc thu năng lượng từ tín hiệu của đầu đọc RFID, sau đó tán xạ tín hiệu này để gửi thông tin
 đến đầu đọc RFID, đầu đọc sau đó sẽ giải mã tín hiệu tán xạ này để trích xuất dữ liệu. So với kĩ thuật RFID này thì tán xạ ngược môi trường xung quanh có một số điểm ưu việt hơn.
 Thứ nhất, do tận dụng tín hiệu trong môi trường nên nó không cần phải có thêm cơ sở hạ tầng cung cấp năng lượng như đầu đọc RFID cung cấp năng lượng cho các thiết bị lân cận 
 thông qua việc phát tín hiệu công suất cao. Điều này giúp giảm chi phí lắp đặt và bảo trì, thứ khiến cho hệ thống như RFID khó khăn nếu triển khai ở những môi trường ngoài trời
@@ -672,12 +672,12 @@ giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đ�
 
     \item[\textbf{c.}] \textbf{Phương pháp lặp chính sách.}
     
-    Phương pháp này phép lặp đi lặp lại một quá trình kết hợp giữa đánh gía chính sách và cải thiện chính sách, ta có một phương pháp gọi là lặp chính sách. Lựa chọn một chính sách $\pi$, chúng ta thực hiện đánh gía chính sách để tính được
+    Phương pháp này phép lặp đi lặp lại một quá trình kết hợp giữa đánh giá chính sách và cải thiện chính sách, ta có một phương pháp gọi là lặp chính sách. Lựa chọn một chính sách $\pi$, chúng ta thực hiện đánh giá chính sách để tính được
     giá trị $V_\pi$, sau đó sử dụng phương pháp cải thiện chính sách để cải thiện chính sách $\pi$ để tìm ra chính sách mới $\pi'$ tốt hơn chính sách cũ. Quá trình này được lặp đi lặp lại giúp ta tìm ra chính sách tối ưu.
 
     \item[\textbf{d.}] \textbf{Phương pháp lặp giá trị.}
     
-    Là thuật toán tìm ra chính sách tối ưu $\pi^\star$ bằng cách lặp hàm giá trị - trạng thái để tìm ra $V^\star (s)$ dựa trên phuơng trình Bellman của hàm giá trị tối ưu $V^\star$ như đã trình bày
+    Là thuật toán tìm ra chính sách tối ưu $\pi^\star$ bằng cách lặp hàm giá trị - trạng thái để tìm ra $V^\star (s)$ dựa trên phương trình Bellman của hàm giá trị tối ưu $V^\star$ như đã trình bày
     ở phần trước:
     \[
     V^\star (s) = \underset{a}{max } \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma V^\star (s')]
@@ -686,7 +686,7 @@ giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đ�
     \[
     V_\text{k+1} (s) = \underset{a}{max } \sum_{s'} P(s' | s, a) [r + \gamma V_k (s')]
     \]
-    Quá trình lặp được thực hiện cho đến khi hội tụ (khi kết quả hàm giá trị không thay đổi quá một ngưỡng $\epsilon$ xác định trước), lúc này ta thu được hàm gía trị
+    Quá trình lặp được thực hiện cho đến khi hội tụ (khi kết quả hàm giá trị không thay đổi quá một ngưỡng $\epsilon$ xác định trước), lúc này ta thu được hàm giá trị
     tối ưu. Chính sách tối ưu được rút ra từ hàm giá trị tối ưu như sau:
     \[
     \pi (s) = \arg \max_a \sum_{s'} P(s'|s, a) [r + \gamma V^\star (s')]
@@ -937,7 +937,7 @@ số gói tin tán xạ ngược thành công là $d_n^J$ gói tin trong đó $0
 ở cường độ nhiễu là $P_n^J$).
 
 Ngoài ra khi máy gây nhiễu tấn công (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$ và có đủ năng lượng $(e \geq e_t)$, nó còn có thể lựa chọn phát gói 
-tin với tốc độ $r_m$, (a = 4 + m) để truyển chủ động gói tin theo kĩ thuật RA, số gói tin truyền thành công đến máy thu là $d_m^r$ trong đó $0 < d_m^r \leq \hat{d_m^r}$.
+tin với tốc độ $r_m$, (a = 4 + m) để truyền chủ động gói tin theo kĩ thuật RA, số gói tin truyền thành công đến máy thu là $d_m^r$ trong đó $0 < d_m^r \leq \hat{d_m^r}$.
 ($\hat{d_m^r}$ là số gói tin tối đa mà máy phát có thể phát thành công nếu máy phát phát với tốc độ $r_m$).
 
 Trong các trường hợp còn lại, khi máy phát không truyền thành công gói tin đến máy thu thì giá trị phần thưởng tức thời là 0.
