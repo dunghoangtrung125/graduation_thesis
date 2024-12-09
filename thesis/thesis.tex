@@ -3,7 +3,7 @@
 \begin{document}
 \studentname{Hoàng Trung Dũng}
 \title{Nghiên cứu phương pháp chống nhiễu cho mạng truyền thông tán xạ ngược sử dụng phương pháp học sâu tăng cường}
-\documenttype{Đồ án tốt nghiệp đại học hệ chính quy}
+\documenttype{Khoá luận tốt nghiệp đại học hệ chính quy}
 \major{Công nghệ thông tin}
 \year{2024}
 \supervisor{TS. Nguyễn Ngọc Tân}
@@ -625,7 +625,8 @@ Trong phần này, chúng ta cùng xem qua một vài phương pháp có thể �
 
 \subsection{Lập trình động - Dynamic programming.}
 Lập trình động là lớp các phương thức để tìm ra những giải pháp cho bài toán MDP trong đó thông tin về tính động của môi trường là giá trị hàm $P(.|s, a)$ được biết trước. Lập trình động tìm ra
-giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đó tìm ra chính sách tốt.
+giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đó tìm ra chính sách tối ưu. Phương pháp quy hoạch động dựa trên một thuộc tính gọi là "bootstrapping" nghĩa là kết quả ước lượng hàm giá trị của
+các trạng thái sẽ được cập nhật dựa trên ước lượng giá trị của trạng thái kế tiếp, nghĩa là phương pháp này cập nhật giá trị ước lượng dựa trên một giá trị ước lượng khác.
 
 \begin{itemize}
     \item[\textbf{a.}] \textbf{Đánh giá chính sách.}
@@ -758,29 +759,86 @@ Việc cập nhật giá trị hàm Q như ở trên gọi là quá trình học
 hành động dựa trên chính sách $\pi (s)$ hiện tại hoặc tác nhân lựa chọn theo hướng tham lam bằng cách chọn hành động tiếp theo $a = \arg \max_{a} Q(s', a)$. Cách lựa chọn hành động
 tiếp theo của tác nhân trong phương pháp TD dẫn đến hai phương pháp:
 \begin{itemize}
-    \item Phương pháp theo chính sách (on-policy method): ví dụ SARSA - là một phương pháp học TD mà hành động tiếp theo của tác nhân được lựa chọn theo chính sách hiện tại $\pi (s)$.
-    Chính sách nên áp dụng thêm một số phương pháp chọn hành động ví dụ như $\epsilon$ tham lam để đảm bảo khám phá được các hành động khác.
+    \item Phương pháp theo chính sách (on-policy method): ví dụ $\textbf{SARSA}$ - là một thuật toán học TD sử dụng chính sách mà nó đang học để cập nhật giá trị hành động. Điều này có nghĩa là
+    khi lựa chọn hành động tiếp theo, SARSA sẽ sử dụng hành động mà chính sách hiện tại chỉ định, thay vì chọn hành động tối ưu tuyệt đối. Bằng cách sử dụng thêm chính sách $\epsilon$
+    tham lam khi chọn hành động tiếp theo tuân theo chính sách $\pi$, SARSA sẽ tìm được chính sách với xác suất bằng 1.
+    
+    Biểu thức cập nhật hàm giá trị hành động của thuật toán SARSA như sau:
+    \[
+    Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha [r_\text{t+1} + \gamma Q (s_\text{t+1}, a_\text{t+1} - Q^\pi(s_t, a_t)]
+    \]
+    Trong đó hành động $a_\text{t+1} = \pi(s_\text{t+1})$ được lựa chọn tuân trên chính sách hiện tại của tác nhân.
 
     Giá trị "lỗi khác biệt thời gian" $\delta$ được biểu diễn như sau:
     \[
-    \delta = r(s, a, s') + \gamma Q^\pi (s', \pi(s')) - Q^\pi (s, a)
+    \delta = r_\text{t+1} + \gamma Q (s_\text{t+1}, \pi(s_\text{t+1})) - Q (s_t, a_t)
     \]
+    Luật cập nhật của SARSA phụ thuộc vào các giá trị $(s, a, r, s', a')$, chính là lý do thuật toán có tên gọi SARSA (State - Action - Reward - State - Action),
+    mô tả sự dịch chuyển từ một cặp trạng thái - hành động này sang cặp trạng thái hành động tiếp theo tuân theo chính sách hiện tại của tác nhân.
+    \begin{figure}{Sơ đồ cập nhật thuật toán SARSA.}
+        \centering
+        \includegraphics[scale=0.5]{sarsa_diagram}
+        \label{fig:sarsa}
+    \end{figure}
+
+    \begin{algorithm}
+        \caption{Thuật toán SARSA}\label{alg:sarsa}
+        \begin{algorithmic}[1]
+        \State \textbf{Initialize } $Q_0(s,a) \text{ arbitrarily } \forall s,a.$, except that Q(terminal, .) = 0
+        
+        \State Loop for each episode:
+            \State \quad Initialize s
+            \State \quad Choose a from s using policy derived from Q (e.g., $\epsilon$-greedy)
+            \State \quad Loop for each step of episode:
+                \State \quad \quad Take action a, observe r, s'
+                \State \quad \quad Choose a' from s' using policy derived from Q (e.g., $\epsilon$-greedy)
+                \State \quad \quad $Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma Q (s', a') - Q(s, a)]$
+                \State \quad \quad $s \leftarrow s'; a \leftarrow a'$
+            \State \quad until s is terminal
+    \end{algorithmic}
+    \end{algorithm}
 
     \item Phương pháp không theo chính sách (off-policy method): ví dụ thuật toán Q-learning - thuật toán lựa chọn hành động dựa trên cơ chế tham lam, lựa chọn hành động có giá trị
     hàm giá trị hành động Q cao nhất để cập nhật:
     \[
-    \delta = r(s, a, s') + \gamma \max_{a'} Q^\pi (s', a') - Q^\pi (s, a)
+    \delta = r_\text{t+1} + \gamma \max_{a} Q (s_\text{t+1}, a) - Q (s_t, a_t)
     \]
 
 \end{itemize}
 
 \section{Thuật toán Q-learning.}
-Như đã trình bày ở phần trước, thuật toán Q-learning là thuật toán TD với phương pháp lựa chọn hành động tham lam không theo chính sách. Hàm giá trị hành động Q được cập nhật như sau:
+Như đã trình bày ở phần trước, thuật toán Q-learning là thuật toán TD với phương pháp lựa chọn hành không theo chính sách hiện tại của tác nhân (off-policy). Thay vào đó,
+nó lựa chọn hành động tiếp theo dựa trên giá trị tối ưu của hàm Q.
+
+Hàm giá trị hành động Q được cập nhật như sau:
 \[
-Q^\pi (s, a) \leftarrow Q^\pi (s, a) + \alpha [r(s, a, s') + \gamma \max_{a'} Q^\pi (s', a') - Q^\pi (s, a) ]
+Q (s_t, a_t) \leftarrow Q (s_t, a_t) + \alpha [r_\text{t+1} + \gamma \max_{a'} Q (s_\text{t+1}, a') - Q (s_t, a_t) ]
 \]
 
-Lựa chọn hành động a kế tiếp tuân theo chiến lược tham lam $\epsilon$ như sau:
+\begin{figure}{Sơ đồ cập nhật thuật toán Q-learning.}
+    \centering
+    \includegraphics[scale=0.5]{q_learning_diagram}
+    \label{fig:q_learning}
+\end{figure}
+
+\begin{algorithm}
+    \caption{Thuật toán Q-learning}\label{alg:q_learning}
+    \begin{algorithmic}[1]
+    \State \textbf{Initialize } parameters: $\alpha \in (0, 1]$, small $\epsilon > 0$
+    \State \textbf{Initialize } $Q_0(s,a) \text{ arbitrarily } \forall s,a.$, except that Q(terminal, .) = 0
+    
+    \State Loop for each episode:
+        \State \quad Initialize s
+        \State \quad Loop for each step of episode:
+            \State \quad \quad Choose a' from s' using policy derived from Q (e.g., $\epsilon$-greedy)
+            \State \quad \quad Take action a, observe r, s'
+            \State \quad \quad $Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \max_{a'} Q (s', a') - Q(s, a)]$
+            \State \quad \quad $s \leftarrow s';$
+        \State \quad until s is terminal
+\end{algorithmic}
+\end{algorithm}
+
+Tương tự SARSA, ta cũng sử dụng $\epsilon$-greedy để lựa chọn hành động a kế tiếp tuân theo chiến lược tham lam $\epsilon$ như sau:
 \begin{align*}
     a =& \begin{cases}
         \arg \max Q(s, a) & \text{với xác suất } 1 - \epsilon, \\ 
@@ -788,14 +846,73 @@ Lựa chọn hành động a kế tiếp tuân theo chiến lược tham lam $\e
     \end{cases}
 \end{align*}
 
-Khi tác nhân lựa chọn hành động có hàm giá trị lớn nhất, tác nhân đang khai thác kinh nghiệm cũ, ưu tiên hành động đem lại nhiều phần thưởng đã được học trong quá khứ.
+Khi tác nhân lựa chọn hành động có hàm Q lớn nhất, tác nhân đang khai thác kinh nghiệm cũ, ưu tiên hành động đem lại nhiều phần thưởng đã được học trong quá khứ.
 Khi tác nhân lựa chọn hành động ngẫu nhiên, nó đang khám phá những hành động mới nhằm tìm ra những hành động có giá trị phần thưởng cao hơn. Vấn đề cân bằng giữa khám phá và khai thác là
 vấn đề quan trọng, ở thời điểm bắt đầu học, tác nhân nên ưu tiên việc khám phá thông qua lựa chọn ngẫu nhiên những hành động, càng về sau, tác nhân càng giảm tỉ lệ chọn ngẫu nhiên hành
 động xuống và ưu tiên khai thác từ kinh nghiệm trong quá khứ.
 
 \section{Học sâu tăng cường.}
+Thuật toán học tăng cường như Q-learning ở trên là một phương pháp hiệu quả để giải quyết những bài toán đối phó với sự thay đổi và không chắc chắn của môi trường. Tuy nhiên, học tăng cường
+lại giới hạn với những bài toán ít chiều, với những bài toán mà không gian hành động và trạng thái lớn, ví dụ như bài toán Backgammon với $10^{20}$ trạng thái, học tăng cường truyền thống 
+không giải quyết
+được bài toán. Để giải quyết vấn đề bài toán nhiều chiều như trên, thì học tăng cường sâu - sự kết hợp giữa học tăng cường và mạng thần kinh sâu là một cách tiếp cận phù hợp.
+
+Trong phương pháp học tăng cường truyền thống, hàm giá trị trạng thái Q(s, a) thường được lưu dưới dạng bảng, với mỗi cặp trạng thái - hành động là một giá trị của bảng. Việc này
+chỉ phù hợp với những bài toán có số lượng hành động và trạng thái nhỏ, với những bài toán nhiều chiều, sẽ khiến thời gian truy cập để cập nhật một giá trị trong bảng lâu hơn và bộ nhớ để
+lưu trữ bảng cũng lớn. Dẫn đến thay vì áp dụng phương pháp lập bảng, chúng ta sử dụng xấp xỉ hàm để ước lượng giá trị của hàm V(s) cũng như hàm Q(s, a), dựa trên giá trị đã biết, thực hiện 
+học và dự đoán xấp xỉ những giá trị chưa biết. Với phương pháp xấp xỉ hàm, thay vì lưu giữ các giá trị Q trong bảng, chúng ta biểu thị chúng bằng một hàm tham số $Q_\theta (s, a)$. Phương
+pháp học tăng cường truyền thống ví dụ như TD giúp cập nhật giá trị tham số $\theta$ và tìm được chiến lược tối ưu $\pi^\star$ khi hội tụ. Ở đây chúng ta sử dụng mạng neuron sâu như một hàm
+xấp xỉ, chúng ta chuyển từ học tăng cường truyền thống sang học tăng cường sâu, giúp giải quyết những vấn đề phức tạp và nhiều chiều.
+
+Chúng ta xem xét phương pháp học tăng cường sâu dựa trên xấp xỉ hàm giá trị V, một phép xấp xỉ hàm V được học và chính sách được xác định bằng cách thực hiện hành động tham lam dựa trên V.
+Trong học tăng cường sâu, các bộ xấp xỉ hàm đơn giản là các mạng nơ ron được tham số hoá bởi tham số $\theta$ - là trọng số kết nối giữa các lớp của mạng. Áp dụng các phương pháp học tăng
+cường như SARSA và Q-learning, ta thu được chính sách $\pi_\theta$ phụ thuộc trực tiếp vào giá trị của hàm tham số $Q_\theta (s, a)$. Về mặt toán học, việc học của mạng nơ ron trở thành
+vấn đề tối thiểu giá trị hàm mất mát được định nghĩa giữa giá trị trả về thực tế từ môi trường $R_t$ và hàm tham số trạng thái hành động $Q_\theta (s, a)$:
+\[
+\mathcal{L(\theta)} = \mathbb{E}_\pi [(R_t - Q_\theta (s, a))^2]
+\]
+
+Trong phương pháp học tăng cường SARSA, hàm mất mát được định nghĩa như sau:
+\[
+\mathcal{L(\theta)} = \mathbb{E}_\pi [(r(s, a, s') + \gamma Q_\theta (s', \pi(s')) - Q_\theta (s, a))^2]
+\]
+
+Tương tự với phương pháp học tăng cường Q-learning, hàm mất mát được định nghĩa như sau:
+\[
+\mathcal{L(\theta)} = \mathbb{E}_\pi [(r(s, a, s') + \gamma \max_{a'} Q_\theta (s', a') - Q_\theta (s, a))^2]
+\]
 
 \section{Mạng sâu Q - DQN.}
+Thuật toán DQN là sự kết hợp giữa học tăng cường và một lớp của mạng nơ ron nhân tạo là mạng nơ ron sâu. Dùng để giải quyết bài toán tác nhân tương tác với môi trường thông qua một
+chuỗi các quan sát, hành động và phần thưởng. Mục tiêu của tác nhân là học và đưa ra hành động tối ưu phần thưởng tích luỹ trong tương lai, cụ thể là DQN sử dụng mạng nơ ron sâu tích chập
+để tìm xấp xỉ của hàm trạng thái - hành động tối ưu $Q^\star (s, a)$.
+\[
+Q^\star (s, a) = \max_{\pi} \mathbb{E} [r_t + \gamma r_\text{t+1} + \gamma^2 r_\text{t+2} + \dots]
+\]
+
+Học tăng cường được biết đến là không ổn định trong trường hợp sử dụng hàm xấp xỉ ví dụ như sử dụng mạng nơ ron, sự không ổn định này gây ra bởi một số yếu tố như:
+sự tương quan giữa các dữ liệu tuần tự khi quan sát, dẫn đến một sự thay đổi nhỏ trong giá trị của Q cũng khiến chính sách thay đổi và do đó thay đổi phân phối dữ liệu. Để đối phó với sự
+tương quan của các dữ liệu quan sát được tuần tự, thuật toán DQN sử dụng hai kỹ thuật: đầu tiên là dùng bộ nhớ phát lại với kích cỡ lớn, dữ liệu tuần tự quan sát được được lưu vào bộ nhớ, sau đó lựa chọn
+ngẫu nhiên dữ liệu từ bộ nhớ này để học và giảm thiểu hàm mất mát sử dụng SGD (Độ dốc ngẫu nhiên), giúp loại bỏ được sự tương quan giữa các dữ liệu. Kỹ thuật thứ hai là
+sử dụng một mạng mục tiêu $Q'_\theta$ để tăng sự ổn định của giá trị mục tiêu $r(s, a, s') + \gamma max_{a'} Q_\theta (s', a')$, mạng mục tiêu $Q'_\theta$ có kiến trúc giống hệt mạng
+$Q_\theta$ nhưng có tần suất cập nhật thấp hơn, thường là sau hàng nghìn lần cập nhật thì mạng $Q_\theta$ được cập nhật với tham số mới nhất của mạng $Q_\theta$.
+\begin{algorithm}
+    \caption{Thuật toán học tăng cường sâu DQN.}\label{alg:dqn_2}
+    \begin{algorithmic}[1]
+    \State Initialize replay memory D
+    \State Initialize the Q-network $\mathcal{Q}$ with random weights $\theta$.
+    \State Initialize the target Q-network $\hat{\mathcal{Q}}$ with weight $\theta' = \theta$.
+    \For{t = 1 to T}
+        \State With probability $\epsilon$ select a random action $a_t$, otherwise select $a_t = \arg \max \mathcal{Q}^\star (s_t, a_t, \theta)$
+        \State Perform action $a_t$ and observe reward $r_t$ and next state $s_\text{t+1}$
+        \State Store transition $(s_t,a_t,r_t,s_\text{t+1})$ in the replay memory D
+        \State Sample random mini-batch of transitions $(s_j,a_j,r_j,s_\text{j+1})$ from D
+        \State $y_j = r_j + \gamma \max_{a\text{j+1}} \hat{\mathcal{Q}} (s_\text{j+1}, a_\text{j+1}, \theta')$
+        \State Perform a gradient descent step on $(y_j - \mathcal{Q} (s_j, a_j, \theta))^2$.
+        \State Every C steps reset $\hat{\mathcal{Q}} = \mathcal{Q}$
+    \EndFor
+\end{algorithmic}
+\end{algorithm}
 
 % Chapter 3
 \chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV.}
@@ -1084,6 +1201,11 @@ sử dụng SGD:
 L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \left[ \left( r + \gamma \max_{a'} \mathcal{Q}(s', a'; \theta'_i) - \mathcal{Q}(s, a; \theta_i) \right)^2 \right]
 \]
 Trong đó $\theta_i$ là tham số của mạng chính Q ở tập đào tạo thứ i và $\theta_i'$ là tham số của mạng mục tiêu $\hat{\mathcal{Q}}$
+
+Hàm độ dốc của hàm mất mát trong thuật toán DQN:
+\[
+\Delta_{\theta_i} L(\theta_i) = \mathbb{E}_\text{s, a, r, s'} [(r + \gamma \max_{a'} Q(s', a'; \theta'_i) - Q(s, a; \theta_i)) \Delta_{\theta_i} Q(s, a; \theta_i)] 
+\]
 
 Sau C bước, thuật toán cập nhật tham số mạng mục tiêu $\theta_i'$ với tham số của mạng chính $\theta_i$.
 
