@@ -185,13 +185,17 @@
 \newcommand*\l@chapter{\@tocline{1}{0cm}}
 \newcommand*\l@section{\@tocline{2}{0.5cm}}
 \newcommand*\l@subsection{\@tocline{3}{1cm}}
+\newcommand*\l@subsubsection{\@tocline{4}{1.2cm}}
 
 \newcounter{chapter}
 \newcounter{section}[chapter]
 \newcounter{subsection}[section]
+\newcounter{subsubsection}[subsection]
 \renewcommand\thechapter{\@arabic\c@chapter}
 \renewcommand\thesection{\thechapter.\@arabic\c@section}
 \renewcommand\thesubsection{\thesection.\@arabic\c@subsection}
+% \renewcommand{\thesubsubsection}{\alph{subsubsection}}
+\renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}
 \newcommand\chapter[1]{%
 	\clearpage\refstepcounter{chapter}
 	\ifnum\c@chapter=1%
@@ -213,6 +217,10 @@
 \newcommand\subsection[1]{\@makesection{0.5cm}{%
 	\refstepcounter{subsection}\addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection.}{#1}}
 	\noindent\large\textbf{\thesubsection. #1}
+}}
+\newcommand\subsubsection[1]{\@makesection{0.3cm}{%
+    \refstepcounter{subsubsection}\addcontentsline{toc}{subsubsection}{\protect\numberline{\thesubsubsection.}{#1}}
+    \noindent\normalsize\textbf{\thesubsubsection. #1}
 }}
 
 \newcommand\attachmentcaptionbox[1]{\par\begingroup\@parboxrestore\if@minipage\@setminipage\fi#1\par\endgroup}
