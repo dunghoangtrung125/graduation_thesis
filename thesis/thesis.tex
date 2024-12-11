@@ -98,6 +98,8 @@ tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại h
     MDP: Markov decision process -- Quá trình ra quyết định Markov
 
     TD: Temporal Difference -- Thuật toán học khác biệt thời gian
+
+    SGD: Stochastic Gradient Descent -- Thuật toán giảm dần độ dốc ngẫu nhiên
 \end{contentlistingsection}
 
 \end{contentlisting}
@@ -170,7 +172,7 @@ Dữ liệu nhận và gửi của mạng không dây được truyền đi xuy�
 \subsection{Phân loại mạng không dây và ứng dụng}
 \begin{itemize}
     \item \textbf{WLAN:} mạng không dây cục bộ, hay còn được biết đến nhiều hơn là Wi-Fi. WLAN cho phép thiết bị kết nối với Internet dễ dàng miễn là nó được kết nối với
-    sóng Wi-Fi. WLAN được sử dụng ở rất nhiều nơi xung quanh chúng ta ngày nay, từ hộ gia đình, trường học, công sở, địa điểm kinh doanh\dots Thiết bị di động
+    sóng Wi-Fi. WLAN được sử dụng ở rất nhiều nơi xung quanh chúng ta ngày nay, từ hộ gia đình, trường học, công sở, địa điểm kinh doanh, v.v. Thiết bị di động
     kết nối với điểm truy cập thông qua kết nối không dây sẽ có thể kết nối Internet và di chuyển một cách tự do, miễn là thiết bị đó ở trong tầm phủ sóng của
     sóng Wi-Fi.
 
@@ -192,7 +194,7 @@ Dữ liệu nhận và gửi của mạng không dây được truyền đi xuy�
 
     Mạng cảm biến không dây có một số ứng dụng sau:
     \begin{itemize}
-        \item Sử dụng trong lĩnh vực an ninh như giám sát ở các khu vực nhạy cảm để phát hiện các mối đe doạ như tấn công sinh học hoặc hoá học\dots
+        \item Sử dụng trong lĩnh vực an ninh như giám sát ở các khu vực nhạy cảm để phát hiện các mối đe doạ như tấn công sinh học hoặc hoá học, v.v.
         \item Giám sát môi trường: WSN hỗ trợ thu thập thông tin ở những khu vực khó thiết lập cơ sở hạ tầng để giám sát môi trường cũng như môi trường sống.
         \item Trong y học: sử dụng để giúp các bác sĩ theo dõi sức khoẻ của bệnh nhân.
         \item Theo dõi đối tượng: WSN có thể dùng để theo dõi các đối tượng chuyển động nếu sử dụng cảm biến phù hợp.
@@ -202,7 +204,7 @@ Dữ liệu nhận và gửi của mạng không dây được truyền đi xuy�
 
     \item \textbf{Mạng không dây tạm thời (ad hoc):} là mạng không dây không cần bất kì cơ sở hạ tầng hiện có nào để triển khai ví dụ như điểm truy cập hoặc dây cáp.
     Mỗi thiết bị trong mạng coi là một nút tham gia trực tiếp vào việc định tuyến dữ liệu một cách độc lập bằng cách chuyển tiếp dữ liệu từ nút này sang nút khác
-    mà không cần thêm bất kì một thiết bị quản lý tập trung nào như điểm truy cập\dots Mỗi nút trong mạng không dây tạm thời tự động quyết định nút nào sẽ gửi dữ
+    mà không cần thêm bất kì một thiết bị quản lý tập trung nào như điểm truy cập, v.v. Mỗi nút trong mạng không dây tạm thời tự động quyết định nút nào sẽ gửi dữ
     liệu tiếp theo tuỳ thuộc vào kết nối mạng. Hình 2.3 là một mô hình đơn giản của mạng không dây tạm thời giữa các thiết bị kết nối với nhau mà không có điểm
     truy cập nào.
     \begin{figure}{Mạng không dây tạm thời.}
@@ -215,7 +217,7 @@ Dữ liệu nhận và gửi của mạng không dây được truyền đi xuy�
     \begin{itemize}
         \item Trong quân sự: người lính, các thiết bị quân sự như xe tăng, tàu chiến có thể kết nối với nhau mà không cần một cơ sở hạ tầng mạng không dây rõ ràng
         bằng cách hình thành một mạng không dây tạm thời.
-        \item Mạng không dây tạm thời có thể được sử dụng trong các nhiệm vụ thực thi pháp luật, giải cứu\dots
+        \item Mạng không dây tạm thời có thể được sử dụng trong các nhiệm vụ thực thi pháp luật, giải cứu, v.v.
         \item Có thể được sử dụng trong hội nghị, cuộc họp, bài giảng hoặc các khu vực phục vụ mục đích thương mại, nơi tải mạng có thể rất cao.
     \end{itemize}
 \end{itemize}
@@ -329,9 +331,9 @@ Xem xét một UAV gây nhiễu, thiết bị I nằm trên mặt đất chịu 
 hình hoá là kênh không đối đất ATG, bao gồm ba thành phần là:
 \begin{itemize}
     \item Đường truyền tầm nhìn thẳng LoS: không có vật cản giữa UAV và thiết bị
-    \item Đường truyền không tầm nhìn thẳng NLoS: tín hiệu không thể đi thẳng giữa UAV và thiết bị vì có vật cản như cây cối, toà nhà, địa hình\dots 
+    \item Đường truyền không tầm nhìn thẳng NLoS: tín hiệu không thể đi thẳng giữa UAV và thiết bị vì có vật cản như cây cối, toà nhà, địa hình, v.v. 
     \item Pha đinh quy mô nhỏ (small-scale fading): là sự biến động tín hiệu nhanh chóng do hiện tượng đa đường, gây ra các thay đổi về cường độ tín hiệu khi môi trường
-    thay đổi\dots
+    thay đổi, v.v.
 \end{itemize}
 
 Về cơ bản, tác động của pha đinh quy mô nhỏ nhỏ hơn nhiều so với LoS và NLoS, do đó yếu tố này bị bỏ qua. Suy hao đường truyền của kênh không đối đất giữa UAV và thiết
@@ -388,7 +390,7 @@ hạn cần thiết trên toàn bộ băng tần giúp cho tín hiệu có khả
 FHSS là một kĩ thuật trải phổ, trong đó tín hiệu phát chuyển đổi nhanh chóng giữa các kênh tần số. Việc thay đổi kênh được thực hiện bằng thuật toán được chia sẻ giữa
 máy phát và máy thu trước khi trao đổi dữ liệu. Khi kênh hiện tại bị tấn công, máy phát có thể chuyển sang kênh liên lạc khác để truyền dữ liệu. Nhiều chiến lược tối
 ưu khác nhau nhằm tối đa hoá thông lượng có thể được sử dụng để máy phát chọn tần số để nhảy khi bị tấn công gây nhiễu như học Q hoặc học sâu Q, hoặc áp dụng lý thuyết
-trò chơi\dots Tuy nhiên điểm yếu của FHSS là kĩ thuật này đòi hỏi nhiều tài nguyên phổ tần hơn để nhảy tần và tránh máy gây nhiễu, nếu máy gây nhiễu đủ mạnh để tấn công
+trò chơi, v.v. Tuy nhiên điểm yếu của FHSS là kĩ thuật này đòi hỏi nhiều tài nguyên phổ tần hơn để nhảy tần và tránh máy gây nhiễu, nếu máy gây nhiễu đủ mạnh để tấn công
 nhiều kênh truyền đồng thời thì FHSS trở nên kém hiệu quả hơn.
 
 \subsection{Kĩ thuật điều chỉnh tốc độ - Kĩ thuật RA}
@@ -437,7 +439,6 @@ Quá trình giải mã có thể được mô tả như sau. Giả sử chúng t
 thành $y[n]$ như sau:
 \begin{equation}
     y[n] = x[n] + \alpha B[n]x[n] + w[n]
-    \label{eq:}
 \end{equation}
     
 trong đó, $x[n]$ là mẫu của tín hiệu môi trường xung quanh (có thể là tín hiệu gây nhiễu) nhận được ở máy thu, $w[n]$ là nhiễu môi trường, $\alpha$ là sự suy giảm phức tạp của
@@ -501,6 +502,7 @@ dự đoán hành động tiếp theo. Tương lai chỉ phụ thuộc vào hi�
 Về mặt toán học, một trạng thái $S_t$ có tính chất Markov khi và chỉ khi:
 \begin{equation}
     P(s_{t+1} | s_t) = P(s_{t+1} | s_t, s_{t-1},\dots, s_1)
+    \label{eq:markov_property}
 \end{equation}
 
 MDP mô hình hoá một môi trường trong đó tất cả trạng thái có tính chất Markov. MDP được mô hình hoá gồm một bộ $(\mathcal{S}, \mathcal{A}, P, \mathcal{r}, \gamma)$ trong đó:
@@ -525,6 +527,7 @@ Học tăng cường là một cách giải quyết cho bài toán MDP trong tr�
 Hàm giá trị trả về $R_t$ là tổng số phần thưởng tích luỹ được chiết khấu từ mốc thời gian t.
 \begin{equation}
     R_t = r_\text{t+1} + \gamma r_\text{t+2} + \dots = \sum_{k=0}^{T} \gamma^k r_\text{t+k+1}
+    \label{eq:R_t}
 \end{equation}
 
 trong đó, T là bước thời gian cuối cùng. T có thể có giá trị hữu hạn hoặc $T = \infty$. Trong trường hợp T có giá trị hữu hạn, chuỗi các tương tác giữa tác nhân và môi trường được chia thành các chuỗi
@@ -553,6 +556,7 @@ Hàm giá trị là hàm ước tính mức độ tốt hay xấu của một t�
 thưởng trong tương lai phụ thuộc vào chuỗi hành động mà tác nhân sẽ thực hiện dưới chính sách đó.
 \begin{equation}
     V_\pi (s) = \mathbb{E}_\pi \{R_t | s_t = s\} = \mathbb{E}_\pi \{\sum_{k=0}^{T} \gamma^k r_\text{t+k+1} | s_t = s\}, \forall s \in \mathcal{S}
+    \label{eq:v_s}
 \end{equation}
 
 trong đó, kí hiệu $\mathbb{E}_\pi$ là giá trị kì vọng của biến ngẫu nhiên trong trường hợp tác nhân tuân theo chính sách $\pi$. Chúng ta gọi $V_\pi$ là hàm giá trị trạng thái cho chính sách $\pi$.
@@ -560,6 +564,7 @@ trong đó, kí hiệu $\mathbb{E}_\pi$ là giá trị kì vọng của biến n
 Tương tự, chúng ta cũng định nghĩa giá trị của việc lựa chọn hành động $a \in \mathcal{A}$ khi tác nhân ở trạng thái $s \in \mathcal{S}$ tuân theo chính sách $\pi$, kí hiệu là $Q_\pi (s, a)$:
 \begin{equation}
     Q_\pi (s, a) = \mathbb{E}_\pi [R_t | s_t = s, a_t = a] = \mathbb{E}_\pi [\sum_{k=0}^{T} \gamma^k R_\text{t+k+1} | s_t = s, a_t = a]
+    \label{eq:q_sa}
 \end{equation}
 
 Chúng ta gọi $Q_\pi (s, a)$ là hàm giá trị trạng thái - hành động cho chính sách $\pi$, thể hiện giá trị khi tác nhân ở trạng thái s, lựa chọn hành động a.
@@ -568,6 +573,7 @@ Ta có thể biểu thị hàm giá trị trạng thái $V_\pi (s)$ như là t�
 mà hành động đó được lựa chọn $\pi(s, a)$:
 \begin{equation}
     V_\pi (s, a) = \sum_{a \in \mathcal{A}} \pi(s, a) Q_\pi (s, a)
+    \label{eq:relation_v_q}
 \end{equation}
 
 \subsection{Phương trình Bellman}
@@ -589,6 +595,7 @@ của $V_\pi$.
 Tương tự ta cũng có phương trình Bellman cho $Q_\pi(s, a)$ như sau:
 \begin{equation}
     Q_\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma \sum_{a' \in \mathcal{A}} \pi(s', a') Q_\pi(s', a')]
+    \label{eq:q_bellman}
 \end{equation}
 
 \subsection{Chính sách tối ưu và hàm giá trị tối ưu}
@@ -596,28 +603,33 @@ Giải quyết bài toán MDP, hay học tăng cường có nghĩa là tìm ra m
 trị trả về kì vọng $V_\pi(s)$ có giá trị lớn hơn giá trị $V_\pi'(s)$ với mọi trạng thái s. Một vấn đề có thể có một hoặc nhiều chính sách tối ưu.
 \begin{equation}
     \pi > \pi' \iff V_\pi(s) > V_\pi'(s), \forall s \in \mathcal{S}
+    \label{eq:better_policy}
 \end{equation}
 
 Về mặt lý thuyết, chứng minh được rằng tồn tại một chính sách mà tốt hơn các chính sách còn lại, gọi là chính sách tối ưu (kí hiệu là $\pi^\star$). Chúng ta tìm được chính sách tối ưu $\pi^\star$ bằng
 cách tìm ra hàm giá trị tối ưu $V^\star(s)$ và hàm giá trị hành động - trạng thái tối ưu $Q^\star (s, a)$:
 \begin{equation}
     V^\star (s) = \underset{\pi}{\text{max }} V_\pi(s)
+    \label{eq:v_optimal}
 \end{equation}
 
 Các chính sách tối ưu có cùng một hàm giá trị hành động tối ưu, kí hiệu là $Q^\star$:
 \begin{equation}
     Q^\star (s, a) = \underset{\pi}{\text{max }} Q_\pi(s, a), \forall s \in \mathcal{S}, a \in \mathcal{A}
+    \label{eq:q_optimal}
 \end{equation}
 
 Hàm giá trị hành động tối ưu được mô tả là giá trị phần thưởng kì vọng tối đa mà một tác nhân có thể nhận được khi thực hiện một hành động tại một trạng thái, và sau đó tuân theo chính sách tối ưu. Do đó ta có
 thể viết lại hàm $Q^\star$ dựa trên hàm $V^\star$ như sau:
 \begin{equation}
     Q^\star (s, a) = \mathbb{E} [r_\text{t+1} + \gamma V^\star (s') | s_t = s, a_t = a]
+    \label{eq:q*_bellman_v*}
 \end{equation}
 
 Ngoài ra mối quan hệ giữa $V^\star (s)$ và $Q^\star (s)$ còn có thể được biểu diễn như sau:
 \begin{equation}
     V^\star (s) = \underset{a \in \mathcal{A}}{\text{max }} Q^\star (s, a)
+    \label{eq:relation_v*_q*}
 \end{equation}
 
 thể hiện rằng giá trị trả về tối ưu $V^\star (s)$ ở trạng thái s đạt được bằng cách chọn hành động có giá trị hành động tối ưu cao nhất.
@@ -628,6 +640,7 @@ Phương trình Bellman cho hàm giá trị tối ưu:
         V^\star (s) &= \underset{a}{max } \mathbb{E} [r(s, a, s') + \gamma V^\star (s') | s_t = s, a_t = a] \\
         &= \underset{a}{max } \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma V^\star (s')]
     \end{split}
+    \label{eq:v*_bellman}
 \end{equation}
 
 \begin{equation}
@@ -635,20 +648,21 @@ Phương trình Bellman cho hàm giá trị tối ưu:
         Q^\star (s, a) &= \mathbb{E} [r(s, a, s') + \gamma \underset{a'}{ max } Q^\star (s', a') | s_t = s, a_t = a] \\
         &= \sum_{s'} P(s' | s, a) [r(s, a, s') + \gamma \underset{a'}{max } Q^\star (s', a')]
     \end{split}
+    \label{eq:q*_bellman}
 \end{equation}
 
 \section{Một số phương pháp giải quyết bài toán MDP}
-Trong phần này, chúng ta cùng xem qua một vài phương pháp có thể được sử dụng để giải quyết vấn đề MDP.
+Trong phần này, cùng xem xét một vài phương pháp có thể được sử dụng để giải quyết vấn đề MDP.
 
-\subsection{Lập trình động - Dynamic programming}
+\subsection{Phương pháp quy hoạch động - Dynamic programming}
 
-Lập trình động là lớp các phương thức để tìm ra những giải pháp cho bài toán MDP trong đó thông tin về tính động của môi trường là giá trị hàm $P(.|s, a)$ được biết trước. Lập trình động tìm ra
+Quy hoạch động là lớp các phương thức để tìm ra những giải pháp cho bài toán MDP trong đó thông tin về tính động của môi trường là giá trị hàm $P(.|s, a)$ được biết trước. Lập trình động tìm ra
 giá trị của các hàm giá trị ở các trạng thái khác nhau, qua đó tìm ra chính sách tối ưu. Phương pháp quy hoạch động dựa trên một thuộc tính gọi là "bootstrapping" nghĩa là kết quả ước lượng hàm giá trị của
 các trạng thái sẽ được cập nhật dựa trên ước lượng giá trị của trạng thái kế tiếp, nghĩa là phương pháp này cập nhật giá trị ước lượng dựa trên một giá trị ước lượng khác.
 
 \subsubsection{Đánh giá chính sách}
 Để đánh giá một chính sách, chúng ta cần tìm ra kết quả hàm giá trị $V_\pi$ của chính sách đó. Nghĩa là chúng ta sẽ tính giá trị của hàm giá trị trạng thái $V_\pi$ của một chính sách bất kì.
-Nhắc lại phương trình Bellman đối với hàm giá trị:
+Nhắc lại phương trình Bellman đối với hàm giá trị (\ref{eq:v_bellman}):
 \begin{equation}
     \begin{split}
         V_\pi (s) &= \mathbb{E} [R_t | s_t = s] \\
@@ -677,6 +691,7 @@ Mục đích của việc tính toán hàm giá trị - trạng thái cho một 
 đó tiếp tục tuân theo chính sách $\pi$. Như vậy ta có chính sách mới $\pi'$. Chứng minh được rằng nếu:
 \begin{equation}
     Q_\pi(s, \pi'(s)) \geq V_\pi (S) \iff V_\pi' (s) \geq V_\pi (s), \forall s \in \mathcal{S}
+    \label{eq:q_better_policy}
 \end{equation}
 
 Có nghĩa là nếu ở trạng thái s, ta lựa chọn được hành động mới $\pi'(s)$ tốt hơn hành động của chính sách cũ $\pi(s)$, sau đó tiếp tục tuân theo chính sách $\pi$, thì chính sách mới
@@ -701,7 +716,7 @@ $\pi$, tìm ra chính sách mới $\pi'$ tốt hơn chính sách cũ. Quá trìn
 
 \subsubsection{Phương pháp lặp giá trị}
 Là thuật toán tìm ra chính sách tối ưu $\pi^\star$ bằng cách lặp hàm giá trị - trạng thái để tìm ra $V^\star (s)$ dựa trên phương trình Bellman của hàm giá trị tối ưu $V^\star$ như đã trình bày
-ở phần trước:
+ở phần trước (\ref{eq:v*_bellman}):
 \begin{equation}
     V^\star (s) = \underset{a}{max } \sum_{s' \in \mathcal{S}} P(s' | s, a) [r(s, a, s') + \gamma V^\star (s')]
 \end{equation}
@@ -720,7 +735,7 @@ tối ưu. Chính sách tối ưu được rút ra từ hàm giá trị tối ư
 $\pi \approx \pi^\star$ chính là chính sách tối ưu cần tìm.
 
 \subsection{Phương pháp lấy mẫu Monte Carlo}
-Trong phương pháp quy hoạch động như trình bày ở trên, giả thiết cần phải biết đầy đủ về tính động của môi trường (hàm P(.|s, a) xác định), điều này đôi khi khó đạt được
+Trong phương pháp quy hoạch động như trình bày ở trên, giả thiết cần phải biết đầy đủ về tính động của môi trường (hàm $P(.|s, a)$ xác định), điều này đôi khi khó đạt được
 trong các bài toán thực tế. Phương pháp Monte Carlo dựa trên ý tưởng không cần tính toán hàm giá trị - trạng thái $V(s)$ và hàm giá trị trạng thái - hành động
 $Q(s,a)$ sử dụng hàm xác suất chuyển đổi trạng thái $P(.|s, a)$ như quy hoạch động, thay vào đó ước tính giá trị hàm $V(s)$ và $Q(s,a)$ thông qua việc lấy mẫu
 một tập các hành động chuyển trạng thái của môi trường. Phương pháp Monte Carlo được trình bày như sau:
@@ -732,6 +747,7 @@ một tập các hành động chuyển trạng thái của môi trường. Phư
     \item Lặp lại những bước trên M lần để ước tính giá trị $V_\pi$ như sau:
     \begin{equation}
         V_\pi (s) = \mathbb{E} [R_t | s_t = s] \approx \frac{1}{M} \sum_{t=1}^{M} R_t^\text{(e)}
+        \label{eq:v_monte_carlo}
     \end{equation}
 \end{itemize}
 
@@ -756,7 +772,7 @@ không cố gắng xây dựng hoặc sử dụng một mô hình để dự đo
 qua trải nghiệm từ việc tương tác trực tiếp với môi trường.
 
 \subsection{Thuật toán học khác biệt thời gian - Temporal Difference}
-Trong phương pháp Monte Carlo, hàm giá trị $V^\pi$ được ước tính dựa vào việc tính trung bình giá trị phần thưởng tích luỹ trong mỗi tập. Tuy nhiên phương pháp Monte Carlo chỉ cập nhật
+Trong phương pháp Monte Carlo, hàm giá trị $V_\pi$ được ước tính dựa vào việc tính trung bình giá trị phần thưởng tích luỹ trong mỗi tập. Tuy nhiên phương pháp Monte Carlo chỉ cập nhật
 hàm giá trị sau mỗi tập, điều này dẫn đến nó không phù hợp với những vấn đề vô hạn. Phương pháp học khác biệt thời gian (TD) là sự kết hợp giữa ý tưởng từ phương pháp Monte Carlo và
 phương pháp quy hoạch động (dynamic programming). Giống như Monte Carlo, phương pháp học TD có thể học trực tiếp từ kinh nghiệm tương tác với môi trường mà không cần nắm được tính
 động của môi trường. Giống quy hoạch động ở chỗ, phương pháp TD cũng cập nhật các ước tính dựa trên những giá trị ước tính khác, mà không cần đợi đến khi kết thúc một tập mới cập
@@ -923,7 +939,7 @@ chuỗi các quan sát, hành động và phần thưởng. Mục tiêu của t�
 Học tăng cường được biết đến là không ổn định trong trường hợp sử dụng hàm xấp xỉ ví dụ như sử dụng mạng nơ ron, sự không ổn định này gây ra bởi một số yếu tố như:
 sự tương quan giữa các dữ liệu tuần tự khi quan sát, dẫn đến một sự thay đổi nhỏ trong giá trị của Q cũng khiến chính sách thay đổi và do đó thay đổi phân phối dữ liệu. Để đối phó với sự
 tương quan của các dữ liệu quan sát được tuần tự, thuật toán DQN sử dụng hai kỹ thuật: đầu tiên là dùng bộ nhớ phát lại với kích cỡ lớn, dữ liệu tuần tự quan sát được được lưu vào bộ nhớ, sau đó lựa chọn
-ngẫu nhiên dữ liệu từ bộ nhớ này để học và giảm thiểu hàm mất mát sử dụng SGD (Độ dốc ngẫu nhiên), giúp loại bỏ được sự tương quan giữa các dữ liệu. Kỹ thuật thứ hai là
+ngẫu nhiên dữ liệu từ bộ nhớ này để học và giảm thiểu hàm mất mát sử dụng thuật toán giảm dần độ dốc ngẫu nhiên (SGD), giúp loại bỏ được sự tương quan giữa các dữ liệu. Kỹ thuật thứ hai là
 sử dụng một mạng mục tiêu $Q'_\theta$ để tăng sự ổn định của giá trị mục tiêu $r(s, a, s') + \gamma max_{a'} Q_\theta (s', a')$, mạng mục tiêu $Q'_\theta$ có kiến trúc giống hệt mạng
 $Q_\theta$ nhưng có tần suất cập nhật thấp hơn, thường là sau hàng nghìn lần cập nhật thì mạng mục tiêu $Q'_\theta$ được cập nhật với tham số mới nhất của mạng $Q_\theta$.
 \begin{algorithm}
@@ -946,10 +962,12 @@ $Q_\theta$ nhưng có tần suất cập nhật thấp hơn, thường là sau h
 
 % Chapter 3
 \chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV}
-Trong chương này, một phương pháp giải quyết bài toán gây nhiễu từ UAV đối với kênh truyền gồm một máy phát và một máy thu sử dụng thuật toán học tăng cường Q-learning và DQN được đề xuất.
+Trong chương này, bài toán chống nhiễu từ UAV được mô hình hoá thành bài toán tối ưu sử dụng MDP, giải quyết bài toán chống nhiễu lúc này trở thành việc tìm lời giải cho bài toán tối ưu
+thông qua việc tối đa giá trị hàm mục tiêu. Chương này đề xuất một phương pháp sử dụng Q-learning và DQN để giải quyết bài toán tối ưu MDP, qua đó giúp kênh truyền không những chống lại 
+mà còn tận dụng cuộc tấn công gây nhiễu từ UAV.
 
 \section{Mô hình hệ thống}
-Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị bộ đệm dữ liệu để đóng vai trò như hàng đợi dữ 
+Ở đây, xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu (Hình 3.1). Máy phát được trang bị bộ đệm dữ liệu để đóng vai trò như hàng đợi dữ 
 liệu trước khi truyền đến máy thu, ngoài ra máy phát còn được trang bị bộ thu năng lượng và một mạch tán xạ ngược môi trường có khả năng tán xạ sóng nhiễu để truyền gói tin. Khi bị nhiễu
 tấn công, máy phát có thể thu năng lượng từ tín hiệu nhiễu để sử dụng cho mục đích truyền gói tin chủ
 động đến máy thu sau này khi máy gây nhiễu không tấn công - chế độ HTT, hoặc tán xạ ngược dữ liệu dựa trên sóng nhiễu - chế độ tán xạ ngược.
@@ -961,7 +979,7 @@ tấn công, máy phát có thể thu năng lượng từ tín hiệu nhiễu đ
 \end{figure}
 
 \subsection{Mô hình gây nhiễu}
-Chúng ta xem xét một UAV có khả năng gây nhiễu thông minh. Giả sử UAV có khả năng lắng nghe kênh truyền giữa máy phát và máy thu khi tấn công. Điều này cho phép UAV có thể điều chỉnh vị trí
+Khoá luận này xem xét một UAV có khả năng gây nhiễu thông minh. Giả sử UAV có khả năng lắng nghe kênh truyền giữa máy phát và máy thu khi tấn công. Điều này cho phép UAV có thể điều chỉnh vị trí
 cũng như chiến lược gây nhiễu để tối đa hoá thiệt hại lên kênh truyền giữa máy phát và máy thu. Mục tiêu của UAV là làm giảm giá trị SINR tại máy thu, khiến cho kênh thông lượng của kênh
 truyền giảm xuống, giá trị SINR được tính như công thức (\ref{eq:sinr}) ở phần cơ sở lý thuyết như sau:
 \begin{equation}
@@ -979,15 +997,15 @@ truyền đến được máy phát và máy thu do yếu tố vật cản từ 
 lượng, khi đó UAV không tấn công kênh truyền hay cường độ gây nhiễu của UAV lên máy phát và máy thu là 0W.
 
 Giả sử $P_J = \{P_0^J, \dots, P_n^J, \dots, P_N^J\}$ là vector tập các giá trị cường độ nhiễu khác nhau trong các thời điểm khác nhau của UAV. Tại mỗi thời điểm, do sự thay đổi vị trí
-hoặc do yếu tố môi trường\dots, cường độ nhiễu từ UAV là khác nhau và là một trong những giá trị trong vector $P_J$ với giá trị xác suất là $x_n$. Trong đó giá trị nhỏ nhất trong vector $P_J$
+hoặc do yếu tố môi trường, v.v, cường độ nhiễu từ UAV là khác nhau và là một trong những giá trị trong vector $P_J$ với giá trị xác suất là $x_n$. Trong đó giá trị nhỏ nhất trong vector $P_J$
 là 0W, tương ứng với những thời điểm sóng nhiễu từ UAV không tác động đến kênh truyền như đã trình bày ở trên.
 
 Kí hiệu $J_s = \{x = (x_0, \dots, x_n\dots, x_N), \sum_{i=0}^{N}x_n = 1\}$ là vector xác suất tấn công của UAV tương ứng với các mức năng lượng trong vector $P_J$, hay $J_s$ còn được coi như
 là chiến lược tấn công của UAV.
 
 Do UAV là thiết bị hạn chế về mặt năng lượng, UAV xác định một chiến lược tấn công $J_s$ sao cho mức công suất nhiễu trung bình $P_\text{avg}$ phù hợp với mức năng lượng và trạng thái hiện tại của UAV.
-Do giả thiết UAV gây nhiễu thông minh có khả năng lắng nghe kênh truyền, chúng ta giả sử UAV gây nhiễu sẽ nhận về một phần thưởng $w_n^J$ tương ứng với mỗi giá trị $P_n^J$ trong vector $P_J$, đại diện
-cho số gói tin từ máy phát đến máy thu không thành công do tác động từ sóng nhiễu (ví dụ do không giải mã thành công tại máy thu do SINR giảm). Kí hiệu $w_J = \{w_0^J, \dots, w_n^J, \dots, w_N^J\}$
+Do giả thiết UAV gây nhiễu thông minh có khả năng lắng nghe kênh truyền, giả sử UAV gây nhiễu sẽ nhận về một phần thưởng $w_n^J$ tương ứng với mỗi giá trị cường độ nhiễu $P_n^J$ trong vector $P_J$, $w_n^J$ đại diện
+cho số gói tin từ máy phát đến máy thu không thành công do tác động của sóng nhiễu (ví dụ do không giải mã thành công gói tin tại máy thu do SINR giảm). Kí hiệu $w_J = \{w_0^J, \dots, w_n^J, \dots, w_N^J\}$
 là vector phần thưởng của UAV gây nhiễu. Hàm mục tiêu của UAV gây nhiễu được xác định như sau:
 \begin{equation}
     \begin{split}
@@ -1003,7 +1021,7 @@ Mục tiêu của UAV bao gồm tối đa hoá thiệt hại của đường tru
 
 \subsection{Mô hình kênh truyền}
 Khi UAV gây nhiễu không tấn công kênh truyền, hoặc khi tín hiệu nhiễu từ UAV không tác động đến kênh truyền do vật cản, máy phát có thể phát chủ động $\hat{d}_t$
-gói tin đến máy thu (sử dụng phương pháp truyền dẫn chủ động thông thường), hoặc không hoạt động. Mỗi gói tin truyền thành công cần $e_t$ đơn vị năng lượng.
+gói tin đến máy thu (sử dụng phương pháp truyền dẫn chủ động qua sóng vô tuyến thông thường), hoặc không hoạt động. Mỗi gói tin truyền thành công cần $e_t$ đơn vị năng lượng.
 Khi UAV gây nhiễu tấn công và nằm trong phạm vi ảnh hưởng đến kênh truyền, máy phát vẫn có thể hoặc phát gói tin đến máy thu bằng cách điều chỉnh tốc độ phát tương
 ứng với cường độ nhiễu sử dụng kỹ thuật RA, hoặc thu năng lượng từ sóng nhiễu, hoặc tán xạ ngược tín hiệu nhiễu để truyền dữ liệu đến máy thu. Thông qua các thí nghiệm
 và phân tích về các hệ thống truyền thông tán xạ ngược, có thể thấy rằng với sóng nhiễu với cường độ càng lớn, càng nhiều gói tin có thể tán xạ ngược đến máy thu, và cũng
@@ -1015,27 +1033,26 @@ công. Ở mỗi tốc độ $r_m$, máy phát có thể truyền tối đa $\ha
 trị của SINR, máy thu chỉ có thể giải mã những gói tin được gửi ở tốc độ $r_0, r_1, \dots, r_\text{m-1}$, những gói tin gửi ở tốc độ $r_m$ hoặc cao hơn sẽ bị mất,
 do máy thu không giải mã được. 
 
-Trong trường hợp máy phát chọn thu năng lượng từ sóng nhiễu, năng lượng này có thể được sử dụng cho quá trình truyền chủ động sau này, tương ứng với mỗi mức cường độ nhiễu $P_n^J$
+Trong trường hợp máy phát chọn thu năng lượng từ sóng nhiễu, năng lượng này có thể được lưu trữ để sử dụng cho quá trình truyền chủ động sau này, tương ứng với mỗi mức cường độ nhiễu $P_n^J$
 ảnh hưởng đến máy phát khác nhau, máy phát có thể thu được $e_n^J$ đơn vị năng lượng. Kí hiệu $e = \{e_0^J, \dots, e_N^J\}$ là các giá trị năng lượng có thể thu được tương ứng
 với các mức nhiễu khác nhau của UAV.
 
 Trong trường hợp máy phát chọn tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu, kí hiệu $\hat{d_n^J}$ là số gói tin tối đa có thể được tán xạ ngược bởi máy phát nếu
-cường độ nhiễu tương ứng là $P_n^J$. Lưu ý rằng tốc độ tán xạ ngược dữ liệu được quy định bởi mạch tán xạ ngược và không thay đổi và kí hiệu là $b^{\dagger}$. Trong mô hình đề xuất này
-, chúng ta giả sử khi máy phát lựa chọn tán xạ ngược sóng nhiễu, nó có thể truyền được $b^{\dagger}$ gói tin, nếu $b^{\dagger} > \hat{d_n^J}$ thì $(b^{\dagger} - d_n^J)$ gói tin sẽ bị mất trong
-quá trình tán xạ ngược dữ liệu. Kí hiệu $\hat{d} = \{\hat{d_0^J}, \dots, \hat{d_N^J}\}$ là vector thể hiện số gói tin có thể được tán xạ ngược tương ứng với cường độ nhiễu.
+cường độ nhiễu tương ứng là $P_n^J$. Lưu ý rằng tốc độ tán xạ ngược dữ liệu được quy định bởi mạch tán xạ ngược và không thay đổi, kí hiệu là $b^{\dagger}$. Trong mô hình đề xuất này,
+giả sử khi máy phát lựa chọn tán xạ ngược sóng nhiễu, nó có thể truyền được $b^{\dagger}$ gói tin, nếu $b^{\dagger} > \hat{d_n^J}$ thì $(b^{\dagger} - d_n^J)$ gói tin sẽ bị mất trong
+quá trình tán xạ ngược dữ liệu do mạch tán xạ ngược tán xạ số gói tin cố định là $b^{\dagger}$, trong khi cường độ nhiễu hiện tại chỉ cho phép tán xạ tối đa $\hat{d_n^J}$ gói tin. Kí 
+hiệu $\hat{d} = \{\hat{d_0^J}, \dots, \hat{d_N^J}\}$ là vector thể hiện số gói tin có thể được tán xạ ngược tương ứng với cường độ nhiễu.
 
-Chúng ta kí hiệu D và E tương ứng là kích cỡ bộ đệm dữ liệu và lượng năng lượng tối đa mà máy phát có thể lưu trữ. Quá trình gói tin đến máy phát được giả sử tuân theo phân
+Kí hiệu D và E tương ứng là kích cỡ bộ đệm dữ liệu và lượng năng lượng tối đa mà máy phát có thể lưu trữ. Quá trình gói tin đến máy phát được giả sử tuân theo phân
 phối Poisson với tốc độ trung bình $\lambda$. Khi bộ đệm dữ liệu của máy phát đầy, gói tin mới đến sẽ bị loại bỏ.
 
-Lưu ý là trong hệ thống đề xuất này, máy phát chỉ có thể xác định nó có đang bị tấn công gây nhiễu hay không mà không biết cụ thể cường độ của sóng nhiễu. Thuật toán đề xuất sử dụng học tăng 
-cường sâu có khả năng học được thông tin về chiến lược tấn công của UAV, cường độ của sóng nhiễu và những khả năng liên quan, qua đó đưa ra lựa chọn
-phù hợp nhằm làm tối đa thông lượng trung bình của kênh truyền.
-
+Máy phát chỉ có thể xác định nó có đang bị tấn công gây nhiễu hay không mà không xác định được cụ thể cường độ sóng nhiễu, cũng như chiến lược tấn công của UAV gây nhiễu.
 
 \section{Xây dựng bài toán chống nhiễu từ UAV}
-Để đối phó với cuộc tấn công gây nhiễu từ UAV vốn có tính động và không chắc chắn, chúng ta xây dựng vấn đề tối ưu hoá của hệ thống được đề cập ở trên như một quá trình ra quyết định
+Để đối phó với cuộc tấn công gây nhiễu từ UAV vốn có tính động và không chắc chắn, khoá luận này xây dựng bài toán tối ưu hoá của hệ thống được đề cập ở trên thành việc tìm chính sách tối ưu cho một quá 
+trình ra quyết định
 Markov (MDP). Việc mô hình hoá này giúp máy phát có thể ra quyết định tối ưu nhằm tối đa hoá giá trị phần thưởng dài hạn, trong trường hợp này là giá trị thông lượng trung bình
-của hệ thống truyền thông. MDP được xác định bởi một bộ $\langle S, A, r \rangle$ trong đó S là không gian trạng thái, A là không gian hành động và r là hàm giá trị phần thưởng
+của hệ thống truyền thông. MDP được xác định bởi một bộ $\langle \mathcal{S}, \mathcal{A}, r \rangle$ trong đó $\mathcal{S}$ là không gian trạng thái, $\mathcal{A}$ là không gian hành động và $r$ là hàm giá trị phần thưởng
 tức thời của hệ thống.
 
 \subsection{Không gian trạng thái}
@@ -1045,13 +1062,13 @@ trữ năng lượng của máy phát.
     \mathcal{S} = \{(j, d, e) : j \in \{0, 1\}; d \in \{0, \dots, D\}; e \in \{0, \dots, E\}\}
 \end{equation}
 
-trong đó, j là trạng thái UAV gây nhiễu, với $j = 0$ nếu như UAV không tấn công hoặc $j = 1$ nếu sóng nhiễu của UAV tấn công kênh truyền, d và e tương ứng là số gói tin trong bộ
-đệm và số đơn vị năng lượng trong bộ lưu trữ năng lượng của máy phát. Trạng thái của hệ thống được xác định bởi một biến tổng hợp $s = (j, d, e) \in S$.
+trong đó, j là trạng thái UAV gây nhiễu, với $j = 0$ nếu như UAV không tấn công hoặc $j = 1$ nếu sóng nhiễu của UAV tấn công kênh truyền, $d$ và $e$ tương ứng là số gói tin trong bộ
+đệm và số đơn vị năng lượng trong bộ lưu trữ năng lượng của máy phát. Trạng thái của hệ thống được xác định bởi một biến tổng hợp $s = (j, d, e) \in \mathcal{S}$.
 
 \subsection{Không gian hành động}
 Máy phát có thể thực hiện $(M+4)$ hành động trong không gian trạng thái $\mathcal{A}$, bao gồm không hoạt động, truyền dữ liệu chủ động, thu thập năng lượng từ sóng nhiễu, tán xạ ngược sóng
-nhiễu và điều chỉnh tốc độ phát là một trong M giá trị tốc độ của vector $r = \{r_1, \dots, r_m,\dots, r_M\}$ bằng cách sử dụng kĩ thuật RA khi sóng nhiễu từ UAV ảnh hưởng đến
-kênh truyền (UAV tấn công). Do đó, không gian hành động được xác định là tập $]\mathcal{A} = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
+nhiễu và điều chỉnh tốc độ phát là một trong $M$ giá trị tốc độ của vector $r = \{r_1, \dots, r_m,\dots, r_M\}$ bằng cách sử dụng kĩ thuật RA khi sóng nhiễu từ UAV ảnh hưởng đến
+kênh truyền (khi UAV tấn công). Do đó, không gian hành động được xác định là tập $\mathcal{A} = \{a : a \in \{1, \dots, M+4\}\}$ trong đó:
 \begin{equation}
     \begin{split}
         a &= \begin{cases}
@@ -1079,22 +1096,22 @@ trị phần thưởng tức thời được biểu diễn như sau:
     \end{split}
 \end{equation}
 
-Khi UAV gây nhiễu không tấn công kênh truyền (j = 0), máy phát có dữ liệu trong bộ đệm và có đủ năng lượng trong bộ lưu trữ, lúc này nó có thể chọn phát
-chủ động gói tin đến máy thu (a = 2), số gói tin có thể truyền đến máy thu là $d_t$ gói tin thoả mãn $0 < d_t \leq \hat{d_t}$ gói tin (trong đó $\hat{d_t}$
+Khi UAV gây nhiễu không tấn công kênh truyền $(j = 0)$, máy phát có dữ liệu trong bộ đệm và có đủ năng lượng trong bộ lưu trữ, lúc này nó có thể chọn phát
+chủ động gói tin đến máy thu $(a = 2)$, số gói tin có thể truyền đến máy thu là $d_t$ gói tin thoả mãn $0 < d_t \leq \hat{d_t}$ gói tin (trong đó $\hat{d_t}$
 là số gói tin tối đa mà máy phát có thể phát chủ động).
 
-Khi máy gây nhiễu tấn công kênh truyền (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$, nó có thể tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu (a = 4), 
+Khi máy gây nhiễu tấn công kênh truyền $(j = 1)$, máy phát có gói tin trong bộ đệm $(d > 0)$, nó có thể tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu $(a = 4)$, 
 số gói tin tán xạ ngược thành công là $d_n^J$ gói tin trong đó $0 < d_n^J \leq \hat{d_n^J}$. (Trong đó $\hat{d_n^J}$ là số gói tin tối đa mà máy phát có thể tán xạ ngược
 ở cường độ nhiễu là $P_n^J$).
 
-Ngoài ra khi máy gây nhiễu tấn công (j = 1), máy phát có gói tin trong bộ đệm $(d > 0)$ và có đủ năng lượng $(e \geq e_t)$, nó còn có thể lựa chọn phát gói 
-tin với tốc độ $r_m$, (a = 4 + m) để truyền chủ động gói tin theo kĩ thuật RA, số gói tin truyền thành công đến máy thu là $d_m^r$ trong đó $0 < d_m^r \leq \hat{d_m^r}$.
+Ngoài ra khi máy gây nhiễu tấn công $(j = 1)$, máy phát có gói tin trong bộ đệm $(d > 0)$ và có đủ năng lượng $(e \geq e_t)$, nó còn có thể lựa chọn phát gói 
+tin với tốc độ $r_m$ $(a = 4 + m)$, để truyền chủ động gói tin theo kĩ thuật RA, số gói tin truyền thành công đến máy thu là $d_m^r$ trong đó $0 < d_m^r \leq \hat{d_m^r}$.
 ($\hat{d_m^r}$ là số gói tin tối đa mà máy phát có thể phát thành công nếu máy phát phát với tốc độ $r_m$).
 
 Trong các trường hợp còn lại, khi máy phát không truyền thành công gói tin đến máy thu thì giá trị phần thưởng tức thời là 0.
 
 \subsection{Hàm mục tiêu}
-Mục tiêu của chúng ta là tìm ra một chính sách tối ưu cho máy phát, được kí hiệu là $\pi^*$, nhằm làm tối đa hoá giá trị thông lượng trung bình
+Mục tiêu của bài toán tối ưu là tìm ra một chính sách tối ưu cho máy phát, được kí hiệu là $\pi^*$, nhằm làm tối đa hoá giá trị thông lượng trung bình
 của hệ thống. Cụ thể $\pi^*$ là ánh xạ từ một trạng thái nhất định của hệ thống (trạng thái nhiễu, trạng thái bộ đệm dữ liệu và trạng thái năng
 lượng của máy phát) đến một hành động tối ưu ở trạng thái đó.
 Công thức hàm mục tiêu được xác định như sau:
@@ -1108,12 +1125,13 @@ $r_k(s_k, \pi(s_k))$ là giá trị phần thưởng tức thời ở thời đi
 
 $\pi(s_k) = a_k$ là hành động tại thời điểm k tuân theo chính sách $\pi$.
 
-Do trong mô hình MDP được xây dựng cho bài toán này, các trạng thái trong không gian trạng thái $S$ thuộc cùng một lớp liên kết trong chuỗi Markov, nên chuỗi Markov này là chuỗi không thể giảm bớt.
+Do trong mô hình MDP được xây dựng cho bài toán này, các trạng thái trong không gian trạng thái $\mathcal{S}$ thuộc cùng một lớp liên kết trong chuỗi Markov, nên chuỗi Markov này là chuỗi không thể giảm bớt.
 Khiến cho với mọi chính sách $\pi$, thông lượng trung bình $R(\pi)$ là một giá trị xác định và không phụ thuộc vào trạng thái bắt đầu của chuỗi.
 
 \section{Áp dụng phương pháp học tăng cường Q-learning và học tăng cường sâu DQN để chống nhiễu}
 Trong hệ thống được đề xuất ở trên, máy phát không xác định được cụ thể mức độ nhiễu mà UAV gây ra trên kênh truyền, cũng như chiến lược tấn công của UAV để có thể tìm ra được
-chính sách tối ưu $\pi^\star$ để tối đa hoá thông lượng kênh truyền. Do đó chúng ta sẽ áp dụng các thuật toán học tăng cường để giúp máy phát tìm ra được chiến lược đối
+chính sách tối ưu $\pi^\star$ để tối đa hoá thông lượng kênh truyền. Do đó chúng ta sẽ áp dụng các thuật toán học tăng cường để giúp máy phát học được thông tin về chiến lược tấn công của UAV, cường độ 
+của sóng nhiễu và những khả năng liên quan, qua đó tìm ra được chiến lược đối
 phó với máy gây nhiễu, hay nói cách khác là lựa chọn những hành động đúng trong không gian hành động $\mathcal{A}$ để đạt được thông lượng trung bình cao nhất.
 
 \subsection{Sử dụng thuật toán học tăng cường Q-learning}
@@ -1122,16 +1140,16 @@ chiến lược phòng thủ hiện tại của nó. Sau khi thực hiện hành
 Bằng cách này, máy phát có thể học cách đưa ra quyết định đúng dựa trên kinh nghiệm của chính nó, qua đó đạt được một chiến lược phòng thủ tối ưu $\pi^\star$: là một liên kết giữa trạng thái và hành động tương
 ứng mà máy phát sẽ lựa chọn để tối đa hoá thông lượng, giảm số gói tin bị mất khi bị UAV tấn công.
 
-Kí hiệu $V_\pi (s)$ là giá trị phần thưởng kì vọng mà máy phát sẽ nhận được khi tuân theo chính sách $\pi$ ở trạng thái $s \in \mathcal{S}$:
+Kí hiệu $V_\pi (s)$ là giá trị phần thưởng kì vọng mà máy phát sẽ nhận được khi tuân theo chính sách $\pi$ ở trạng thái $s \in \mathcal{S}$, theo công thức Bellman (\ref{eq:v_bellman}) ta có:
 \begin{equation}
-    V_\pi (s) = \mathbb{E}_\pi \{\sum_{k=0}^{\infty} \gamma^k r_\text{t+k+1} | s_0 = s\} = \mathbb{E}_\pi [r + \gamma V^\pi (s_\text{t+1}) | s_0 = s]
+    V_\pi (s) = \mathbb{E}_\pi \{\sum_{k=0}^{\infty} \gamma^k r_\text{t+k+1} | s_0 = s\} = \mathbb{E}_\pi [r + \gamma V_\pi (s_\text{t+1}) | s_0 = s]
 \end{equation}
 
 Với $0 \leq \gamma < 1$ là hệ số chiết khấu, đại diện cho sự đánh đổi giữa phần thưởng tức thời và phần thưởng trong tương lai, nếu $\gamma$ gần giá trị 0, thuật toán sẽ lựa chọn những hành động để
 tối đa giá trị phần thưởng tức thời, còn nếu $\gamma$ gần với giá trị 1, máy phát sẽ lựa chọn những hành động để tối đa hoá giá trị phần thưởng tích luỹ về lâu dài, hay nói cách khác là tác nhân sẽ nhìn xa
 trông rộng hơn.
 
-Tìm ra chính sách tối ưu $\pi^\star$ là mục tiêu của thuật toán này, hàm giá trị tối ưu và hàm giá trị hành động tối ưu được định nghĩa như sau:
+Tìm ra chính sách tối ưu $\pi^\star$ là mục tiêu của thuật toán này, hàm giá trị tối ưu và hàm giá trị hành động tối ưu được định nghĩa như sau (\ref{eq:v*_bellman}), (\ref{eq:q*_bellman}):
 \begin{equation}
     V^\star (s) = \underset{a}{\max} \mathbb{E} [r(s, a, s') + \gamma V^\star (s')]
 \end{equation}
@@ -1153,7 +1171,7 @@ Hàm $Q(s, a)$ được cập nhật như sau:
 
 Biểu thức $\delta = r_t(s_t, a_t, s_\text{t+1}) + \gamma \max_{a_\text{t+1}} Q_t (s_\text{t+1}, a_\text{t+1}) - Q_t (s_t, a_t)$ là giá trị thể hiện sự sai khác
 giữa giá trị hàm Q được dự đoán và giá trị hàm Q hiện tại. Hệ số $\alpha_t$ gọi là tốc độ học, định nghĩa tác động của giá trị mới lên giá trị hiện tại. Để đảm bảo thuật toán
-Q-learning hội tụ, tìm được chính sách tối ưu, tốc độ học $\alpha_t$ thoả mãn điều kiện sau:
+Q-learning hội tụ, tìm được chính sách tối ưu, tốc độ học $\alpha_t$ thoả mãn những điều kiện sau:
 \begin{equation}
     \sum_{t=0}^{\infty} \alpha_t (s, a) = \infty, \text{và } \sum_{t=0}^{\infty} \alpha_t^2 (s, a) < \infty
 \end{equation}
@@ -1175,13 +1193,15 @@ Q-learning hội tụ, tìm được chính sách tối ưu, tốc độ học $
 \end{algorithmic}
 \end{algorithm}
 
-Hành động a được lựa chọn theo chiến lược $\epsilon$-greedy như sau: ở lần lặp thứ k
+Hành động a được lựa chọn theo chiến lược $\epsilon$-greedy như sau:
 \begin{align*}
     a =& \begin{cases}
         \arg \max Q(s, a) & \text{với xác suất } 1 - \epsilon, \\ 
         \text{ngẫu nhiên} & \text{với xác suất } \epsilon.
     \end{cases}
 \end{align*}
+
+Giá trị $\epsilon$ cần giảm dần theo thời gian nhưng đồng thời cũng không được giảm quá nhanh để tác nhân có thể khám phá được những hành động mới tốt hơn.
 
 \subsection{Phương pháp học tăng cường sâu DQN}
 Vấn đề của thuật toán Q-learning là tốc độ hội tụ thấp, đồng thời không khả thi với bài toán dữ liệu nhiều chiều. Ngoài ra với thuật toán lập bảng Q-learning,
@@ -1196,9 +1216,9 @@ sử dụng mạng thần kinh sâu để ước tính giá trị xấp xỉ c�
     thay vì ngay lập tức đào tạo mạng thần kinh sử dụng các cặp trạng thái hành động diễn ra trong quá trình trải nghiệm. Tiến hành lấy ngẫu nhiên từ bể dữ liệu, sau đó đưa vào
     mạng thần kinh sâu để đào tạo. Cách làm này giúp thuật toán học hiệu quả những kinh nghiệm cũ nhiều lần và loại bỏ mối tương quan trong các mẫu.
 
-    \item  Sử dụng một mạng Q mục tiêu: Trong thuật toán DQN, ta sử dụng hai mạng Q có kiến trúc giống hệt nhau, một mạng Q mục tiêu và một mạng Q chính. Việc sử dụng mạng Q 
-    mục tiêu giúp cải thiện tính ổn định trong quá trình học. Cụ thể, mạng Q mục tiêu giảm thiểu sự dao động mạnh mẽ của giá trị Q bằng cách cập nhật ít thường xuyên hơn so với
-    mạng Q chính. Điều này giúp giảm hiện tượng ước lượng quá mức và tránh làm mất ổn định quá trình học, nhờ đó quá trình hội tụ trở nên ổn định và nhanh chóng hơn.
+    \item  Sử dụng một mạng $\hat{Q}$ mục tiêu: Trong thuật toán DQN, ta sử dụng hai mạng thần kinh sâu có kiến trúc giống hệt nhau, một mạng $\hat{Q}$ mục tiêu và một mạng Q chính. Việc sử dụng mạng
+    $\hat{Q}$ mục tiêu giúp cải thiện tính ổn định trong quá trình học. Cụ thể, mạng $\hat{Q}$ mục tiêu giảm thiểu sự dao động mạnh mẽ của giá trị $Q(s, a)$ bằng cách cập nhật ít thường xuyên hơn so với
+    mạng $Q$ chính. Điều này giúp giảm hiện tượng ước lượng quá mức và tránh làm mất ổn định quá trình học, nhờ đó quá trình hội tụ trở nên ổn định và nhanh chóng hơn.
 \end{itemize}
 
 \begin{algorithm}
@@ -1224,22 +1244,29 @@ Ban đầu, hành động được lựa chọn theo một chính sách ngẫu n
 đó thu được nhiều phần thưởng nhất. Cụ thể thì ban đầu giá trị $\epsilon$ là một số gần với 1, sau đó giảm dần xuống một giá trị nhỏ dựa trên một hệ số suy giảm nhất định.
 Điều này giúp tác nhân tự do khám phá những hành động tiềm năng từ lúc bắt đầu, càng về sau, khi giá trị $\epsilon$ giảm, tác nhân sẽ chọn những hành động có giá trị Q lớn
 nhất, nhằm khai thác những kiến thức đã học được để tối đa hóa phần thưởng. Điều này giúp thuật toán học hỏi một cách hiệu quả, vừa đảm bảo sự ổn định trong quá trình
-huấn luyện, vừa đảm bảo khả năng khai thác khám phá để tối ưu chiến lược về dài hạn.
+huấn luyện, vừa đảm bảo khả năng khai thác khám phá để tối ưu chiến lược về dài hạn. Hành động $a$ được lựa chọn cũng tuân theo chính sách $\epsilon$ tham lam, trong đó
+giá trị $\epsilon$ giảm dần theo thời gian như mô tả ở trên:
+\begin{align*}
+    a =& \begin{cases}
+        \arg \max Q(s, a) & \text{với xác suất } 1 - \epsilon, \\ 
+        \text{ngẫu nhiên} & \text{với xác suất } \epsilon.
+    \end{cases}
+\end{align*}
 
 Sau đó, tác nhân tiến hành thực hiện hành động, quan sát trạng thái kế tiếp và nhận về phần thưởng. Quá trình chuyển đổi này được lưu trong bộ nhớ phát lại D để cho
 quá trình đào tạo về sau.
 
-Trong quá trình học tập, một số mẫu được lấy ngẫu nhiên từ bộ nhớ phát lại D và được đưa vào mạng thần kinh. Thuật toán cập nhật tham số mạng bằng giảm thiểu hàm mất mát
-sử dụng SGD:
+Trong quá trình học tập, một số mẫu được lấy ngẫu nhiên từ bộ nhớ phát lại D và được đưa vào mạng thần kinh. Thuật toán cập nhật tham số mạng bằng giảm thiểu hàm mất mát sai
+số bình phương trung bình sử dụng SGD:
 \begin{equation}
     L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \left[ \left( r + \gamma \max_{a'} \mathcal{Q}(s', a'; \theta'_i) - \mathcal{Q}(s, a; \theta_i) \right)^2 \right]
 \end{equation}
 
-trong đó, $\theta_i$ là tham số của mạng chính Q ở tập đào tạo thứ i và $\theta_i'$ là tham số của mạng mục tiêu $\hat{\mathcal{Q}}$
+trong đó, $\theta_i$ là tham số của mạng chính Q ở tập đào tạo thứ i và $\theta_i'$ là tham số của mạng mục tiêu $\hat{\mathcal{Q}}$.
 
 Hàm độ dốc của hàm mất mát trong thuật toán DQN:
 \begin{equation}
-    \Delta_{\theta_i} L(\theta_i) = \mathbb{E}_\text{s, a, r, s'} [(r + \gamma \max_{a'} Q(s', a'; \theta'_i) - Q(s, a; \theta_i)) \Delta_{\theta_i} Q(s, a; \theta_i)] 
+    \Delta_{\theta_i} L(\theta_i) = \mathbb{E}_\text{(s, a, r, s')} [(r + \gamma \max_{a'} Q(s', a'; \theta'_i) - Q(s, a; \theta_i)) \Delta_{\theta_i} Q(s, a; \theta_i)] 
 \end{equation}
 
 Sau C bước, thuật toán cập nhật tham số mạng mục tiêu $\theta_i'$ với tham số của mạng chính $\theta_i$.
@@ -1248,6 +1275,10 @@ Sau khi quá trình đào tạo kết thúc, tham số từ mạng chính $\math
 
 % Chapter 4
 \chapter{Thiết lập mô phỏng và đánh giá hiệu năng}
+Trong chương này, khoá luận trình bày thông số cài đặt chi tiết của thuật toán học tăng cường Q-learning và học tăng cường sâu DQN, thực hiện mô phỏng bài toán tối ưu
+như đã trình bày ở trên và tiến hành so sánh hiệu năng trong trường hợp áp dụng phương pháp được đề xuất sử dụng DQN và phương pháp chống nhiễu "tham lam" (greedy) không sử dụng học
+tăng cường.
+
 \section{Thông số cài đặt thử nghiệm}
 \subsection{Thông số hệ thống}
 Trong hệ thống đang được xem xét, máy phát có thể lưu trữ tối đa $D = 10$ gói tin trong hàng đợi dữ liệu, tối đa $E = 10$ đơn vị năng lượng
@@ -1255,10 +1286,11 @@ trong bộ lưu trữ năng lượng. Dữ liệu đến máy phát giả địn
 gói tin. Khi UAV gây nhiễu không tấn công, máy phát có thể truyền chủ động tối đa $\hat{d}_t = 4$ gói tin đến máy thu. Mỗi gói tin truyền đi cần
 $e_t = 1$ đơn vị năng lượng. Do sự thay đổi vị trí của UAV như đã nói ở trên, công suất gây nhiễu của UAV cũng thay đổi, giả định tín hiệu nhiễu từ 
 UAV ảnh hưởng đến đường truyền không dây đang xét gồm bốn mức $P_J = \{0W, 5W, 10W, 15W\}$ với $P_{\text{max}} = 15W$. Do lượng năng lượng
-thu hoạch được cũng như số gói tin tán xạ ngược thành công tăng lên khi tín hiệu nhiễu mạnh hơn, chúng ta đặt $e = \{0, 1, 2, 3\}$ là số đơn vị
-năng lượng mà máy thu có thể thu được và $\hat{d} = \{0, 1, 2, 3\}$ là số gói tin mà máy thu có thể tán xạ ngược tương ứng với mức công suất nhiễu
+thu hoạch được cũng như số gói tin tán xạ ngược thành công tăng lên khi tín hiệu nhiễu mạnh hơn, đặt $e = \{0, 1, 2, 3\}$ là số đơn vị
+năng lượng mà máy phát có thể thu được và $\hat{d} = \{0, 1, 2, 3\}$ là số gói tin mà máy phát có thể tán xạ ngược đến máy thu tương ứng với mức công suất nhiễu
 ảnh hưởng tới đường truyền. Ngoài ra, khi UAV tấn công gây nhiễu và máy phát sử dụng kỹ thuật RA, nó có thể truyền $d^r_m = \{2, 1, 0\}$ gói tin
-tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Công suất nhiễu trung bình của UAV là $P_\text{avg} = 7W$.
+tương ứng với cường độ tín hiệu nhiễu từ UAV $P^J_n = \{5W, 10W, 15W\}$. Nếu không đề cập cụ thể về cường độ nhiễu trung bình trong từng thử nghiệm, mặc định
+công suất nhiễu trung bình trong thử nghiệm là $P_\text{avg} = 7W$.
 
 \subsection{Thông số cài đặt thuật toán Q-learning và DQN}
 \subsubsection{Thuật toán Q-learning}
@@ -1270,9 +1302,9 @@ với tốc độ giảm giá trị $\epsilon_\text{decay} = 0.01$. Số lần l
 Trong mô phỏng thuật toán DQN, kiến trúc của mạng mục tiêu $\hat{\mathcal{Q}}$ và mạng chính $\mathcal{Q}$ là như nhau: mô hình sử dụng kiến trúc DQN chuẩn, 
 gồm ba lớp ẩn với 512, 256, và 64 neuron, mỗi lớp sử dụng hàm kích hoạt tanh. Lớp đầu ra có $M+4$ neuron tương ứng với kích cỡ không gian hành động của hệ thống 
 và sử dụng hàm kích hoạt linear để xuất ra giá trị Q cho từng hành động. Giá trị ban đầu của $\epsilon$ trong chiến lược $\epsilon$ tham lam là $\epsilon = 1$,
-$\epsilon_min = 0.01$, hệ số suy giảm giá trị $\epsilon$ là $\epsilon_\text{decay} = 0.9999$. Tốc độ học (learning rate) là $\alpha = 0.0001$. Kích cỡ của bộ
+$\epsilon_\text{min} = 0.01$, hệ số suy giảm giá trị $\epsilon$ là $\epsilon_\text{decay} = 0.9999$. Tốc độ học (learning rate) là $\alpha = 0.0001$. Kích cỡ của bộ
 nhớ phát lại là $D = 10000$, số mẫu được lấy ngẫu nhiên ở mỗi lần đào tạo mạng từ bộ nhớ phát lại (mini-batch) là 32 mẫu, mạng mục tiêu $\hat{\mathcal{Q}}$ được cập
-nhật tham số với tần suất là 5000 bước huấn luyện.
+nhật tham số với tần suất là sau 5000 bước huấn luyện.
 
 \section{Kết quả mô phỏng}
 \subsection{So sánh sự hội tụ của hai thuật toán học tăng cường Q và DQN}
@@ -1288,15 +1320,24 @@ tối ưu hơn.
     \label{fig:converged}
 \end{figure}
 
-\subsection{So sánh với chiến lược phòng thủ ''tham lam'' không sử dụng DRL}
-Ở đây, chúng ta thực hiện so sánh giữa việc sử dụng phương án DQN được đề xuất và chiến lược phòng thủ cố định ''tham lam'' được mô tả như sau: (i) Khi
+\subsection{So sánh với chiến lược phòng thủ "greedy" không sử dụng DRL}
+Ở đây, chúng ta thực hiện so sánh giữa việc sử dụng phương án DQN được đề xuất và chiến lược phòng thủ cố định "greedy" được mô tả như sau: (i) Khi
 UAV gây nhiễu không tấn công kênh truyền, máy phát sẽ phát chủ động gói tin đến máy thu, (ii) Khi UAV gây nhiễu tấn công kênh truyền, máy phát sẽ tận dụng
 sóng nhiễu từ UAV để thu năng lượng hoặc tán xạ ngược đan xen nhau theo một chu kì cố định - máy phát sẽ tiến hành thu năng lượng từ sóng nhiễu sau mỗi chu kì
 $T_\text{harvest} = 5$ đơn vị thời gian, thời gian còn lại máy phát sẽ tiến hành tán xạ ngược sóng nhiễu để truyền dữ liệu đến máy thu. Ta gọi chiến lược này
-là chiến lược phòng thủ cố định ''tham lam''. Với phương án sử dụng DQN được đề xuất, em thực hiện $4 \times 10^4$ lần lặp để tìm ra chiến lược tối ưu cho máy
-phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nêu ở trên.
+là chiến lược phòng thủ cố định "greedy" do nó có xu hướng tham lam khi bị tấn công bằng cách ưu tiên việc tán xạ ngược gói tin khi xảy ra nhiễu. Với phương án sử dụng DQN được đề xuất, 
+em thực hiện $4 \times 10^4$ lần lặp để tìm ra chiến lược tối ưu cho máy phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nêu ở trên. Ba thông số được sử dụng để so sánh là
+thông lượng trung bình, số gói tin mất mát trung bình và PDR (\ref{eq:pdr}).
 
 \subsubsection{Đánh giá hiệu quả khi thay đổi công suất nhiễu}
+Trong Hình 4.2, Hình 4.3, Hình 4.4, thực hiện mô phỏng thay đổi công suất nhiễu trung bình của UAV gây nhiễu, dễ nhận thấy khi công suất gây nhiễu trung bình tăng lên, tức là
+máy gây nhiễu tấn công kênh truyền với mức năng lượng lớn cùng tần suất tấn công cao hơn dẫn đến khả năng tán xạ ngược sóng nhiễu và khả năng thu năng lượng từ sóng nhiễu cũng tăng lên ở 
+cả 2 phương án khi công suất nhiễu trung bình tăng lên. Điều này đã làm cải thiện hiệu năng của hệ thống (thông lượng tăng, số gói tin mất mát giảm và tỉ lệ truyền thành công cao hơn). Tuy nhiên 
+với phương án đề xuất sử dụng học tăng cường sâu, đã giúp máy thu thích ứng được với sự khó đoán định của môi trường nhiễu, cũng như thích ứng với chiến lược tấn công dẫn đến tốc độ 
+cải thiện hiệu năng hệ thống của phương án đề xuất là cao hơn so với phương án sử dụng chiến lược “tham lam” cố định ở trên. Khi công suất trung bình của máy 
+gây nhiễu thấp, dễ nhận thấy 2 phương án có hiệu suất khá tương đồng do lúc này máy phát gần như không có cơ hội tận dụng sóng nhiễu bằng cách thu năng lượng hay tán xạ ngược để truyền gói tin, 
+tuy nhiên khi công suất nhiễu trung bình càng tăng lên, sự hiệu quả của phương án đề xuất càng thấy rõ.
+
 \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $P_\text{avg}$ thay đổi.}
     \centering
     \includegraphics[scale=0.8]{p_avg_throughput}
@@ -1313,17 +1354,9 @@ phát và sau đó so sánh hiệu quả với chiến lược tham lam đã nê
     \label{fig:p_avg_pdr}
 \end{figure}
 
-Trong Hình 4.2, Hình 4.3, Hình 4.4, ta thực hiện thay đổi công suất phát của máy gây nhiễu, dễ nhận thấy khi công suất gây nhiễu tăng lên, tức là khả năng 
-máy gây nhiễu tấn công kênh truyền với mức năng lượng lớn dẫn đến khả năng tán xạ ngược sóng nhiễu và khả năng thu năng lượng từ sóng nhiễu cũng tăng lên ở 
-cả 2 phương án. Điều này đã làm cải thiện hiệu năng của hệ thống (thông lượng tăng, số gói tin mất mát giảm và tỉ lệ truyền thành công cao hơn). Tuy nhiên 
-với phương án đề xuất sử dụng học tăng cường sâu, đã giúp máy thu thích ứng được với sự bất định của môi trường nhiễu, với chiến lược tấn công dẫn đến tốc độ 
-cải thiện hiệu năng hệ thống của phương án đề xuất là cao hơn so với phương án sử dụng chiến lược “tham lam” cố định ở trên. Khi công suất trung bình của máy 
-gây nhiễu thấp, dễ nhận thấy 2 phương án có hiệu suất khá tương đồng, tuy nhiên khi công suất nhiễu trung bình càng tăng lên, sự hiệu quả của phương án đề xuất 
-càng thấy rõ.
-
 \subsubsection{Đánh giá hiệu quả khi thay đổi số gói tin có thể phát chủ động $\hat{d}_t$}
 Thử nghiệm được thực hiện với công suất nhiễu $P_\text{avg} = 7W$, trong thử nghiệm ở Hình 4.5, Hình 4.6, Hình 4.7 này ta thực hiện thay đổi số gói tin tối đa mà máy phát
-có thể phát chủ động đến máy thu.
+có thể phát chủ động đến máy thu. Dễ dàng nhận thấy phương pháp được đề xuất sử dụng DQN vẫn có hiệu năng tốt hơn so với chiến lược phòng thủ "greedy".
 
 \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $\hat{d}_t$ thay đổi.}
     \centering
@@ -1341,14 +1374,18 @@ có thể phát chủ động đến máy thu.
     \label{fig:dt_pdr}
 \end{figure}
 
-\subsubsection{Đánh giá hiệu quả khi thay đổi chu kì thu năng lượng $T_\text{harvest}$ của máy thu trong phương án sử dụng chiến lược phòng thủ cố định “tham lam”}
-Trong mô phỏng Hình 4.8, Hình 4.9, Hình 4.10 , công suất nhiễu trung bình trong mô phỏng này $P_\text{avg} = 7W$, ta thấy được việc thay đổi chu kì thu năng lượng trong 
-phương án phòng thủ tham lam khiến cho hiệu suất hệ thống thay đổi rõ rệt. Dễ thấy trong trường hợp này,  khi công suất nhiễu cao, cơ hội để máy phát có thể phát 
-chủ động không nhiều dẫn đến chiến lược phòng thủ “tham lam” chủ yếu sẽ truyền gói tin thông qua kĩ thuật tán xạ ngược, điều này khiến cho nếu chu kì thu năng lượng 
-của chiến lược “tham lam” càng lớn (càng ít thực hiện thu năng lượng hơn) sẽ khiến cho thông lượng, số gói tin bị mất và tỉ lệ gói tin thành công tăng nhanh, tuy nhiên
-khi chu kì thu năng lượng tăng đến giá trị 5 đơn vị thời gian thì hiệu quả của hệ thống với chiến lược tham lam gần như không thay đổi nhiều, do lúc này máy phát chủ yếu 
-lựa chọn tán xạ ngược thay vì thu năng lượng để chờ cơ hội phát chủ động, dẫn đến hiệu quả tán xạ ngược đã đạt gần giá trị tối ưu, khiến cho hiệu quả của hệ thống gần 
-như ổn định. Tuy nhiên vẫn chưa thể đạt đến hiệu quả như phương án đề xuất sử dụng DQN mang lại.
+\subsubsection{Đánh giá hiệu quả khi thay đổi chu kì thu năng lượng $T_\text{harvest}$ của máy thu trong phương án sử dụng chiến lược phòng thủ cố định “greedy”}
+Trong mô phỏng Hình 4.8, Hình 4.9, Hình 4.10, ta thay đổi giá trị $T_\text{harvest}$ - chu kì thu năng lượng của phương án phòng thủ "greedy". $T_\text{harvest}$ càng lớn, 
+máy phát càng ít thu năng lượng hơn và ngược lại. Công suất nhiễu trung bình trong mô phỏng này $P_\text{avg} = 7W$ - là một trường hợp UAV tấn công kênh truyền khá thường xuyên,
+dẫn đến máy phát không có nhiều cơ hội phát gói tin thông qua phát chủ động mà chủ yếu truyền tin thông qua kĩ thuật tán xạ ngược. Do đó nếu giá trị $T_\text{harvest}$
+nhỏ, tức là tần suất máy phát thu năng lượng nhiều hơn, trong khi không có cơ hội phát chủ động do UAV tấn công kênh truyền với xác suất cao, ta thấy hiệu năng của hệ thống đạt
+kết quả thấp. Khi $T_\text{harvest}$ tăng lên, tức là tần suất thu năng lượng nhỏ lại, lúc này máy phát tán xạ ngược gói tin đến máy thu nhiều hơn, dẫn đến hiệu năng hệ thống
+tăng nhanh. Tuy nhiên khi chu kì thu năng lượng tăng đến giá trị 5 đơn vị thời gian thì hiệu quả của hệ thống với chiến lược "greedy" gần như không thay đổi nhiều, do lúc 
+này máy phát chủ yếu lựa chọn tán xạ ngược thay vì thu năng lượng để chờ cơ hội phát chủ động, dẫn đến hiệu quả tán xạ ngược đã đạt gần giá trị tối ưu, hệ thống đạt hiệu năng
+ổn định.
+
+Tuy nhiên so với phương án đề xuất sử dụng DQN, ta vẫn nhận thấy phương án đề xuất đạt hiệu năng tốt hơn.
+
 \begin{figure}{So sánh thông lượng trung bình giữa DQN và Greedy $T_\text{harvest}$ thay đổi.}
     \centering
     \includegraphics[scale=0.8]{t_harvest_throughput.png}
@@ -1365,15 +1402,22 @@ như ổn định. Tuy nhiên vẫn chưa thể đạt đến hiệu quả như 
     \label{fig:t_pdr}
 \end{figure}
 
+\subsubsection{Kết luận mô phỏng so sánh DQN và chiến lược greedy}
+Nhận thấy rằng, trong tất cả các mô phỏng đã thực hiện ở trên, phương án đề xuất sử dụng DQN mang lại hiệu năng của hệ thống tốt hơn so với chiến lược phòng thủ cố định "greedy"
+không sử dụng học tăng cường. Rõ ràng với khả năng học được chiến lược tấn công của UAV và đưa ra hành động chính xác, phù hợp với từng trạng thái môi trường, nhằm tối đa hoá thông
+lượng kênh truyền, phương án được đề
+xuất sử dụng DQN thích nghi và tận dụng cuộc tấn công gây nhiễu từ UAV tốt hơn so với một chiến lược phòng thủ cố định từ trước, không sử dụng học tăng cường - ở đây cụ thể là chiến lược "greedy"
+như đã trình bày ở trên.
+
 % Chapter 5
 \clearpage\noindent\Large\textbf{Kết luận}\par\normalsize\vspace{1cm}
-Trong khoá luận này, em đã đề xuất một phương pháp chống nhiễu cho hệ thống truyền thông không dây để chống lại cuộc tấn công từ thiết bị gây nhiễu gắn trên máy bay không người lái UAV.
-Máy phát trong trường hợp này có thể tận dụng sóng nhiễu từ thiết bị tấn công để thu năng lượng để phục vụ hoạt động truyền gói tin chủ động khi không bị tấn công, hoặc điều chỉnh tốc
-độ phát thích hợp, hoặc tận dụng sóng nhiễu để tán xạ ngược gói tin đến máy thu. Dựa trên việc xây dựng mô hình hệ thống truyền thông này như một bài toán MDP, em đã đã sử dụng các
-thuật toán học tăng cường như
-Q-learning và DQN để giúp máy phát tìm ra được chiến lược phòng thủ phù hợp trước cuộc tấn công gây nhiễu, qua đó tối đa hoá thông lượng trung bình của hệ thống, giảm số gói tin bị mất mát trên đường truyền.
-Kết quả mô phỏng đã chỉ ra rằng, với việc sử dụng các thuật toán học tăng cường, thông lượng của hệ thống cũng như số gói tin mất mát và tỉ lệ truyền gói tin thành công đều tăng lên rõ
-rệt so với một chiến lược truyền tin tham lam không sử dụng thuật toán học tăng cường. Qua đó giúp hệ thống không những có khả năng chống lại, mà còn tận dụng được cuộc tấn công gây nhiễu
+Trong khoá luận này, một phương pháp chống nhiễu cho hệ thống truyền thông không dây sử dụng DQN đã được đề xuất, để chống lại cuộc tấn công từ thiết bị gây nhiễu gắn trên UAV. Máy phát 
+trong trường hợp này có thể tận dụng sóng nhiễu từ thiết bị tấn công để thu năng lượng phục vụ hoạt động truyền gói tin chủ động khi không bị tấn công, hoặc điều chỉnh tốc
+độ phát thích hợp, hoặc tận dụng sóng nhiễu để tán xạ ngược gói tin đến máy thu. Dựa trên việc xây dựng mô hình hệ thống truyền thông này như một bài toán tối ưu sử dụng mô hình MDP, khoá 
+luận đã sử dụng các thuật toán học tăng cường như
+Q-learning và DQN để giúp máy phát tìm ra được chiến lược phòng thủ tối ưu trước cuộc tấn công gây nhiễu, qua đó tối đa hoá thông lượng trung bình của hệ thống, giảm số gói tin bị mất mát 
+trên đường truyền. Kết quả mô phỏng đã chỉ ra rằng, với việc sử dụng các thuật toán học tăng cường, thông lượng của hệ thống cũng như số gói tin mất mát và tỉ lệ truyền gói tin thành công đều tăng lên rõ
+rệt so với việc sử dụng một chiến lược chống nhiễu cố định. Qua đó giúp hệ thống không những có khả năng chống lại, mà còn tận dụng được cuộc tấn công gây nhiễu
 để thực hiện nhiệm vụ truyền thông tin của mình và giảm thiểu thiệt hại của cuộc tấn công gây nhiễu.
 
 % Tài liệu tham khảo
@@ -1381,40 +1425,74 @@ rệt so với một chiến lược truyền tin tham lam không sử dụng th
 \begin{bibsection}{}
     % Book
     \bibitem{hoang2023deep}
-    Hoang, D.T. and Van Huynh, N. and Nguyen, D.N. and Hossain, E. and Niyato, D.
+    Hoang, D.T. and Van Huynh, N. and Nguyen, D.N. and Hossain, E. and Niyato, D.,
     \textit{Deep Reinforcement Learning for Wireless Communications and Networking: Theory, Applications and Implementation},
-    \textit{Wiley}, 2023, pp. 37-163.
-    \bibitem{Sutton}
-    R. S. Sutton and A. G. Barto, Reinforcement learning: An introduction.
-    MIT Press, 2018.
-    % Paper
+    \textit{Wiley}, 
+    2023, 
+    pp. 37-163.
+
+    \bibitem{Vincent}
+    Liu, Vincent and Parks, Aaron and Talla, Vamsi and Gollakota, Shyamnath and Wetherall, David and Smith, Joshua R.,
+    "Ambient backscatter: wireless communication out of thin air",
+    \textit{Association for Computing Machinery},
+    2013,
+    pp. 39-50.
+
+    \bibitem{dqn}
+    Mnih, V., Kavukcuoglu, K., Silver, D.,
+    "Human-level control through deep reinforcement learning",
+    \textit{Nature},
+    vol. 518,
+    2015,
+    pp. 529-533.
+
+    \bibitem{Ning_Gao}
+    N. Gao, Z. Qin, X. Jing, Q. Ni and S. Jin,
+    "Anti-Intelligent UAV Jamming Strategy via Deep Q-Networks",
+    \textit{IEEE Transactions on Communications},
+    vol. 68,
+    2020,
+    pp. 569-581.
+
     \bibitem{Hossein22}
-    Pirayesh, Hossein and Zeng, Huacheng
+    Pirayesh, Hossein and Zeng, Huacheng,
     ''Jamming Attacks and Anti-Jamming Strategies in Wireless Networks: A Comprehensive Survey'',
     \textit{IEEE Communications Surveys \& Tutorials},
     vol. 24, no. 2,
-    pp. 767-809
+    2022,
+    pp. 767-809.
+
+    \bibitem{sutton2018reinforcement}
+    Sutton, R.S. and Barto, A.G.,
+    \textit{Reinforcement Learning, second edition: An Introduction},
+    \textit{MIT Press}, 
+    2018, 
+    pp. 37-163.
+    % Paper
 
     \bibitem{Vadlamani16}
-    Satish Vadlamani,Burak Eksioglu,Hugh Medal,Apurba Nandi
+    Satish Vadlamani, Burak Eksioglu, Hugh Medal, Apurba Nandi,
     ''Jamming attacks on wireless networks: A taxonomic survey'',
     \textit{International Journal of Production Economics},
     vol. 172,
     2016,
-    pp. 76-94
+    pp. 76-94.
+
+    \bibitem{jam_me}
+    Van Huynh, Nguyen and Nguyen, Diep N. and Hoang, Dinh Thai and Dutkiewicz, Eryk,
+    "“Jam Me If You Can:” Defeating Jammer With Deep Dueling Neural Network Architecture and Ambient Backscattering Augmented Communications",
+    \textit{IEEE Journal on Selected Areas in Communications},
+    vol. 37,
+    2019,
+    pp. 2603-2620.
 
     \bibitem{Xu2005}
-    Xu, Wenyuan and Trappe, Wade and Zhang, Yanyong and Wood, Timothy
+    Xu, Wenyuan and Trappe, Wade and Zhang, Yanyong and Wood, Timothy,
     ''The feasibility of launching and detecting jamming attacks in wireless networks'',
     \textit{Association for Computing Machinery},
     2005,
-    pp. 46–57
-    \bibitem{Vincent}
-    Ambient Backscatter: Wireless Communication Out of Thin Air
-    \bibitem{Ning_Gao}
-    Anti-Intelligent UAV Jamming Strategy via Deep Q-Networks
-    \bibitem{jam_me}
-    “Jam Me If You Can”: Defeating Jammer with Deep Dueling Neural Network Architecture and Ambient Backscattering Augmented Communications
+    pp. 46–57.
+
 \end{bibsection}
 \end{thebibliography}
 \end{document}
