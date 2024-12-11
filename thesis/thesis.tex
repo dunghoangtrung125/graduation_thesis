@@ -42,7 +42,7 @@ dưới sự hướng dẫn của TS. Nguyễn Ngọc Tân.
 
 Tất cả các tham khảo nghiên cứu liên quan đều nêu rõ nguồn gốc một cách rõ ràng từ 
 danh mục tài liệu tham khảo trong khóa luận. Khóa luận không sao chép tài liệu, 
-công trình nghiên cứu từ người khác mà không có rõ về mặt tài liệu tham khảo.
+công trình nghiên cứu từ người khác mà không ghi rõ về mặt tài liệu tham khảo.
 
 Các thống kê, các kết quả trình bày khóa luận đều là từ thực nghiệm khi chạy chương trình. Nếu tôi sai 
 tôi hoàn toàn chịu trách nhiệm theo quy định của trường Đại học Công Nghệ - Đại học Quốc Gia Hà Nội.
@@ -123,18 +123,18 @@ Trong khoá luận này, vấn đề tấn công gây nhiễu được tìm hi�
 Qua đó đề xuất một phương án để không những chống lại mà còn tận dụng cuộc tấn công gây nhiễu để đảm bảo chất lượng đường truyền không dây.
 Phần còn lại của khoá luận sẽ được chia thành các chương với nội dung cụ thể như sau:
 
-Chương 2: Cơ sở lý thuyết. Trong chương này trình bày lý thuyết nền tảng về tấn công gây nhiễu và tấn công gây nhiễu bằng UAV.
+\textbf{Chương 2:} Cơ sở lý thuyết, trong chương này trình bày lý thuyết nền tảng về tấn công gây nhiễu và tấn công gây nhiễu bằng UAV.
 Cũng như tìm hiểu một số chiến lược chống nhiễu đã được nghiên cứu. Sau đó sẽ đi vào tìm hiểu về RL và DRL - hai phương pháp được
 sử dụng để chống nhiễu.
 
-Chương 3: Đề xuất phương án giải quyết bài toán tấn công gây nhiễu từ UAV. Trong chương này, bài toán chống lại cuộc tấn công
+\textbf{Chương 3:} Đề xuất phương án giải quyết bài toán tấn công gây nhiễu từ UAV. Trong chương này, bài toán chống lại cuộc tấn công
 gây nhiễu bằng UAV được mô hình hoá thành bài toán tối ưu và qua đó đề xuất một phương pháp chống nhiễu sử dụng DRL.
 
-Chương 4: Thiết lập mô phỏng và kết quả mô phỏng. Trong chương này, chi tiết về mô hình bài toán cũng như thông số thiết lập mô
+\textbf{Chương 4:} Thiết lập mô phỏng và kết quả mô phỏng. Trong chương này, chi tiết về mô hình bài toán cũng như thông số thiết lập mô
 phỏng phương pháp chống nhiễu được đề xuất sẽ được trình bày. Qua đó so sánh hiệu quả mà phương pháp đề xuất sử dụng DRL mang lại so với chiến lược phòng thủ 
 "tham lam" (greedy) không sử dụng DRL.
 
-Chương 5: Kết luận.
+\textbf{Phần kết luận:} Tổng kết và rút ra kết luận.
 
 % Chapter 2
 \chapter{Cơ sở lý thuyết}
@@ -146,30 +146,30 @@ cũng như trình bày về thuật toán học tăng cường (RL) và học t�
 Mạng không dây là một hệ thống mạng truyền tải dữ liệu mà không sử dụng các dây cáp kết nối vật lý. Thay vào đó, mạng không dây sử dụng sóng
 điện từ để truyền tín hiệu và dữ liệu giữa các thiết bị. Điều này giúp tăng tính di động của thiết bị, vốn là điểm yếu của các kết nối của các
 kết nối có dây. Phương pháp gửi dữ liệu thông qua môi trường không khí này được ứng dụng vô cùng sâu rộng trong mọi lĩnh vực đời sống con người
-ngày nay, từ công sở, trường học hoặc thậm chí là trong quân sự\dots
+ngày nay, từ công sở, trường học hoặc thậm chí là trong quân sự, v.v.
 
 Dữ liệu nhận và gửi của mạng không dây được truyền đi xuyên suốt thông qua các tầng ảo sau:
 \begin{itemize}
-    \item Tầng vật lý: Là tầng thể hiện đặc điểm của kết nối vật lý giữa các thiết bị trong mạng, trong trường hợp mạng không dây, môi trường truyền
+    \item \textbf{Tầng vật lý:} Là tầng thể hiện đặc điểm của kết nối vật lý giữa các thiết bị trong mạng, trong trường hợp mạng không dây, môi trường truyền
     là không khí. Quá trình nhận và truyền dữ liệu được quản lý bởi tầng vật lý. Trong mạng không dây, dữ liệu nhị phân giữa các thiết bị được chuyển
     thành tín hiệu điện và sử dụng tần số vô tuyến để gửi và nhận dữ liệu, tất cả quá trình này được thực hiện bởi tầng vật lý. Đây cũng là tầng chịu
     thiệt hại nặng nề nhất từ cuộc tấn công gây nhiễu sóng vô tuyến.
-    \item Tầng liên kết dữ liệu: Là tầng ở giữa, chịu trách nhiệm kết nối giữa tầng vật lý và tầng mạng, ngoài ra còn thực hiện phân đoạn các gói được
+    \item \textbf{Tầng liên kết dữ liệu:} Là tầng ở giữa, chịu trách nhiệm kết nối giữa tầng vật lý và tầng mạng, ngoài ra còn thực hiện phân đoạn các gói được
     gửi bởi các tầng cao hơn thành các khung có thể được gửi bởi tầng vật lý. Tầng này cũng cung cấp khả năng kiểm tra lỗi và định dạng các khung dữ liệu
     được gửi. Tầng con MAC của tầng liên kết dữ liệu chịu trách nhiệm di chuyển các gói dữ liệu đến và đi từ nút này sang nút khác trên một kênh chung.
     Kênh truyền trong mạng không dây là một tần số mà các nút sử dụng để gửi dữ liệu. Tầng con MAC sử dụng giao thức MAC để đảm bảo tín hiệu gửi từ các
     trạm khác nhau trên cùng một kênh truyền không bị xung đột. Tầng này dễ bị tấn công gây nhiễu tầng liên kết dữ liệu - các thiết bị gây nhiễu tinh vi
     có thể tận dụng lợi thế của tầng liên kết dữ liệu và tạo ra cuộc tấn công hiệu quả về mặt năng lượng. So với tấn công gây nhiễu sóng vô tuyến ở tầng
     vật lý, gây nhiễu tầng liên kết dữ liệu tối ưu hơn về mặt năng lượng.
-    \item Tầng mạng: Hoạt động như một liên kết giữa tầng giao vận ở trên và tầng liên kết dữ liệu ở dưới. Chịu trách nhiệm tìm ra cấu trúc mạng và gán địa
+    \item \textbf{Tầng mạng:} Hoạt động như một liên kết giữa tầng giao vận ở trên và tầng liên kết dữ liệu ở dưới. Chịu trách nhiệm tìm ra cấu trúc mạng và gán địa
     chỉ, cũng như định tuyến dữ liệu.
-    \item Tầng giao vận: Khôi phục dữ liệu bị mất và cũng chịu trách nhiệm truyền lại dữ liệu. Cung cấp khả năng mã hoá dữ liệu và truyền dữ liệu đáng tin cậy.
-    \item Tầng ứng dụng: Tầng này chịu trách nhiệm xác định thông số kỹ thuật của dữ liệu được yêu cầu bởi cả người dùng cuối cũng như các nút trong mạng. 
+    \item \textbf{Tầng giao vận:} Khôi phục dữ liệu bị mất và cũng chịu trách nhiệm truyền lại dữ liệu. Cung cấp khả năng mã hoá dữ liệu và truyền dữ liệu đáng tin cậy.
+    \item \textbf{Tầng ứng dụng:} Tầng này chịu trách nhiệm xác định thông số kỹ thuật của dữ liệu được yêu cầu bởi cả người dùng cuối cũng như các nút trong mạng. 
 \end{itemize}
 
 \subsection{Phân loại mạng không dây và ứng dụng}
 \begin{itemize}
-    \item WLAN: mạng không dây cục bộ, hay còn được biết đến nhiều hơn là Wi-Fi. WLAN cho phép thiết bị kết nối với Internet dễ dàng miễn là nó được kết nối với
+    \item \textbf{WLAN:} mạng không dây cục bộ, hay còn được biết đến nhiều hơn là Wi-Fi. WLAN cho phép thiết bị kết nối với Internet dễ dàng miễn là nó được kết nối với
     sóng Wi-Fi. WLAN được sử dụng ở rất nhiều nơi xung quanh chúng ta ngày nay, từ hộ gia đình, trường học, công sở, địa điểm kinh doanh\dots Thiết bị di động
     kết nối với điểm truy cập thông qua kết nối không dây sẽ có thể kết nối Internet và di chuyển một cách tự do, miễn là thiết bị đó ở trong tầm phủ sóng của
     sóng Wi-Fi.
@@ -180,7 +180,7 @@ Dữ liệu nhận và gửi của mạng không dây được truyền đi xuy�
         \includegraphics[scale=0.6]{wlan}
         \label{fig:wlan}
     \end{figure}
-    \item WSN: Mạng cảm biến không dây, là một tập hợp số lượng lớn các nút có khả năng thu thập dữ liệu từ môi trường xung quanh và truyền tải thông tin
+    \item \textbf{WSN:} Mạng cảm biến không dây, là một tập hợp số lượng lớn các nút có khả năng thu thập dữ liệu từ môi trường xung quanh và truyền tải thông tin
     về trung tâm xử lý dữ liệu hoặc các thiết bị thu thập dữ liệu. Trong WSN, các nút có thể chia sẻ thông tin cho nhau, dữ liệu thu thập từ các cảm biến không được
     gửi trực tiếp cho người dùng mà được xử lý và tổng hợp lại, chỉ gửi những thông tin mục tiêu mà mạng cảm biến muốn đạt được. Do đó những dữ liệu tạm thời, không
     cần thiết, chưa qua xử lý hoặc dữ liệu trung gian giữa các nút sẽ không được gửi tới người dùng.
@@ -200,7 +200,7 @@ Dữ liệu nhận và gửi của mạng không dây được truyền đi xuy�
         quả hơn và nâng cao chất lượng cuộc sống.
     \end{itemize}
 
-    \item Mạng không dây tạm thời (ad hoc): là mạng không dây không cần bất kì cơ sở hạ tầng hiện có nào để triển khai ví dụ như điểm truy cập hoặc dây cáp.
+    \item \textbf{Mạng không dây tạm thời (ad hoc):} là mạng không dây không cần bất kì cơ sở hạ tầng hiện có nào để triển khai ví dụ như điểm truy cập hoặc dây cáp.
     Mỗi thiết bị trong mạng coi là một nút tham gia trực tiếp vào việc định tuyến dữ liệu một cách độc lập bằng cách chuyển tiếp dữ liệu từ nút này sang nút khác
     mà không cần thêm bất kì một thiết bị quản lý tập trung nào như điểm truy cập\dots Mỗi nút trong mạng không dây tạm thời tự động quyết định nút nào sẽ gửi dữ
     liệu tiếp theo tuỳ thuộc vào kết nối mạng. Hình 2.3 là một mô hình đơn giản của mạng không dây tạm thời giữa các thiết bị kết nối với nhau mà không có điểm
@@ -421,58 +421,52 @@ khí. Cuối cùng nó cung cấp khả năng liên lạc trực tiếp giữa c
 truyền tải của các thẻ lân cận.
 
 \subsection{Mô tả nguyên lý hoạt động}
-\begin{enumerate}
-    \item [\textbf{a.}] \textbf{Quá trình truyền gói tin ở máy phát}
-    
-    Thiết kế của máy phát trong tán xạ ngược môi trường xung quanh dựa trên kĩ thuật truyền thông tán xạ ngược thông thường. Về cơ bản, tán xạ ngược đạt được bằng cách thay đổi
-    trở kháng của ăng ten. Theo trực giác, khi sóng gặp ranh giới giữa hai môi trường có trở kháng hoặc mật độ khác nhau thì sóng bị phản xạ trở lại. Điều này đúng trong cho dù
-    là trong trường hợp sóng cơ truyền qua một sợi dây treo vào một điểm cố định trên tường hay sóng điện từ khi gặp ăng ten. Bằng cách điều chỉnh trở kháng của ăng ten, người ta
-    có thể điều chỉnh năng lượng sóng RF đến bị tán xạ, từ đó cho phép truyền thông tin. Máy phát sẽ điều chế và phản xạ tín hiệu vô tuyến xung quanh hoặc tín hiệu gây nhiễu bằng
-    cách sử dụng bộ điều biến tải. Đầu vào của bộ điều biến tải là một chuỗi các bit 0,1 được tạo ra dựa theo gói tin, khi bit đầu vào là 0, bộ điều biến tải thay đổi trở kháng
-    thành $Z_1$ và do đó máy phát ở trạng thái không phản xạ. Khi bit đầu vào là 1, bộ điều biến tải thay đổi trở kháng thành $Z_2$ qua đó máy phát ở trạng thái phản xạ. Bằng cách
-    này, máy phát có thể tán xạ ngược gói tin đến máy thu. Lưu ý là trong khi thực hiện tán xạ ngược, máy phát còn có thể thu năng lượng (ở trạng thái không phản xạ) nhưng lượng
-    năng lượng thu được là tương đối nhỏ và chỉ đủ dùng cho các hoạt động của mạch tán xạ ngược.
-    
-    \item [\textbf{b.}] \textbf{Quá trình giải mã gói tin ở máy thu}
-    
-    Để máy thu có thể giải mã tín hiệu tán xạ ngược thông tin với tốc độ thấp hơn tín hiệu môi trường xung quanh (cụ thể là tín hiệu gây nhiễu và tín hiệu môi trường xung quanh).
-    Quá trình giải mã có thể được mô tả như sau. Giả sử chúng ta có một bộ thu kĩ thuật số lấy mẫu tín hiệu ở tốc độ thông tin Nyquist (giả sử dùng ADC), tín hiệu nhận được ở máy thu được lấy mẫu
-    thành $y[n]$ như sau:
-    \begin{equation}
-        y[n] = x[n] + \alpha B[n]x[n] + w[n]
-        \label{eq:}
-    \end{equation}
-    
-    trong đó, $x[n]$ là mẫu của tín hiệu môi trường xung quanh (có thể là tín hiệu gây nhiễu) nhận được ở máy thu, $w[n]$ là nhiễu môi trường, $\alpha$ là sự suy giảm phức tạp của
-    tín hiệu tán xạ ngược, $B[n]$ là các bit dữ liệu được truyền bởi máy phát. Nếu máy phát truyền thông tin với tốc độ một phần nhỏ, giả sử là $\frac{1}{N}$ dẫn đến $B[Ni + j]$ bằng
-    nhau với j = 1 đến N. Sau đó máy thu tính công suất trung bình của N mẫu nhận được như sau:
-    \begin{equation}
-        \frac{1}{N}\sum_{i=1}^N|y[n]|^2 = \frac{1}{N}\sum_{i=1}^N|x[n] + \alpha B x[n] + w[n]|^2
-    \end{equation}
-    
-    với B nhận giá trị 0 hoặc 1 tuỳ thuộc vào trạng thái không phản xạ hoặc phản xạ. Do $x[n]$ không tương quan với nhiễu $w[n]$ nên công thức bên trên có thể được viết lại như sau:
-    \begin{equation}
-        \frac{1}{N} \sum_{i=1}^{N}|y[n]|^2 = \frac{|1 + \alpha B|^2}{N} \sum_{i=1}^{N}|x[n]|^2 + \frac{1}{N}\sum_{i=1}^{N}w[n]^2
-    \end{equation}
+\subsubsection{Quá trình truyền gói tin ở máy phát}
+Thiết kế của máy phát trong tán xạ ngược môi trường xung quanh dựa trên kĩ thuật truyền thông tán xạ ngược thông thường. Về cơ bản, tán xạ ngược đạt được bằng cách thay đổi
+trở kháng của ăng ten. Theo trực giác, khi sóng gặp ranh giới giữa hai môi trường có trở kháng hoặc mật độ khác nhau thì sóng bị phản xạ trở lại. Điều này đúng cho dù
+là trong trường hợp sóng cơ truyền qua một sợi dây treo vào một điểm cố định trên tường hay sóng điện từ khi gặp ăng ten. Bằng cách điều chỉnh trở kháng của ăng ten, người ta
+có thể điều chỉnh năng lượng sóng RF đến bị tán xạ, từ đó cho phép truyền thông tin. Máy phát sẽ điều chế và phản xạ tín hiệu vô tuyến xung quanh hoặc tín hiệu gây nhiễu bằng
+cách sử dụng bộ điều biến tải. Đầu vào của bộ điều biến tải là một chuỗi các bit 0,1 được tạo ra dựa theo gói tin, khi bit đầu vào là 0, bộ điều biến tải thay đổi trở kháng
+thành $Z_1$ và do đó máy phát ở trạng thái không phản xạ. Khi bit đầu vào là 1, bộ điều biến tải thay đổi trở kháng thành $Z_2$ qua đó máy phát ở trạng thái phản xạ. Bằng cách
+này, máy phát có thể tán xạ ngược gói tin đến máy thu. Lưu ý là trong khi thực hiện tán xạ ngược, máy phát còn có thể thu năng lượng (ở trạng thái không phản xạ) nhưng lượng
+năng lượng thu được là tương đối nhỏ và chỉ đủ dùng cho các hoạt động của mạch tán xạ ngược.
 
-    Kí hiệu $P = \frac{1}{N}\sum_{i=1}^{N}|x[n]|^2$ là công suất trung bình của tín hiệu gây nhiễu nhận được (hoặc tín hiệu xung quanh). Bỏ qua nhiễu môi trường, công suất trung bình
-    nhận được ở máy thu là $|1 + \alpha|^2 P$ và $P$ khi máy phát ở trạng thái phản xạ $(B = 1)$ và không phản xạ $(B = 0)$ tương ứng. Dựa trên sự khác biệt giữa $|1 + \alpha|^2 P$ 
-    và $P$, máy thu có thể giải mã dữ liệu được gửi từ máy phát.
+\subsubsection{Quá trình giải mã gói tin ở máy thu}
+Để máy thu có thể giải mã tín hiệu tán xạ ngược thông tin với tốc độ thấp hơn tín hiệu môi trường xung quanh (cụ thể là tín hiệu gây nhiễu và tín hiệu môi trường xung quanh).
+Quá trình giải mã có thể được mô tả như sau. Giả sử chúng ta có một bộ thu kĩ thuật số lấy mẫu tín hiệu ở tốc độ thông tin Nyquist (giả sử dùng ADC), tín hiệu nhận được ở máy thu được lấy mẫu
+thành $y[n]$ như sau:
+\begin{equation}
+    y[n] = x[n] + \alpha B[n]x[n] + w[n]
+    \label{eq:}
+\end{equation}
+    
+trong đó, $x[n]$ là mẫu của tín hiệu môi trường xung quanh (có thể là tín hiệu gây nhiễu) nhận được ở máy thu, $w[n]$ là nhiễu môi trường, $\alpha$ là sự suy giảm phức tạp của
+tín hiệu tán xạ ngược, $B[n]$ là các bit dữ liệu được truyền bởi máy phát. Nếu máy phát truyền thông tin với tốc độ một phần nhỏ, giả sử là $\frac{1}{N}$ dẫn đến $B[Ni + j]$ bằng
+nhau với $j \in 1 \to N$. Sau đó máy thu tính công suất trung bình của N mẫu nhận được như sau:
+\begin{equation}
+    \frac{1}{N}\sum_{i=1}^N|y[n]|^2 = \frac{1}{N}\sum_{i=1}^N|x[n] + \alpha B x[n] + w[n]|^2
+\end{equation}
+    
+với B nhận giá trị 0 hoặc 1 tuỳ thuộc vào trạng thái không phản xạ hoặc phản xạ. Do $x[n]$ không tương quan với nhiễu $w[n]$ nên công thức bên trên có thể được viết lại như sau:
+\begin{equation}
+    \frac{1}{N} \sum_{i=1}^{N}|y[n]|^2 = \frac{|1 + \alpha B|^2}{N} \sum_{i=1}^{N}|x[n]|^2 + \frac{1}{N}\sum_{i=1}^{N}w[n]^2
+\end{equation}
 
-    Tuy nhiên sử dụng ADC để lấy mẫu tín hiệu ở máy thu tiêu tốn nhiều năng lượng. Hình sau đây mô tả một sơ đồ mạng chỉ sử dụng các thành phần tương tự để giải mã tín hiệu tán xạ ngược.
-    \begin{figure}{Sơ đồ mạch cho bộ giải mã tín hiệu tán xạ ngược}
-        \centering
-        \includegraphics[scale=0.7]{backscatter_circuit}
-        \label{fig:backscatter}
-    \end{figure}
+Kí hiệu $P = \frac{1}{N}\sum_{i=1}^{N}|x[n]|^2$ là công suất trung bình của tín hiệu gây nhiễu nhận được (hoặc tín hiệu xung quanh). Bỏ qua nhiễu môi trường, công suất trung bình
+nhận được ở máy thu là $|1 + \alpha|^2 P$ và $P$ khi máy phát ở trạng thái phản xạ $(B = 1)$ và không phản xạ $(B = 0)$ tương ứng. Dựa trên sự khác biệt giữa $|1 + \alpha|^2 P$ 
+và $P$, máy thu có thể giải mã dữ liệu được gửi từ máy phát.
 
-    Cụ thể ở bộ giải mã trong Hình 2.4, tín hiệu tán xạ ngược đầu tiên được làm mịn bởi mạch ''Average Envelope''. Sau đó mạch ''Compute threshold'' xuất ra điện áp thấp và cao của tín
-    hiệu được làm mịn. Sau đó bộ so sánh ''Comparator'' so sánh tín hiệu với các ngưỡng được xác định trước để lấy ra các bit 0, 1 một cách chính xác.
+Tuy nhiên sử dụng ADC để lấy mẫu tín hiệu ở máy thu tiêu tốn nhiều năng lượng. Hình sau đây mô tả một sơ đồ mạng chỉ sử dụng các thành phần tương tự để giải mã tín hiệu tán xạ ngược.
+\begin{figure}{Sơ đồ mạch cho bộ giải mã tín hiệu tán xạ ngược}
+    \centering
+    \includegraphics[scale=0.7]{backscatter_circuit}
+    \label{fig:backscatter}
+\end{figure}
 
-\end{enumerate}
+Cụ thể ở bộ giải mã trong Hình 2.4, tín hiệu tán xạ ngược đầu tiên được làm mịn bởi mạch ''Average Envelope''. Sau đó mạch ''Compute threshold'' xuất ra điện áp thấp và cao của tín
+hiệu được làm mịn. Sau đó bộ so sánh ''Comparator'' so sánh tín hiệu với các ngưỡng được xác định trước để lấy ra các bit 0, 1 một cách chính xác.
 
 % \section{Thu hoạch năng lượng.}
-
 
 \section{Học tăng cường}
 \subsection{Giới thiệu}
@@ -535,7 +529,7 @@ Hàm giá trị trả về $R_t$ là tổng số phần thưởng tích luỹ đ
 
 trong đó, T là bước thời gian cuối cùng. T có thể có giá trị hữu hạn hoặc $T = \infty$. Trong trường hợp T có giá trị hữu hạn, chuỗi các tương tác giữa tác nhân và môi trường được chia thành các chuỗi
 con gọi là các tập, mỗi tập kết thúc với một trạng thái được gọi là trạng thái kết thúc, sau đó môi trường sẽ được đặt lại để chuẩn bị cho một tập tiếp theo. Lấy ví dụ khi chơi một trò chơi, trạng thái
-kết thúc sẽ là trạng thái thắng, thua\dots, tác nhân sẽ nhận được phần thưởng tuỳ thuộc vào trạng thái kết thúc. Các tập hoàn toàn độc lập và không ảnh hưởng đến nhau. Thời gian T cho mỗi tập có thể khác
+kết thúc sẽ là trạng thái thắng, thua, v.v, tác nhân sẽ nhận được phần thưởng tuỳ thuộc vào trạng thái kết thúc. Các tập hoàn toàn độc lập và không ảnh hưởng đến nhau. Thời gian T cho mỗi tập có thể khác
 nhau trong các tập khác nhau. Đối với trường hợp $T = \infty$, quá trình tương tác giữa tác nhân và môi trường là một quá trình liên tục và vô hạn, không có trạng thái kết thúc.
 
 Hệ số chiết khấu $\gamma \in [0, 1]$, đại diện cho sự đánh đổi giữa giá trị phần thưởng tức thời và phần thưởng trong tương lai. Giá trị phần thưởng trong tương lai ở thời điểm k chỉ bằng $\gamma^\text{k-1}$
@@ -615,7 +609,7 @@ Các chính sách tối ưu có cùng một hàm giá trị hành động tối 
     Q^\star (s, a) = \underset{\pi}{\text{max }} Q_\pi(s, a), \forall s \in \mathcal{S}, a \in \mathcal{A}
 \end{equation}
 
-Hàm giá trị hành động tối ưu được mô tả là giá trị phần thưởng kì vọng tối đa mà một tác nhân có thể nhận được khi thực hiện một hành động tại một trạng thái, và sau đó theo chính sách tối ưu. Do đó ta có
+Hàm giá trị hành động tối ưu được mô tả là giá trị phần thưởng kì vọng tối đa mà một tác nhân có thể nhận được khi thực hiện một hành động tại một trạng thái, và sau đó tuân theo chính sách tối ưu. Do đó ta có
 thể viết lại hàm $Q^\star$ dựa trên hàm $V^\star$ như sau:
 \begin{equation}
     Q^\star (s, a) = \mathbb{E} [r_\text{t+1} + \gamma V^\star (s') | s_t = s, a_t = a]
@@ -674,7 +668,7 @@ Khi $k \to \infty$, chuỗi $V_k$ hội tụ đến giá trị $V_\pi$ với đi
 chính sách.
 
 \subsubsection{Cải thiện chính sách}
-Mục đích của việc tính toán hàm giá trị-trạng thái cho một chính sách bất kì ở trên là nhằm tìm ra chính sách tốt hơn. Định nghĩa chính sách $\pi'$ tốt hơn chính sách $\pi$ nếu:
+Mục đích của việc tính toán hàm giá trị - trạng thái cho một chính sách bất kì ở trên là nhằm tìm ra chính sách tốt hơn. Định nghĩa chính sách $\pi'$ tốt hơn chính sách $\pi$ nếu:
 \begin{equation}
     V_\pi' (s) \geq V_\pi (s), \forall s \in \mathcal{S}
 \end{equation}
@@ -703,7 +697,7 @@ với $\arg \max_{a}$ là kí hiệu thể hiện việc lựa chọn hành đ�
 \subsubsection{Phương pháp lặp chính sách}
 Phương pháp này phép lặp đi lặp lại một quá trình kết hợp giữa đánh giá chính sách và cải thiện chính sách, ta có một phương pháp gọi là lặp chính sách. 
 Lựa chọn một chính sách $\pi$, chúng ta thực hiện đánh giá chính sách để tính được giá trị $V_\pi$, sau đó sử dụng phương pháp cải thiện chính sách để cải thiện chính sách 
-$\pi$ để tìm ra chính sách mới $\pi'$ tốt hơn chính sách cũ. Quá trình này được lặp đi lặp lại giúp ta tìm ra chính sách tối ưu.
+$\pi$, tìm ra chính sách mới $\pi'$ tốt hơn chính sách cũ. Quá trình này được lặp đi lặp lại giúp ta tìm ra chính sách tối ưu.
 
 \subsubsection{Phương pháp lặp giá trị}
 Là thuật toán tìm ra chính sách tối ưu $\pi^\star$ bằng cách lặp hàm giá trị - trạng thái để tìm ra $V^\star (s)$ dựa trên phương trình Bellman của hàm giá trị tối ưu $V^\star$ như đã trình bày
@@ -735,19 +729,19 @@ một tập các hành động chuyển trạng thái của môi trường. Phư
     \item Lấy mẫu một quỹ đạo từ thời điểm t: $\tau = (s_0, a_0, r_1, s_1, a_1, \dots, s_T, a_T, r_\text{T+1}, s_\text{T+1})$ dựa trên môi trường sử dụng chính
     sách $\pi$ hiện tại.
     \item Tính toán giá trị phần thưởng tích luỹ $R_t^\text{(e)} = \sum_{k=0}^{T} \gamma^k r_\text{t+k+1}$ ở thời điểm t dựa trên quỹ đạo $\tau$
-    \item Lặp lại những bước trên M lần để ước tính giá trị $V^\pi$ như sau:
+    \item Lặp lại những bước trên M lần để ước tính giá trị $V_\pi$ như sau:
     \begin{equation}
-        V^\pi (s) = \mathbb{E} [R_t | s_t = s] \approx \frac{1}{M} \sum_{t=1}^{M} R_t^\text{(e)}
+        V_\pi (s) = \mathbb{E} [R_t | s_t = s] \approx \frac{1}{M} \sum_{t=1}^{M} R_t^\text{(e)}
     \end{equation}
 \end{itemize}
 
-Bằng cách lấy mẫu nhiều quỹ đạo $\tau$ từ môi trường, giá trị $V^\pi (s)$ được lấy xấp xỉ bằng cách lấy trung bình như trên. Tuy nhiên trong thực tế, khó xác
+Bằng cách lấy mẫu nhiều quỹ đạo $\tau$ từ môi trường, giá trị $V_\pi (s)$ được lấy xấp xỉ bằng cách lấy trung bình như trên. Tuy nhiên trong thực tế, khó xác
 định được số mẫu quỹ đạo cần lấy để có thể ước tính giá trị được chính xác nhất. Do đó, trong thực hành, ta sẽ tiến hành cập nhật liên tục các giá trị ước tính
 \begin{equation}
-    V^\pi (s) \leftarrow V^\pi (s) + \alpha (R_t - V^\pi (s))
+    V_\pi (s) \leftarrow V_\pi (s) + \alpha (R_t - V_\pi (s))
 \end{equation}
 \begin{equation}
-    Q^\pi (s, a) \leftarrow Q^\pi (s, a) + \alpha (R_t - Q^\pi (s, a))
+    Q_\pi (s, a) \leftarrow Q_\pi (s, a) + \alpha (R_t - Q_\pi (s, a))
 \end{equation}
 
 trong đó, $\alpha \in [0, 1]$ là trọng số tỉ lệ học.
@@ -770,24 +764,24 @@ nhật giá trị như phương pháp Monte Carlo, thay vào đó phương pháp
 
 Phương pháp TD đơn giản nhất thực hiện cập nhật hàm giá trị như sau:
 \begin{equation}
-    V^\pi (s) \leftarrow V^\pi (s) + \alpha [\underbrace{r(s, a, s') + \gamma V^\pi (s') - V^\pi (s)}_\delta]
+    V_\pi (s) \leftarrow V_\pi (s) + \alpha [\underbrace{r(s, a, s') + \gamma V_\pi (s') - V_\pi (s)}_\delta]
 \end{equation}
 
-Quá trình này có thể được mô tả như sau: ở thời điểm t, tác nhân thực hiện hành động a theo chính sách hiện tại $\pi$, quan sát giá trị phần thưởng tức thời và hệ thống chuyển sang
-sang trạng thái mới s', lúc này hàm giá trị $V^\pi$ được cập nhật theo quy tắc cập nhật như trên. Trong đó $r(s, a, s') + \gamma V^\pi (s')$ là ước tính giá trị hàm $V^\pi (s)$ dựa
-trên ước tính hàm giá trị của trạng thái s' tiếp theo sau khi tác nhân thực hiện hành động a và nhận phần thưởng, biểu thức $\delta = r(s, a, s') + \gamma V^\pi (s') - V^\pi (s)$ gọi là "lỗi khác biệt thời gian", 
-thể hiện sự sai lệch giữa giá trị ước tính hiện tại của $V^\pi$ so với giá trị ước tính cập nhật sau khi tác nhân thực hiện hành động và nhận phần thưởng. $\alpha$ biểu thị cho tốc
-độ học của tác nhân, tức là tốc độ điều chỉnh giá trị của hàm $V^\pi$ sau mỗi hành động được thực hiện. Hàm giá trị được cập nhật liên tục theo từng bước thời gian chứ không cần đợi
-hết một tập (tác nhân đến trạng thái kết thúc) và không chỉ khả dụng với bài toán tương tác theo từng tập như phương pháp Monte Carlo.
+Quá trình này có thể được mô tả như sau: ở thời điểm $t$, tác nhân thực hiện hành động a theo chính sách hiện tại $\pi$, quan sát giá trị phần thưởng tức thời và hệ thống chuyển sang
+sang trạng thái mới $s'$, lúc này hàm giá trị $V_\pi$ được cập nhật theo quy tắc cập nhật như trên. Trong đó $r(s, a, s') + \gamma V_\pi (s')$ là ước tính giá trị hàm $V_\pi (s)$ dựa
+trên ước tính hàm giá trị của trạng thái $s'$ tiếp theo sau khi tác nhân thực hiện hành động $a$ và nhận phần thưởng, biểu thức $\delta = r(s, a, s') + \gamma V_\pi (s') - V_\pi (s)$ gọi là "lỗi khác biệt thời gian", 
+thể hiện sự sai lệch giữa giá trị ước tính hiện tại của $V_\pi$ so với giá trị ước tính cập nhật sau khi tác nhân thực hiện hành động và nhận phần thưởng. $\alpha$ biểu thị cho tốc
+độ học của tác nhân, tức là tốc độ điều chỉnh giá trị của hàm $V_\pi$ sau mỗi hành động được thực hiện. Hàm giá trị được cập nhật liên tục theo từng bước thời gian chứ không cần đợi
+hết một tập (tác nhân đến trạng thái kết thúc) và không chỉ khả dụng với bài toán tương tác theo từng tập như phương pháp Monte Carlo mà còn phù hợp với những bài toán tương tác liên tục.
 
 Tương tự với hàm giá trị hành động $Q(s, a)$ cũng áp dụng quy tắc cập nhật tương tự trong phương pháp TD:
 \begin{equation}
-    Q^\pi (s, a) \leftarrow Q^\pi (s, a) + \alpha [\underbrace{r(s, a, s') + \gamma Q^\pi (s', a') - Q^\pi (s, a)}_\delta]
+    Q_\pi (s, a) \leftarrow Q_\pi (s, a) + \alpha [\underbrace{r(s, a, s') + \gamma Q_\pi (s', a') - Q_\pi (s, a)}_\delta]
 \end{equation}
 
 Việc cập nhật giá trị hàm Q như ở trên gọi là quá trình học giá trị hàm Q, chúng ta có hai cách để tác nhân lựa chọn hành động tiếp theo khi học, cách thứ nhất, tác nhân sẽ lựa chọn
 hành động dựa trên chính sách $\pi (s)$ hiện tại hoặc tác nhân lựa chọn theo hướng tham lam bằng cách chọn hành động tiếp theo $a = \arg \max_{a} Q(s', a)$. Cách lựa chọn hành động
-tiếp theo của tác nhân trong phương pháp TD dẫn đến hai phương pháp:
+tiếp theo của tác nhân trong phương pháp TD dẫn đến hai phương pháp sau.
 
 \subsubsection{Phương pháp học theo chính sách (on-policy method)}
 Ở đây ta xem xét thuật toán $\textbf{SARSA}$ - là một thuật toán học TD sử dụng chính sách mà nó đang học để cập nhật giá trị hành động. Điều này có nghĩa là
@@ -893,9 +887,9 @@ lại giới hạn với những bài toán ít chiều, với những bài toá
 không giải quyết
 được bài toán. Để giải quyết vấn đề bài toán nhiều chiều như trên, thì học tăng cường sâu - sự kết hợp giữa học tăng cường và mạng thần kinh sâu là một cách tiếp cận phù hợp.
 
-Trong phương pháp học tăng cường truyền thống, hàm giá trị trạng thái Q(s, a) thường được lưu dưới dạng bảng, với mỗi cặp trạng thái - hành động là một giá trị của bảng. Việc này
+Trong phương pháp học tăng cường truyền thống, hàm giá trị trạng thái $Q(s, a)$ thường được lưu dưới dạng bảng, với mỗi cặp trạng thái - hành động là một giá trị của bảng. Việc này
 chỉ phù hợp với những bài toán có số lượng hành động và trạng thái nhỏ, với những bài toán nhiều chiều, sẽ khiến thời gian truy cập để cập nhật một giá trị trong bảng lâu hơn và bộ nhớ để
-lưu trữ bảng cũng lớn. Dẫn đến thay vì áp dụng phương pháp lập bảng, chúng ta sử dụng xấp xỉ hàm để ước lượng giá trị của hàm V(s) cũng như hàm Q(s, a), dựa trên giá trị đã biết, thực hiện 
+lưu trữ bảng cũng lớn. Dẫn đến thay vì áp dụng phương pháp lập bảng, chúng ta sử dụng xấp xỉ hàm để ước lượng giá trị của hàm $V(s)$ cũng như hàm $Q(s, a)$, dựa trên giá trị đã biết, thực hiện 
 học và dự đoán xấp xỉ những giá trị chưa biết. Với phương pháp xấp xỉ hàm, thay vì lưu giữ các giá trị Q trong bảng, chúng ta biểu thị chúng bằng một hàm tham số $Q_\theta (s, a)$. Phương
 pháp học tăng cường truyền thống ví dụ như TD giúp cập nhật giá trị tham số $\theta$ và tìm được chiến lược tối ưu $\pi^\star$ khi hội tụ. Ở đây chúng ta sử dụng mạng neuron sâu như một hàm
 xấp xỉ, chúng ta chuyển từ học tăng cường truyền thống sang học tăng cường sâu, giúp giải quyết những vấn đề phức tạp và nhiều chiều.
@@ -931,7 +925,7 @@ sự tương quan giữa các dữ liệu tuần tự khi quan sát, dẫn đế
 tương quan của các dữ liệu quan sát được tuần tự, thuật toán DQN sử dụng hai kỹ thuật: đầu tiên là dùng bộ nhớ phát lại với kích cỡ lớn, dữ liệu tuần tự quan sát được được lưu vào bộ nhớ, sau đó lựa chọn
 ngẫu nhiên dữ liệu từ bộ nhớ này để học và giảm thiểu hàm mất mát sử dụng SGD (Độ dốc ngẫu nhiên), giúp loại bỏ được sự tương quan giữa các dữ liệu. Kỹ thuật thứ hai là
 sử dụng một mạng mục tiêu $Q'_\theta$ để tăng sự ổn định của giá trị mục tiêu $r(s, a, s') + \gamma max_{a'} Q_\theta (s', a')$, mạng mục tiêu $Q'_\theta$ có kiến trúc giống hệt mạng
-$Q_\theta$ nhưng có tần suất cập nhật thấp hơn, thường là sau hàng nghìn lần cập nhật thì mạng $Q_\theta$ được cập nhật với tham số mới nhất của mạng $Q_\theta$.
+$Q_\theta$ nhưng có tần suất cập nhật thấp hơn, thường là sau hàng nghìn lần cập nhật thì mạng mục tiêu $Q'_\theta$ được cập nhật với tham số mới nhất của mạng $Q_\theta$.
 \begin{algorithm}
     \caption{Thuật toán học tăng cường sâu DQN.}\label{alg:dqn_2}
     \begin{algorithmic}[1]
@@ -952,7 +946,7 @@ $Q_\theta$ nhưng có tần suất cập nhật thấp hơn, thường là sau h
 
 % Chapter 3
 \chapter{Đề xuất phương pháp giải quyết bài toán gây nhiễu từ UAV}
-Trong chương này, em đề xuất phương pháp giải quyết chống nhiễu từ UAV đối với kênh truyền gồm một máy phát và một máy thu sử dụng thuật toán học tăng cường Q-learning và DQN.
+Trong chương này, một phương pháp giải quyết bài toán gây nhiễu từ UAV đối với kênh truyền gồm một máy phát và một máy thu sử dụng thuật toán học tăng cường Q-learning và DQN được đề xuất.
 
 \section{Mô hình hệ thống}
 Ở đây, chúng ta xem xét một hệ thống truyền thông không dây bao gồm một máy phát, một máy thu và một UAV gây nhiễu. Máy phát được trang bị bộ đệm dữ liệu để đóng vai trò như hàng đợi dữ 
@@ -1128,7 +1122,7 @@ chiến lược phòng thủ hiện tại của nó. Sau khi thực hiện hành
 Bằng cách này, máy phát có thể học cách đưa ra quyết định đúng dựa trên kinh nghiệm của chính nó, qua đó đạt được một chiến lược phòng thủ tối ưu $\pi^\star$: là một liên kết giữa trạng thái và hành động tương
 ứng mà máy phát sẽ lựa chọn để tối đa hoá thông lượng, giảm số gói tin bị mất khi bị UAV tấn công.
 
-Kí hiệu $V^\pi (s)$ là giá trị phần thưởng kì vọng mà máy phát sẽ nhận được khi tuân theo chính sách $\pi$ ở trạng thái $s \in \mathcal{S}$:
+Kí hiệu $V_\pi (s)$ là giá trị phần thưởng kì vọng mà máy phát sẽ nhận được khi tuân theo chính sách $\pi$ ở trạng thái $s \in \mathcal{S}$:
 \begin{equation}
     V_\pi (s) = \mathbb{E}_\pi \{\sum_{k=0}^{\infty} \gamma^k r_\text{t+k+1} | s_0 = s\} = \mathbb{E}_\pi [r + \gamma V^\pi (s_\text{t+1}) | s_0 = s]
 \end{equation}

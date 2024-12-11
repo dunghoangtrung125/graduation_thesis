@@ -185,7 +185,7 @@
 \newcommand*\l@chapter{\@tocline{1}{0cm}}
 \newcommand*\l@section{\@tocline{2}{0.5cm}}
 \newcommand*\l@subsection{\@tocline{3}{1cm}}
-\newcommand*\l@subsubsection{\@tocline{4}{1.2cm}}
+\newcommand*\l@subsubsection{\@tocline{4}{1.5cm}}
 
 \newcounter{chapter}
 \newcounter{section}[chapter]
