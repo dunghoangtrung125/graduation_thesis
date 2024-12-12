@@ -11,7 +11,8 @@
 \RequirePackage{algpseudocode}
 
 \RequirePackage{amsmath}
-\RequirePackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2cm,includefoot,footskip=1cm]{geometry}
+% \RequirePackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2cm,includefoot,footskip=1cm]{geometry}
+\RequirePackage[a4paper,twoside,inner=3cm,outer=2cm,top=2.5cm,bottom=2cm,includefoot,footskip=1cm]{geometry}
 \RequirePackage{fontspec}
 \RequirePackage{graphicx}
 \RequirePackage{icomma}
@@ -111,7 +112,7 @@
 		\draw[line width=1pt,color=black,fill=none]
 			($(current page.north west)+(2.65cm,-2.15cm)$) rectangle ($(current page.south east)-(1.65cm,-2.65cm)$);
 	}%
-}{\clearpage\normalsize}
+}{\cleardoublepage\normalsize}
 \newcommand\makecovers{
 	\begin{coverpage}%
 		\centering%
@@ -162,9 +163,9 @@
 }{\normalsize}
 
 \newif\if@incontentlisting\@incontentlistingfalse
-\newenvironment{contentlisting}{\clearpage\@incontentlistingtrue}{\@incontentlistingfalse\clearpage}
+\newenvironment{contentlisting}{\cleardoublepage\@incontentlistingtrue}{\@incontentlistingfalse\cleardoublepage}
 
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{4}
 \newenvironment{contentlistingsection}[1]{%
 	\if@incontentlisting\else\PackageError{uetgraduation}{
 		Content listing section not in \`contentlisting\` environment.
@@ -197,7 +198,7 @@
 % \renewcommand{\thesubsubsection}{\alph{subsubsection}}
 \renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}
 \newcommand\chapter[1]{%
-	\clearpage\refstepcounter{chapter}
+	\cleardoublepage\refstepcounter{chapter}
 	\ifnum\c@chapter=1%
 		\setcounter{firstContentPageIndex}{\value{page}}%
 		\pagestyle{plain}\pagenumbering{arabic}\setcounter{page}{1}%
@@ -272,7 +273,7 @@
 \newif\if@inbibsection\@inbibsectionfalse
 \newenvironment{thebibliography}[1]{
 	\@inthebibliographytrue\settowidth\labelwidth{\@biblabel{#1}}
-	\clearpage\noindent\Large\textbf{\bibname}\par\normalsize\vspace{1cm}
+	\cleardoublepage\noindent\Large\textbf{\bibname}\par\normalsize\vspace{1cm}
 }{\@inthebibliographyfalse}
 \newenvironment{bibsection}[1]{%
 	\if@inthebibliography\else\PackageError{uetgraduation}{\`bibsection\` not in \`thebibliography\`.}{
