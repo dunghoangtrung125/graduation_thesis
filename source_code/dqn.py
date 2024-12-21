@@ -46,33 +46,21 @@ class DQN:
     self.active_package = d_t
 
 
-  def create_model(self, dueling):
+  def create_model(self, dueling=False):
     input_shape = (num_features,)
-    X_input = Input(input_shape) # Input_layer
+    # Input_layer
+    X_input = Input(input_shape)
     X = X_input
-
+    
     # First hidden layer
     X = Dense(512, input_shape=input_shape, activation="tanh")(X)
     # Second hidden layer
     X = Dense(256, activation="tanh")(X)
     # Third hidden layer
     X = Dense(64, activation="tanh")(X)
-    
-    if dueling:
-        # Dueling DQN architecture
-        # Value Stream
-        V = Dense(16, activation="tanh")(X)
-        V = Dense(1, activation="linear")(V)
 
-        # Advantage Stream
-        A = Dense(16, activation="tanh")(X)
-        A = Dense(num_actions, activation="linear")(A)
-
-        # Combine Value and Advantage streams
-        Q_values = Lambda(lambda x: x[0] + (x[1] - K.mean(x[1], axis=1, keepdims=True)))([V, A])
-    else:
-        # Standard DQN architecture
-        Q_values = Dense(num_actions, activation="linear")(X)
+    # Output layer
+    Q_values = Dense(num_actions, activation="linear")(X)
 
     model = Model(inputs = X_input, outputs = Q_values)
     return model
